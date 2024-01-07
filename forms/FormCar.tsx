@@ -43,7 +43,7 @@ export function FormCar() {
       doors: "",
       fuel: "",
       km: "",
-      accessories: "",
+      accessories: [],
       price: "",
       description: "",
       images: "",
