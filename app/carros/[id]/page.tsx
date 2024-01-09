@@ -128,36 +128,36 @@ export default function Page({
           </div>
 
           <Form {...form}>
-            <form className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm rounded-xl">
+            <form className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm h-[500px] rounded-xl">
               <div>
                 <h2 className="text-2xl font-bold text-primary">
                   Entre em contato com o Vendedor!
                 </h2>
-                <p>Coloque seus dados*</p>
+                <p className="text-white">Coloque seus dados*</p>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-2">
                 <Label htmlFor="name" className="text-white">
                   Nome
                 </Label>
                 <Input id="name" className="bg-white" />
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-2">
                 <Label htmlFor="email" className="text-white">
                   Email
                 </Label>
                 <Input id="email" type="email" className="bg-white" />
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-2">
                 <Label htmlFor="phone" className="text-white">
                   Telefone
                 </Label>
                 <Input id="phone" type="tel" className="bg-white" />
               </div>
 
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full mt-5">
                 Enviar
               </Button>
             </form>
@@ -177,7 +177,7 @@ export default function Page({
           opts={{
             align: "start",
           }}
-          className="w-full max-w-screen-lg mx-auto mt-2 bg-red-500"
+          className="w-full max-w-screen-lg mx-auto mt-2"
         >
           <CarouselContent>
             {data.map((car) => (
@@ -213,9 +213,19 @@ export default function Page({
                     />
                   </div>
 
-                  <h2 className="text-black text-2xl font-bold">
-                    {car.brandCar} - {car.modelCar}{" "}
+                  <h2 className="text-black text-2xl font-bold text-primary">
+                    {car.brandCar}{" "}
+                    <span className="text-black">{car.modelCar}</span>
                   </h2>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <p className="text-black font-black">{car.location}</p>
+                    <p className="text-black font-black">
+                      {car.yearFabrication}
+                    </p>
+                    <p className="text-black font-black">{car.km}KM</p>
+                    <p className="text-black font-black">{car.fuel}</p>
+                  </div>
                 </CarouselItem>
               </Link>
             ))}

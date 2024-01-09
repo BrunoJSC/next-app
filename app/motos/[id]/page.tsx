@@ -171,7 +171,7 @@ export default function Page({
           opts={{
             align: "start",
           }}
-          className="w-full max-w-screen-lg mx-auto mt-2 bg-red-500"
+          className="w-full max-w-screen-lg mx-auto mt-2"
         >
           <CarouselContent>
             {data.map((motorbike) => (
@@ -203,13 +203,24 @@ export default function Page({
                       alt="car"
                       width={400}
                       height={400}
-                      className="w-full h-full rounded-xl"
+                      className="w-full h-full rounded-xl object-cover"
                     />
                   </div>
 
                   <h2 className="text-black text-2xl font-bold">
                     {motorbike.motorbikeBrand} - {motorbike.motorbikeModel}{" "}
                   </h2>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <p className="text-black font-black">
+                      {motorbike.location}
+                    </p>
+                    <p className="text-black font-black">
+                      {motorbike.yearFabrication}
+                    </p>
+                    <p className="text-black font-black">{motorbike.km}KM</p>
+                    <p className="text-black font-black">{motorbike.fuel}</p>
+                  </div>
                 </CarouselItem>
               </Link>
             ))}
