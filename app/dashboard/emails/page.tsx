@@ -23,7 +23,7 @@ export default function Page() {
   };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
+    const unsubscribe = onSnapshot(collection(db, "formCar"), (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),

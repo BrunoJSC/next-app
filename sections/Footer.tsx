@@ -70,12 +70,12 @@ export function Footer() {
             </p>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <a
+                <Link
                   className="text-white   text-[16px] font-light leading-5 hover:text-green-800"
                   href="/financiamento"
                 >
                   Financiamento
-                </a>
+                </Link>
               </li>
               <li>
                 <a

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Page() {
   return (
-    <main className="w-full min-h-screen p-5 flex items-center justify-between">
+    <main className="w-full max-w-screen-xl mx-auto min-h-screen p-5 flex items-center justify-between mb-60">
       <div className="w-full md:w-[591px] h-[591px]">
         <Image
           src="/roles.svg"
