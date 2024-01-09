@@ -20,6 +20,8 @@ export const ADMIN_LINK: { label: string; href: string }[] = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Carros", href: "/dashboard/criar-carro" },
   { label: "Motos", href: "/dashboard/criar-moto" },
+  { label: "Contatos", href: "/dashboard/contatos" },
+  { label: "Emails", href: "/dashboard/emails" },
 ];
 
 export const LinksDashboard = [

@@ -1,3 +1,10 @@
+export interface IContact {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+}
+
 export interface ICar {
   id: string;
   name: string;
