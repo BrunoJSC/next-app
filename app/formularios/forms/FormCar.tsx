@@ -117,12 +117,7 @@ export function FormCar() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite seu nome"
-                    className="bg-[#15803D29]"
-                    {...field}
-                  />
+                  <Input type="text" placeholder="Digite seu nome" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -140,7 +135,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite seu email"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -160,7 +154,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite o FIP para o modelo de carro"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -180,7 +173,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite seu número de telefone"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -200,7 +192,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite sua localização"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -220,7 +211,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite o modelo do veiculo"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -240,7 +230,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite o modelo do veiculo"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -260,7 +249,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite o tipo da carroceria"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -281,7 +269,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite sim ou não"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -305,7 +292,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite a placa do veiculo"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -325,7 +311,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite se o veiculo é de leilão ou não"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -345,7 +330,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite sua data de fabricação"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -365,7 +349,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite sua data de modificação"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -385,7 +368,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite a cor do veiculo"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -405,7 +387,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite a quantidade de portas que o veiculo tem"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -425,7 +406,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite a quilometragem do veiculo"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -445,7 +425,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite o combustível do veiculo"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -464,7 +443,6 @@ export function FormCar() {
                 <FormControl>
                   <Textarea
                     placeholder="Digite os acessórios do veiculo"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -484,7 +462,6 @@ export function FormCar() {
                   <Input
                     type="text"
                     placeholder="Digite o preço do veiculo"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
@@ -503,7 +480,6 @@ export function FormCar() {
                 <FormControl>
                   <Textarea
                     placeholder="Digite os acessórios do veiculo"
-                    className="bg-[#15803D29]"
                     {...field}
                   />
                 </FormControl>
