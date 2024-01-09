@@ -1,11 +1,22 @@
+"use client";
+
 import { Banner } from "@/components/Banner";
 import { Button } from "@/components/ui/button";
+import { AuthContext } from "@/context/auth";
 import { FAQ } from "@/sections/FAQ";
 import { Feature } from "@/sections/Feature";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { useContext } from "react";
 
 export default function Home() {
+  const { user } = useContext(AuthContext);
+
+  if (user) {
+    return redirect("/dashboard");
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Banner>

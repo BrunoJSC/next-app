@@ -18,7 +18,7 @@ export function NavbarAdmin() {
     try {
       await signOut(auth);
 
-      router.replace("/admin");
+      redirect("/admin");
     } catch (error) {
       console.log(error);
     }

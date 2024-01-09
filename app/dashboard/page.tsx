@@ -8,6 +8,10 @@ import { useContext } from "react";
 export default function Page() {
   const { user } = useContext(AuthContext);
 
+  if (!user) {
+    redirect("/");
+  }
+
   return (
     <div>
       <section>
