@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { IMotorbike } from "@/types";
 import { db } from "@/firebase";
@@ -9,10 +9,13 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { DrawerBikes } from "@/components/DrawerBike";
+import { AuthContext } from "@/context/auth";
+import { redirect } from "next/navigation";
 
 export default function Page() {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<IMotorbike[]>([]);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
@@ -25,6 +28,10 @@ export default function Page() {
 
     return () => unsubscribe();
   }, []);
+
+  if (!user) {
+    return redirect("/");
+  }
 
   return (
     <section className="w-full min-h-screen p-5">

@@ -107,9 +107,12 @@ export function FormCar() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-2xl mx-auto">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="space-y-8 w-full"
+        >
           <FormField
             control={form.control}
             name="name"

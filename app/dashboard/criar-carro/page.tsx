@@ -3,16 +3,19 @@
 import { DrawerCar } from "@/components/DrawerCar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { AuthContext } from "@/context/auth";
 import { db } from "@/firebase";
 import { ICar } from "@/types";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 
 export default function Page() {
   const [carData, setCarData] = useState<ICar[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
@@ -35,6 +38,10 @@ export default function Page() {
         console.error("Error removing document: ", error);
       });
   };
+
+  if (!user) {
+    return redirect("/");
+  }
 
   return (
     <section className="w-full min-h-screen p-5">

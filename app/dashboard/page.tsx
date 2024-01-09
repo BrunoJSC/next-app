@@ -9,7 +9,7 @@ export default function Page() {
   const { user } = useContext(AuthContext);
 
   if (!user) {
-    redirect("/");
+    return redirect("/");
   }
 
   return (

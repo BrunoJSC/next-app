@@ -2,15 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { AuthContext } from "@/context/auth";
 import { db, storage } from "@/firebase";
 import { ICar, IMotorbike } from "@/types";
 import { collection, onSnapshot } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 
 export default function Page() {
   const [car, setCar] = useState<ICar[]>([]);
   const [motorbike, setMotorbike] = useState<IMotorbike[]>([]);
+  const { user } = useContext(AuthContext);
 
   const handleDownload = async (imageURL: string) => {
     try {
@@ -50,17 +54,23 @@ export default function Page() {
     };
   }, []);
 
+  if (!user) {
+    return redirect("/");
+  }
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
         {car?.map((item) => (
           <Card key={item.id} className="w-full h-auto mb-8">
             <div className="overflow-hidden">
-              <img
+              <Image
                 src={
                   item.images && item.images.length > 0 ? item.images[0] : ""
                 }
                 alt=""
+                width={500}
+                height={500}
                 className="w-full h-40 object-cover md:h-60 lg:h-80"
               />
             </div>
@@ -103,11 +113,13 @@ export default function Page() {
         {motorbike?.map((item) => (
           <Card key={item.id} className="w-full h-auto mb-8">
             <div className="overflow-hidden">
-              <img
+              <Image
                 src={
                   item.images && item.images.length > 0 ? item.images[0] : ""
                 }
                 alt=""
+                width={500}
+                height={500}
                 className="w-full h-40 object-cover md:h-60 lg:h-80"
               />
             </div>

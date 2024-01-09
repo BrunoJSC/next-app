@@ -11,16 +11,16 @@ import Link from "next/link";
 
 export default function Finance() {
   return (
-    <main className="w-full min-h-screen mb-48">
-      <section className="w-full min-h-screen p-2">
+    <main className="w-full min-h-screen max-w-screen-xl mx-auto  mb-48">
+      <section className="w-full min-h-screen">
         <div className="w-full mx-auto relative">
-          <div className="max-w-[977px] p-4">
-            <h1 className="text-3xl text-black font-bold text-left mt-10 text-center">
+          <div className="max-w-[977px]">
+            <h1 className="text-3xl text-black font-bold mt-10 text-left">
               Financiamento
             </h1>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-4 place-items-center">
+          <div className="flex flex-col md:flex-row gap-4 justify-between flex-wrap mt-10">
             {finances.map((finance) => (
               <Card key={finance.title} className="w-full md:w-[542px] p-4">
                 <CardHeader>
@@ -29,12 +29,12 @@ export default function Finance() {
                 </CardHeader>
               </Card>
             ))}
-            <Button className="w-full md:w-[342px] h-[50px] mt-10">
-              Solicitar Financiamento
-            </Button>
           </div>
+          <Button className="w-full md:w-[342px] h-[50px] mt-10 mb-10">
+            Solicitar Financiamento
+          </Button>
 
-          <div className="w-full md:w-[342px] mt-10">
+          <div className="w-full md:w-[342px] mt-10 p-4">
             <h2 className="text-2xl font-bold">Dúvidas?</h2>
             <p className="text-[#848484] text-base mt-4">
               Chame no WhatsApp através do botão abaixo para ser atendido por um
@@ -50,7 +50,7 @@ export default function Finance() {
             </Button>
           </div>
 
-          <div className="w-full md:w-[591px] h-[291px] absolute bottom-0 right-0 md:-mr-10 hidden md:block">
+          <div className="w-full md:w-[491px] h-[291px] absolute bottom-0 right-0 md:-mr-0 hidden md:block">
             <Image src="/bg.svg" alt="bg" fill className="w-full h-full" />
           </div>
         </div>
