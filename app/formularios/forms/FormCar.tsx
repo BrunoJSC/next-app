@@ -25,14 +25,6 @@ import Select from "react-select";
 import { z } from "zod";
 import { accessories } from "@/constants";
 
-const optYear = [
-  { value: "2022", label: "2022" },
-  { value: "2021", label: "2021" },
-  { value: "2020", label: "2020" },
-  { value: "2019", label: "2019" },
-  { value: "2018", label: "2018" },
-];
-
 export function FormCar() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
 
@@ -487,7 +479,7 @@ export function FormCar() {
 
           <FormField
             control={form.control}
-            name="description"
+            name="accessories"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Acessorios</FormLabel>
