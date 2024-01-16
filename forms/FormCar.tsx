@@ -512,6 +512,11 @@ export function FormCar() {
           />
 
           <FormItem>
+            <Input type="checkbox" placeholder="Air bag" />
+            <FormLabel>Air bag</FormLabel>
+          </FormItem>
+
+          <FormItem>
             <FormLabel>Imagens</FormLabel>
             <FormControl>
               <input

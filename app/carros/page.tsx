@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/firebase";
+import CarFilterForm from "./components/CarFilterForm";
 // import { Filters } from "@/components/Filters";
 
 export default function Cars() {
@@ -28,9 +29,10 @@ export default function Cars() {
     <div>
       <main className="max-w-7xl mx-auto min-h-screen p-4 mb-72">
         <div className="flex flex-col md:flex-row gap-4">
-          <Card className="w-full md:w-[300px] h-[100px] md:h-[156px] bg-primary rounded-md p-4 mb-4 md:mb-0">
+          <Card className="w-full md:w-[300px] h-[300px] md:h-[456px] bg-primary rounded-md p-4 mb-4 md:mb-0">
             <h1 className="text-3xl font-bold text-white mb-4">Filtros</h1>
             {/* <Filters db={db} collectionCar="cars" onFilterChange={setData} /> */}
+            <CarFilterForm onFilterChange={setData} />
           </Card>
 
           <div className="w-full p-4 flex-1 flex flex-col space-y-7">

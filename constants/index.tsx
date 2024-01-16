@@ -147,3 +147,12 @@ export const finances = [
       "Através de parcerias com os principais bancos do país, oferecemos as melhores taxas de juros e condições de financiamento.",
   },
 ];
+
+export const accessories = [
+  { label: "Air bag", value: "Air bag" },
+  { label: "Ar condicionado", value: "Ar condicionado" },
+  { label: "ABS", value: "ABS" },
+  { label: "Direção hidráulica", value: "Direção hidráulica" },
+  { label: "Trava elétrica", value: "Trava elétrica" },
+  { label: "Piloto automático", value: "Piloto automático" },
+];

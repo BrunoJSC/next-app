@@ -1,56 +1,75 @@
-// import { Form } from "@/components/ui/form";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-// import { app } from "@/firebase";
-// import { motorbikeShowSchema } from "@/validation/schemas";
-// import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
-// import { useEffect } from "react";
-// import { useForm } from "react-hook-form";
-// import { z } from "zod";
+// components/Filters.tsx
+import { useEffect, useState } from "react";
+import { ICar } from "@/types";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase";
+import { Input } from "@/components/ui/input";
 
-// export function FormEditMotorbike({ carId }: { carId: string }) {
-//   const form = useForm();
-//   const getCarData = async () => {
-//     const db = getFirestore(app);
-//     const carRef = doc(db, "cars", carId);
+interface FiltersProps {
+  onFilterChange: (filteredData: ICar[]) => void;
+}
 
-//     try {
-//       const carSnapshot = await getDoc(carRef);
+const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
+  const [filterBrand, setFilterBrand] = useState<string>("");
+  const [filterFuel, setFilterFuel] = useState<string>("");
+  const [filterModelCar, setFilterModelCar] = useState<string>("");
+  const [filterYear, setFilterYear] = useState<number | null>(null);
+  const [data, setData] = useState<ICar[]>([]);
 
-//       if (carSnapshot.exists()) {
-//         const carData = carSnapshot.data();
-//         // Usando form.setValue para preencher os dados no formulário
-//         form.setValue("motorbikeModel", carData.motorbikeModel);
-//         // Adicione mais linhas conforme necessário para outros campos
-//       }
-//     } catch (error) {
-//       console.error("Erro ao buscar informações do carro:", error);
-//     }
-//   };
+  const handleFilterChange = (e: React.FormEvent) => {
+    e.preventDefault();
+    // You can add more filters as needed
+    const filteredData = data.filter((car) => {
+      return (
+        car.brandCar.toLowerCase().includes(filterBrand.toLowerCase()) &&
+        car.modelCar.toLowerCase().includes(filterModelCar.toLowerCase()) &&
+        car.fuel.toLowerCase().includes(filterFuel.toLowerCase())
+      );
+    });
 
-//   const onSubmit = async (data: z.infer<typeof motorbikeShowSchema>) => {
-//     const db = getFirestore(app);
-//     const carRef = doc(db, "cars", carId);
+    onFilterChange(filteredData);
+  };
 
-//     try {
-//       await updateDoc(carRef, data);
-//     } catch (error) {
-//       console.error("Erro ao atualizar as informações do carro:", error);
-//     }
-//   };
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as ICar[];
+      setData(data);
+    });
 
-//   useEffect(() => {
-//     getCarData();
-//   }, [carId, getCarData]);
+    return () => unsubscribe();
+  }, []);
 
-//   return (
-//     <div>
-//       <Form {...form}>
-//         <form onSubmit={form.handleSubmit(onSubmit)}>
-//           <Label htmlFor="motorbikeModel">Modelo</Label>
-//           <Input type="text" {...form.register("motorbikeModel")} />
-//         </form>
-//       </Form>
-//     </div>
-//   );
-// }
+  return (
+    <form onSubmit={handleFilterChange} className="flex flex-col space-y-2">
+      <Input
+        type="text"
+        placeholder="Marca"
+        value={filterBrand}
+        onChange={(e) => setFilterBrand(e.target.value)}
+        className="bg-white"
+      />
+
+      <Input
+        type="text"
+        placeholder="Modelo"
+        value={filterModelCar}
+        onChange={(e) => setFilterModelCar(e.target.value)}
+        className="bg-white"
+      />
+
+      <Input
+        type="text"
+        placeholder="Gasolina"
+        value={filterFuel}
+        onChange={(e) => setFilterFuel(e.target.value)}
+        className="bg-white"
+      />
+      <button type="submit">Apply Filters</button>
+    </form>
+  );
+};
+
+export default CarFilterForm;
