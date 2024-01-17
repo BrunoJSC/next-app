@@ -106,6 +106,7 @@ export function FormCar() {
       images: await handleUpload(),
     });
 
+    console.log(data);
     form.reset();
   };
 
