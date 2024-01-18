@@ -18,13 +18,16 @@ export default function Page() {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as IMotorbike[];
-      setData(data);
-    });
+    const unsubscribe = onSnapshot(
+      collection(db, "formMotorbike"),
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as IMotorbike[];
+        setData(data);
+      }
+    );
 
     return () => unsubscribe();
   }, []);

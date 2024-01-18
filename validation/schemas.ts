@@ -31,83 +31,85 @@ export const carSchema = z.object({
   email: z.string().email({ message: "Email is invalid" }),
   fip: z.string().min(1, { message: "FIP is required" }),
   phone: z
-    .string()
-    .min(1, { message: "Phone is required" })
-    .regex(regexCelular, { message: "Phone is invalid" }),
-  location: z.string().min(1, { message: "Location is required" }),
-  brandCar: z.string().min(1, { message: "Brand is required" }),
-  modelCar: z.string().min(1, { message: "Model is required" }),
+     .string()
+     .min(1, { message: "Phone is required" })
+     .regex(regexCelular, { message: "Phone is invalid" }),
+   location: z.string().min(1, { message: "Location is required" }),
+   brandCar: z.string().min(1, { message: "Brand is required" }),
+   modelCar: z.string().min(1, { message: "Model is required" }),
   bodyType: z.string().min(1, { message: "Body Type is required" }),
-  mechanic: z.string().min(1, { message: "Mechanic is required" }),
-  condition: z.string().min(1, { message: "Condition is required" }),
-  plate: z.string().min(1, { message: "Plate is required" }),
-  auction: z.string().min(1, { message: "Auction is required" }),
+   mechanic: z.string().min(1, { message: "Mechanic is required" }),
+   condition: z.string().min(1, { message: "Condition is required" }),
+   plate: z.string().min(1, { message: "Plate is required" }),
+   auction: z.string().min(1, { message: "Auction is required" }),
   yearFabrication: z
-    .string()
-    .min(1, { message: "Year Fabrication is required" }),
-  yearModification: z
-    .string()
-    .min(1, { message: "Year Modification is required" }),
-  color: z.string().min(1, { message: "Color is required" }),
-  doors: z.string().min(1, { message: "Doors is required" }),
-  fuel: z.string().min(1, { message: "Fuel is required" }),
-  km: z.string().min(1, { message: "Km is required" }),
+     .string()
+     .min(1, { message: "Year Fabrication is required" }),
+   yearModification: z
+     .string()
+     .min(1, { message: "Year Modification is required" }),
+   color: z.string().min(1, { message: "Color is required" }),
+   doors: z.string().min(1, { message: "Doors is required" }),
+   fuel: z.string().min(1, { message: "Fuel is required" }),
+   km: z.string().min(1, { message: "Km is required" }),
+   motors: z.string().min(1, { message: "Motors is required" }),
+   bodywork: z.string().min(1, { message: "Bodywork is required" }),
+   documents: z.string().min(1, { message: "Documents is required" }),
   accessories: z.array(
-    z.string().min(1, { message: "Accessories is required" })
-  ),
+     z.string().min(1, { message: "Accessories is required" })
+   ),
 
-  price: z.string().min(1, { message: "Price is required" }),
-  exchange: z.string().min(1, { message: "Exchange is required" }),
-
-  description: z.string().min(1, { message: "Description is required" }),
-  images: z
-    .any()
-    .refine((files) => {
-      return files?.[0]?.size <= MAX_FILE_SIZE;
-    }, `Max image size is 5MB.`)
-    .refine(
-      (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
-    ),
-});
-
-export const motorbikeSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  email: z.string().email({ message: "Email is invalid" }),
-  fip: z.string().min(1, { message: "FIP is required" }),
-  phone: z
-    .string()
-    .min(1, { message: "Phone is required" })
-    .regex(regexCelular, { message: "Phone is invalid" }),
-  location: z.string().min(1, { message: "Location is required" }),
-  motorbikeBrand: z.string().min(1, { message: "Brand is required" }),
-  motorbikeModel: z.string().min(1, { message: "Model is required" }),
-
-  mechanic: z.string().min(1, { message: "Mechanic is required" }),
-  plate: z.string().min(1, { message: "Plate is required" }),
-  auction: z.string().min(1, { message: "Auction is required" }),
-  yearFabrication: z
-    .string()
-    .min(1, { message: "Year Fabrication is required" }),
-  yearModification: z
-    .string()
-    .min(1, { message: "Year Modification is required" }),
-  color: z.string().min(1, { message: "Color is required" }),
-
-  fuel: z.string().min(1, { message: "Fuel is required" }),
-  km: z.string().min(1, { message: "Km is required" }),
-  price: z.string().min(1, { message: "Price is required" }),
+   price: z.string().min(1, { message: "Price is required" }),
+   exchange: z.string().min(1, { message: "Exchange is required" }),
 
   description: z.string().min(1, { message: "Description is required" }),
   images: z
-    .any()
-    .refine((files) => {
-      return files?.[0]?.size <= MAX_FILE_SIZE;
-    }, `Max image size is 5MB.`)
-    .refine(
-      (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
-    ),
+     .any()
+     .refine((files) => {
+       return files?.[0]?.size <= MAX_FILE_SIZE;
+     }, `Max image size is 5MB.`)
+     .refine(
+       (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+       "Only .jpg, .jpeg, .png and .webp formats are supported."
+     ),
+ });
+
+ export const motorbikeSchema = z.object({
+   name: z.string().min(1, { message: "Name is required" }),
+   email: z.string().email({ message: "Email is invalid" }),
+   fip: z.string().min(1, { message: "FIP is required" }),
+   phone: z
+     .string()
+     .min(1, { message: "Phone is required" })
+     .regex(regexCelular, { message: "Phone is invalid" }),
+   location: z.string().min(1, { message: "Location is required" }),
+   motorbikeBrand: z.string().min(1, { message: "Brand is required" }),
+   motorbikeModel: z.string().min(1, { message: "Model is required" }),
+
+   mechanic: z.string().min(1, { message: "Mechanic is required" }),
+   plate: z.string().min(1, { message: "Plate is required" }),
+   auction: z.string().min(1, { message: "Auction is required" }),
+   yearFabrication: z
+     .string()
+     .min(1, { message: "Year Fabrication is required" }),
+   yearModification: z
+     .string()
+     .min(1, { message: "Year Modification is required" }),
+   color: z.string().min(1, { message: "Color is required" }),
+
+   fuel: z.string().min(1, { message: "Fuel is required" }),
+   km: z.string().min(1, { message: "Km is required" }),
+   price: z.string().min(1, { message: "Price is required" }),
+   description: z.string().min(1, { message: "Description is required" }),
+   images: z
+     .any()
+     .refine((files) => {
+       return files?.[0]?.size <= MAX_FILE_SIZE;
+     }, `Max image size is 5MB.`)
+     .refine(
+       (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+       "Only .jpg, .jpeg, .png and .webp formats are supported."
+     ),
 });
 
 export const carShowSchema = z.object({
@@ -127,9 +129,9 @@ export const carShowSchema = z.object({
   color: z.string().min(1, { message: "Color is required" }),
   doors: z.string().min(1, { message: "Doors is required" }),
   description: z.string().min(1, { message: "Description is required" }),
-  accessories: z.array(
-    z.string().min(1, { message: "Accessories is required" })
-  ),
+   accessories: z.array(
+     z.string().min(1, { message: "Accessories is required" })
+   ),
   images: z
     .any()
     .refine((files) => {

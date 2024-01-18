@@ -4,11 +4,7 @@ import { ICar } from "@/types";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+
 import { Dropdown } from "primereact/dropdown";
 
 interface FiltersProps {

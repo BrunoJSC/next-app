@@ -41,19 +41,24 @@ export function FormCar() {
       brandCar: "",
       modelCar: "",
       bodyType: "",
+      auction: "",
+      condition: "",
       mechanic: "",
       plate: "",
-      auction: "",
       yearFabrication: "",
       yearModification: "",
       color: "",
       doors: "",
       fuel: "",
       km: "",
+      motors: "",
+      bodywork: "",
+      documents: "",
       accessories: [],
-      price: "",
       description: "",
-      images: "",
+      exchange: "",
+      price: "",
+      images: [],
     },
   });
 
@@ -110,401 +115,241 @@ export function FormCar() {
 
     console.log(data);
     form.reset();
+
+    console.log(data);
+    console.log("click");
+    form.reset();
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleSubmit)}
-          className="space-y-8 w-full"
-        >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="Digite seu nome" {...field} />
-                </FormControl>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <div>
+            <div>
+              <Label htmlFor="name">Nome</Label>
+              <Input
+                {...form.register("name")}
+                placeholder="Digite seu nome"
+                className="mt-2"
+              />
+            </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <div className="mt-3">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                {...form.register("email")}
+                placeholder="Digite seu email"
+                className="mt-2"
+              />
+            </div>
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite seu email"
-                    {...field}
-                  />
-                </FormControl>
+            <div className="mt-3">
+              <Label htmlFor="fip">Fip</Label>
+              <Input
+                {...form.register("fip")}
+                placeholder="Fip"
+                className="mt-2"
+              />
+            </div>
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="phone">Celular</Label>
+            <Input
+              {...form.register("phone")}
+              placeholder="Digite seu número de celular"
+              className="mt-2"
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="fip"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>FIP</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite o FIP para o modelo de carro"
-                    {...field}
-                  />
-                </FormControl>
+          <div className="mt-3">
+            <Label htmlFor="location">Localização</Label>
+            <Input
+              {...form.register("location")}
+              placeholder="Localização do veículo"
+              className="mt-2"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="brandCar">Marca</Label>
+            <Input
+              {...form.register("brandCar")}
+              className="mt-2"
+              placeholder="Marca do veículo"
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefone</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite seu número de telefone"
-                    {...field}
-                  />
-                </FormControl>
+          <div className="mt-3">
+            <Label htmlFor="modelCar">Modelo</Label>
+            <Input
+              {...form.register("modelCar")}
+              className="mt-2"
+              placeholder="modelo do veículo"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="bodyType">Tipo de carroceria</Label>
+            <Input
+              {...form.register("bodyType")}
+              className="mt-2"
+              placeholder="Tipo de carroceria"
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="location"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Localização</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite sua localização"
-                    {...field}
-                  />
-                </FormControl>
+          <div className="mt-3">
+            <Label htmlFor="auction">Leilão</Label>
+            <Input
+              {...form.register("auction")}
+              className="mt-2"
+              placeholder="Leilão sim ou não"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="condition">Condição do veículo</Label>
+            <Input
+              {...form.register("condition")}
+              className="mt-2"
+              placeholder="Como está integridade do veículo ?"
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="brandCar"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Marca do veiculo</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite o modelo do veiculo"
-                    {...field}
-                  />
-                </FormControl>
+          <div className="mt-3">
+            <Label htmlFor="mechanic">Mecânico</Label>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <Input
+              {...form.register("mechanic")}
+              className="mt-2"
+              placeholder="Se o carros já foi mexido sim ou não"
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="modelCar"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Modelo do veiculo</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite o modelo do veiculo"
-                    {...field}
-                  />
-                </FormControl>
+          <div className="mt-3">
+            <Label htmlFor="plate">Placa do veículo</Label>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <Input
+              {...form.register("plate")}
+              className="mt-2"
+              placeholder="Placa do veículo"
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="bodyType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tipo da carroceria</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite o tipo da carroceria"
-                    {...field}
-                  />
-                </FormControl>
+          <div className="mt-3">
+            <Label htmlFor="yearFabrication">Ano de fabricação</Label>
 
-                <FormDescription>Exemplo: Hatch</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <Input
+              {...form.register("yearFabrication")}
+              className="mt-2"
+              placeholder="Ano do fabricação"
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="mechanic"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mecanico</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite sim ou não"
-                    {...field}
-                  />
-                </FormControl>
+          <div className="mt-3">
+            <Label htmlFor="yearModification">
+              Ano de modificação do veículo
+            </Label>
 
-                <FormDescription>
-                  Informe se o carros já modificado
-                </FormDescription>
+            <Input
+              {...form.register("yearModification")}
+              className="mt-2"
+              placeholder="Ano da modificação"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="color">Cor do veículo</Label>
 
-          <FormField
-            control={form.control}
-            name="plate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Placa do veiculo</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite a placa do veiculo"
-                    {...field}
-                  />
-                </FormControl>
+            <Input
+              {...form.register("color")}
+              className="mt-2"
+              placeholder="Cor do veículo"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="doors">Portas</Label>
 
-          <FormField
-            control={form.control}
-            name="auction"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Leilão</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite se o veiculo é de leilão ou não"
-                    {...field}
-                  />
-                </FormControl>
+            <Input
+              {...form.register("doors")}
+              className="mt-2"
+              placeholder="Quantidade de portas"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="fuel">Combustível</Label>
 
-          <FormField
-            control={form.control}
-            name="yearFabrication"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ano de fabricação</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite sua data de fabricação"
-                    {...field}
-                  />
-                </FormControl>
+            <Input
+              {...form.register("fuel")}
+              className="mt-2"
+              placeholder="Tipo de combustível"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="km">Km</Label>
 
-          <FormField
-            control={form.control}
-            name="yearModification"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ano de modificação</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite sua data de modificação"
-                    {...field}
-                  />
-                </FormControl>
+            <Input
+              {...form.register("km")}
+              className="mt-2"
+              placeholder="Quantidade de km rodados"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="motors">Motor</Label>
 
-          <FormField
-            control={form.control}
-            name="color"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cor</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite a cor do veiculo"
-                    {...field}
-                  />
-                </FormControl>
+            <Input
+              {...form.register("motors")}
+              className="mt-2"
+              placeholder="Motor do veículo"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="bodywork">Lataria</Label>
 
-          <FormField
-            control={form.control}
-            name="doors"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Portas</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite a quantidade de portas que o veiculo tem"
-                    {...field}
-                  />
-                </FormControl>
+            <Input
+              {...form.register("bodywork")}
+              className="mt-2"
+              placeholder="Se está boa, ou ruim"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="documents">Documentos</Label>
 
-          <FormField
-            control={form.control}
-            name="km"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Km</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite a quilometragem do veiculo"
-                    {...field}
-                  />
-                </FormControl>
+            <Input
+              {...form.register("documents")}
+              className="mt-2"
+              placeholder="Se o veiculo tem mutas ou restrições"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="exchange">Câmbio</Label>
 
-          <FormField
-            control={form.control}
-            name="fuel"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Combustível</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite o combustível do veiculo"
-                    {...field}
-                  />
-                </FormControl>
+            <Input
+              {...form.register("exchange")}
+              className="mt-2"
+              placeholder="Tipo de cambio do veiculo"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="mt-3">
+            <Label htmlFor="price">Preço</Label>
 
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Preço</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite o preço do veiculo"
-                    {...field}
-                  />
-                </FormControl>
+            <Input
+              {...form.register("price")}
+              className="mt-2"
+              placeholder="Preço do veiculo"
+            />
+          </div>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Descrição</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Digite os acessórios do veiculo"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* <FormField
-            control={form.control}
-            name="accessories"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Acessorios</FormLabel>
-                <FormControl>
-                  {accessories.map((accessory) => (
-                    <Input
-                      type="checkbox"
-                      {...field}
-                      value={accessory.value}
-                      key={accessory.value}
-                      id={accessory.value}
-                      name={accessory.value}
-                    />
-                  ))}
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
-
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 mt-3">
             {accessories.map((accessory) => (
               <div key={accessory.value}>
                 <input
@@ -517,6 +362,16 @@ export function FormCar() {
                 <label htmlFor={accessory.value}>{accessory.label}</label>
               </div>
             ))}
+          </div>
+
+          <div className="mt-3">
+            <Label htmlFor="description">Descriçao</Label>
+
+            <Textarea
+              {...form.register("description")}
+              className="mt-2 h-52"
+              placeholder="Se o veiculo tem mutas ou restrições"
+            />
           </div>
 
           <div className="col-span-full">
@@ -551,7 +406,7 @@ export function FormCar() {
             </div>
           </div>
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full mt-5">
             Enviar
           </Button>
         </form>
