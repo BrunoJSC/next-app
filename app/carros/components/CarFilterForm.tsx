@@ -4,6 +4,12 @@ import { ICar } from "@/types";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
 import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Dropdown } from "primereact/dropdown";
 
 interface FiltersProps {
   onFilterChange: (filteredData: ICar[]) => void;
@@ -60,12 +66,12 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         className="bg-white"
       />
 
-      <Input
-        type="text"
-        placeholder="Gasolina"
+      <Dropdown
         value={filterFuel}
-        onChange={(e) => setFilterFuel(e.target.value)}
-        className="bg-white"
+        onChange={(e) => setFilterFuel(e.value)}
+        options={["Gasolina", "Diesel", "Elétrico"]}
+        placeholder="Combustível"
+        className="bg-white p-2 rounded-md"
       />
       <button type="submit">Apply Filters</button>
     </form>

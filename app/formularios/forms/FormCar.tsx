@@ -24,6 +24,8 @@ import Select from "react-select";
 
 import { z } from "zod";
 import { accessories } from "@/constants";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 export function FormCar() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
@@ -478,26 +480,44 @@ export function FormCar() {
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="accessories"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Acessorios</FormLabel>
                 <FormControl>
-                  <Select
-                    isMulti
-                    options={accessories}
-                    className=""
-                    classNamePrefix="select"
-                    onChange={field.onChange}
-                  />
+                  {accessories.map((accessory) => (
+                    <Input
+                      type="checkbox"
+                      {...field}
+                      value={accessory.value}
+                      key={accessory.value}
+                      id={accessory.value}
+                      name={accessory.value}
+                    />
+                  ))}
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
+
+          <div className="grid grid-cols-2 gap-4">
+            {accessories.map((accessory) => (
+              <div key={accessory.value}>
+                <input
+                  type="checkbox"
+                  id={accessory.value}
+                  value={accessory.value}
+                  {...form.register("accessories")}
+                  className="mr-4"
+                />
+                <label htmlFor={accessory.value}>{accessory.label}</label>
+              </div>
+            ))}
+          </div>
 
           <div className="col-span-full">
             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
