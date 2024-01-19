@@ -25,22 +25,18 @@ export default function Announce() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {announce.map((announce) => (
-            <Card key={announce.title} className="p-4">
-              <CardHeader>
-                <CardTitle>{announce.title}</CardTitle>
-              </CardHeader>
+        <ul className="flex flex-col mx-auto items-center justify-center w-[900px] gap-5">
+          {announce.map((an) => (
+            <li key={an.title}>
+              <h2 className="text-lg font-bold">{an.title}</h2>
 
-              <CardDescription>
-                <p>{announce.paragraph}</p>
-              </CardDescription>
-            </Card>
+              <p>{an.paragraph}</p>
+            </li>
           ))}
-        </div>
-        <Button className="mt-10 md:w-[472px] w-full mx-auto" asChild>
-          <Link href="/formularios">Anuncie Agora</Link>
-        </Button>
+          <Button className="mt-10 md:w-full w-full mx-auto" asChild>
+            <Link href="/formularios">Anuncie Agora</Link>
+          </Button>
+        </ul>
       </div>
     </main>
   );

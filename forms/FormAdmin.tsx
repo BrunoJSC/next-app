@@ -57,7 +57,7 @@ export function FormAdmin() {
                   <Label className="text-[24px] text-black font-bold">
                     Email
                   </Label>
-                  <Input type="email" className="bg-[#15803D29]" {...field} />
+                  <Input type="email" {...field} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -70,11 +70,7 @@ export function FormAdmin() {
                   <Label className="text-[24px] text-black font-bold">
                     Senha
                   </Label>
-                  <Input
-                    type="password"
-                    className="bg-[#15803D29]"
-                    {...field}
-                  />
+                  <Input type="password" {...field} />
                   <FormMessage />
                 </FormItem>
               )}

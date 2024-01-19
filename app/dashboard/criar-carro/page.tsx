@@ -19,24 +19,32 @@ export default function Page() {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as ICar[];
+      const data = snapshot.docs.map((doc) => {
+        const carData = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        console.log("Car data:", carData);
+        return carData;
+      }) as ICar[];
       setCarData(data);
       setLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
-  const removeCar = (id: string) => {
-    deleteDoc(doc(db, "cars", id))
-      .then(() => {
-        console.log("Document successfully deleted!");
-      })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
-      });
+  // ... (código anterior)
+
+  const deleteCar = async (id: string) => {
+    try {
+      console.log(`Trying to delete car with ID: ${id}`);
+
+      console.log(`${id} ID 1`);
+      await deleteDoc(doc(db, "cars", id));
+      console.log(`Car with ID ${id} deleted successfully!`);
+    } catch (error) {
+      console.error(`Error deleting car with ID ${id}:`, error);
+    }
   };
 
   if (!user) {
@@ -53,9 +61,9 @@ export default function Page() {
         <DrawerCar open={open} setOpen={setOpen} />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
         {carData.map((car: ICar) => (
-          <Card key={car.id}>
+          <div key={car.id}>
             <div className="w-full h-[300px]">
               <Image
                 src={car.images[0]}
@@ -65,6 +73,7 @@ export default function Page() {
                 className="w-full h-full object-cover"
               />
             </div>
+            <h1>{car.id}</h1>
 
             <div className="w-full p-4">
               <h1 className="text-2xl font-bold text-black font-poppins">
@@ -73,17 +82,11 @@ export default function Page() {
             </div>
 
             <div className="w-full p-4 flex items-center justify-between">
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  removeCar(car.id);
-                  console.log(car.id);
-                }}
-              >
+              <Button variant="destructive" onClick={() => deleteCar(car.id)}>
                 Excluir
               </Button>
             </div>
-          </Card>
+          </div>
         ))}
       </div>
     </section>

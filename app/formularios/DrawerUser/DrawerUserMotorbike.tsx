@@ -35,7 +35,7 @@ export function DrawerUserMotorbike() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Cadastrar moto</DialogTitle>
+          <DialogTitle>Anunciar moto</DialogTitle>
           <DialogDescription>
             Preencha os dados do seu veículo
           </DialogDescription>

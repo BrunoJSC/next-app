@@ -305,7 +305,7 @@ export function FormCar() {
             <Input
               {...form.register("motors")}
               className="mt-2"
-              placeholder="Motor do veículo"
+              placeholder="Potencia do motor"
             />
           </div>
 

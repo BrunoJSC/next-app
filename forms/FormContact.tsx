@@ -61,11 +61,7 @@ export function FormContact() {
                       Nome
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Digite seu nome"
-                        className="bg-[#15803D29]"
-                        {...field}
-                      />
+                      <Input placeholder="Digite seu nome" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -82,11 +78,7 @@ export function FormContact() {
                       Email
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Digite seu email"
-                        className="bg-[#15803D29]"
-                        {...field}
-                      />
+                      <Input placeholder="Digite seu email" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -104,8 +96,8 @@ export function FormContact() {
                     </FormLabel>
                     <FormControl>
                       <Textarea
+                        className="h-52"
                         placeholder="Escreva sua mensagem"
-                        className="bg-[#15803D29]"
                         {...field}
                       />
                     </FormControl>

@@ -35,7 +35,7 @@ export function DrawerUserCar() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Cadastrar carro</DialogTitle>
+          <DialogTitle>Anunciar carro</DialogTitle>
           <DialogDescription>
             Preencha os dados do seu veículo
           </DialogDescription>
