@@ -41,13 +41,16 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "bikes"), (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as IMotorbike[];
-      setMotorbike(data);
-    });
+    const unsubscribe = onSnapshot(
+      collection(db, "formMotorbike"),
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as IMotorbike[];
+        setMotorbike(data);
+      }
+    );
 
     return () => {
       unsubscribe();
@@ -60,6 +63,7 @@ export default function Page() {
 
   return (
     <>
+      <h1 className="text-3xl font-bold text-black text-center mt-5">Carros</h1>
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
         {car?.map((item) => (
           <Card key={item.id} className="w-full h-auto mb-8">
@@ -93,6 +97,14 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Mecanico: {item.mechanic}</p>
               <p className="text-gray-600 mb-2">Placa: {item.plate}</p>
               <p className="text-gray-600 mb-2">
+                Acessórios: {item.accessories}
+              </p>
+
+              <p className="text-gray-600 mb-2">Preço: {item.price}</p>
+              <p className="text-gray-600 mb-2">Fip: {item.fip}</p>
+              <p className="text-gray-600 mb-2">Portas: {item.doors}</p>
+              <p className="text-gray-600 mb-2">Cambio: {item.exchange}</p>
+              <p className="text-gray-600 mb-2">
                 Descrição: {item.description}
               </p>
               <div className="mt-4">
@@ -109,7 +121,8 @@ export default function Page() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
+      <h1 className="text-3xl font-bold text-black text-center mt-5">Motos</h1>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
         {motorbike?.map((item) => (
           <Card key={item.id} className="w-full h-auto mb-8">
             <div className="overflow-hidden">
@@ -141,6 +154,12 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Cor: {item.color}</p>
               <p className="text-gray-600 mb-2">Mecanico: {item.mechanic}</p>
               <p className="text-gray-600 mb-2">Placa: {item.plate}</p>
+              <p className="text-gray-600 mb-2">Cilindro: {item.cylinder}</p>
+              <p className="text-gray-600 mb-2">Localização: {item.location}</p>
+              <p className="text-gray-600 mb-2">Preço: {item.price}</p>
+              <p className="text-gray-600 mb-2">
+                Tipo de carroceria: {item.typeBody}
+              </p>
               <p className="text-gray-600 mb-2">
                 Descrição: {item.description}
               </p>

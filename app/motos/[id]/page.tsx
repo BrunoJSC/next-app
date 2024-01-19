@@ -12,10 +12,12 @@ import {
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/firebase";
 import { IMotorbike } from "@/types";
 import { contactVehicleSchema } from "@/validation/schemas";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { MessageSquare } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -202,18 +204,30 @@ export default function Page({
                 />
               </div>
 
+              <div className="grid grid-cols-1 gap-4">
+                <Label htmlFor="phone" className="text-white">
+                  Descrição
+                </Label>
+                <Textarea
+                  id="description"
+                  className="bg-white"
+                  {...form.register("phone")}
+                ></Textarea>
+              </div>
+
               <Button type="submit" className="w-full">
                 Enviar
               </Button>
 
               <Link
-                href="https://wa.me/5511940723891"
                 className={buttonVariants({
-                  variant: "outline",
-                  className: "w-full",
+                  className: "w-full mt-4",
                 })}
+                type="submit"
+                href="https://wa.me/5511940723891"
               >
-                Whatsapp
+                <MessageSquare className="mr-5" />
+                Chamar no WhatsApp
               </Link>
             </form>
           </Form>

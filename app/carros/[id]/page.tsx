@@ -16,6 +16,7 @@ import { db } from "@/firebase";
 import { ICar } from "@/types";
 import { contactVehicleSchema } from "@/validation/schemas";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { MessageSquare } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -150,7 +151,7 @@ export default function Page({
 
           <Form {...form}>
             <form
-              className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm h-[500px] rounded-xl"
+              className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm h-[600px] rounded-xl"
               onSubmit={form.handleSubmit(handleSubmit)}
             >
               <div>
@@ -214,13 +215,15 @@ export default function Page({
               </Button>
 
               <Link
-                href="https://wa.me/5511940723891"
                 className={buttonVariants({
-                  variant: "outline",
-                  className: "w-full",
+                  className: "w-full mt-4",
+                  variant: "secondary",
                 })}
+                type="submit"
+                href="https://wa.me/5511940723891"
               >
-                Whatsapp
+                <MessageSquare className="mr-5" />
+                Chamar no WhatsApp
               </Link>
             </form>
           </Form>
