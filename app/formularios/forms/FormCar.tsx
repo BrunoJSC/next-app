@@ -29,6 +29,7 @@ import { Label } from "@/components/ui/label";
 
 export function FormCar() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof carSchema>>({
     resolver: zodResolver(carSchema),
@@ -88,37 +89,43 @@ export function FormCar() {
   };
 
   const handleSubmit = async (data: z.infer<typeof carSchema>) => {
-    await addDoc(collection(db, "formCar"), {
-      id: Date().toString(),
-      name: data.name,
-      email: data.email,
-      fip: data.fip,
-      phone: data.phone,
-      location: data.location,
-      brandCar: data.brandCar,
-      modelCar: data.modelCar,
-      bodyType: data.bodyType,
-      mechanic: data.mechanic,
-      plate: data.plate,
-      auction: data.auction,
-      yearFabrication: data.yearFabrication,
-      yearModification: data.yearModification,
-      color: data.color,
-      doors: data.doors,
-      fuel: data.fuel,
-      km: data.km,
-      accessories: data.accessories,
-      price: data.price,
-      description: data.description,
-      images: await handleUpload(),
-    });
+    try {
+      setLoading(true);
+      await addDoc(collection(db, "formCar"), {
+        id: Date().toString(),
+        name: data.name,
+        email: data.email,
+        fip: data.fip,
+        phone: data.phone,
+        location: data.location,
+        brandCar: data.brandCar,
+        modelCar: data.modelCar,
+        bodyType: data.bodyType,
+        mechanic: data.mechanic,
+        plate: data.plate,
+        auction: data.auction,
+        yearFabrication: data.yearFabrication,
+        yearModification: data.yearModification,
+        color: data.color,
+        doors: data.doors,
+        fuel: data.fuel,
+        km: data.km,
+        accessories: data.accessories,
+        price: data.price,
+        description: data.description,
+        images: await handleUpload(),
+      });
 
-    console.log(data);
-    form.reset();
+      console.log(data);
 
-    console.log(data);
-    console.log("click");
-    form.reset();
+      console.log(data);
+      console.log("click");
+      form.reset();
+    } catch (error) {
+      console.error("Erro ao fazer upload:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -406,8 +413,8 @@ export function FormCar() {
             </div>
           </div>
 
-          <Button type="submit" className="w-full mt-5">
-            Enviar
+          <Button type="submit" className="w-full mt-5" disabled={loading}>
+            {loading ? "Enviando..." : "Enviar"}
           </Button>
         </form>
       </Form>

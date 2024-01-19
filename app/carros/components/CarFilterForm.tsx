@@ -15,17 +15,21 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterFuel, setFilterFuel] = useState<string>("");
   const [filterModelCar, setFilterModelCar] = useState<string>("");
   const [filterYear, setFilterYear] = useState<string>("");
+  const [color, setColor] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
   const [data, setData] = useState<ICar[]>([]);
 
   const handleFilterChange = (e: React.FormEvent) => {
     e.preventDefault();
-    // You can add more filters as needed
+
     const filteredData = data.filter((car) => {
       return (
         car.brandCar.toLowerCase().includes(filterBrand.toLowerCase()) &&
         car.modelCar.toLowerCase().includes(filterModelCar.toLowerCase()) &&
         car.fuel.toLowerCase().includes(filterFuel.toLowerCase()) &&
-        car.yearFabrication.toLowerCase().includes(filterYear.toLowerCase())
+        car.yearFabrication.toLowerCase().includes(filterYear.toLowerCase()) &&
+        car.color.toLowerCase().includes(color.toLowerCase()) &&
+        car.location.toLowerCase().includes(location.toLowerCase())
       );
     });
 
@@ -83,9 +87,6 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
           >
             <path d="m7 15 5 5 5-5" />
             <path d="m7 9 5-5 5 5" />
@@ -106,6 +107,22 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         spellCheck="false"
         autoCorrect="off"
         autoCapitalize="off"
+      />
+
+      <Input
+        type="text"
+        placeholder="Cor"
+        value={color}
+        onChange={(e) => setColor(e.target.value)}
+        className="bg-white"
+      />
+
+      <Input
+        type="text"
+        placeholder="Cidade"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        className="bg-white"
       />
 
       <Button type="submit" className="w-full" variant="outline">

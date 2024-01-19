@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Carousel,
@@ -14,11 +14,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { db } from "@/firebase";
 import { IMotorbike } from "@/types";
-import { collection, onSnapshot } from "firebase/firestore";
+import { contactVehicleSchema } from "@/validation/schemas";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export default function Page({
   searchParams,
@@ -36,8 +38,28 @@ export default function Page({
     images: string[];
   };
 }) {
-  const form = useForm();
+  const form = useForm<z.infer<typeof contactVehicleSchema>>({
+    defaultValues: {
+      name: "",
+      email: "",
+      cpf: "",
+      phone: "",
+    },
+  });
   const [data, setData] = useState<IMotorbike[]>([]);
+
+  const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
+    await addDoc(collection(db, "contact"), {
+      id: Date().toString(),
+      name: data.name,
+      email: data.email,
+      cpf: data.cpf,
+      phone: data.phone,
+    });
+
+    form.reset();
+    console.log(data);
+  };
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
@@ -122,7 +144,10 @@ export default function Page({
           </div>
 
           <Form {...form}>
-            <form className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm rounded-xl">
+            <form
+              className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm rounded-xl"
+              onSubmit={form.handleSubmit(handleSubmit)}
+            >
               <div>
                 <h2 className="text-2xl font-bold text-primary">
                   Entre em contato com o Vendedor!
@@ -134,33 +159,62 @@ export default function Page({
                 <Label htmlFor="name" className="text-white">
                   Nome
                 </Label>
-                <Input id="name" className="bg-white" />
+                <Input
+                  id="name"
+                  className="bg-white"
+                  type="text"
+                  {...form.register("name")}
+                />
               </div>
 
               <div className="grid grid-cols-1 gap-4">
                 <Label htmlFor="cpf" className="text-white">
                   CPF
                 </Label>
-                <Input id="cpf" className="bg-white" />
+                <Input
+                  id="cpf"
+                  className="bg-white"
+                  {...form.register("cpf")}
+                />
               </div>
 
               <div className="grid grid-cols-1 gap-4">
                 <Label htmlFor="email" className="text-white">
                   Email
                 </Label>
-                <Input id="email" type="email" className="bg-white" />
+                <Input
+                  id="email"
+                  type="email"
+                  className="bg-white"
+                  {...form.register("email")}
+                />
               </div>
 
               <div className="grid grid-cols-1 gap-4">
                 <Label htmlFor="phone" className="text-white">
                   Telefone
                 </Label>
-                <Input id="phone" type="tel" className="bg-white" />
+                <Input
+                  id="phone"
+                  type="tel"
+                  className="bg-white"
+                  {...form.register("phone")}
+                />
               </div>
 
               <Button type="submit" className="w-full">
                 Enviar
               </Button>
+
+              <Link
+                href="https://wa.me/5511940723891"
+                className={buttonVariants({
+                  variant: "outline",
+                  className: "w-full",
+                })}
+              >
+                Whatsapp
+              </Link>
             </form>
           </Form>
         </div>

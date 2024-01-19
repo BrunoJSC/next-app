@@ -8,7 +8,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/firebase";
 import CarFilterForm from "./components/CarFilterForm";
-// import { Filters } from "@/components/Filters";
 
 export default function Cars() {
   const [data, setData] = useState<ICar[]>([]);
@@ -31,7 +30,7 @@ export default function Cars() {
         <div className="flex flex-col md:flex-row gap-4">
           <Card className="w-full md:w-[300px] h-[300px] md:h-[456px] bg-primary rounded-md p-4 mb-4 md:mb-0">
             <h1 className="text-3xl font-bold text-white mb-4">Filtros</h1>
-            {/* <Filters db={db} collectionCar="cars" onFilterChange={setData} /> */}
+
             <CarFilterForm onFilterChange={setData} />
           </Card>
 

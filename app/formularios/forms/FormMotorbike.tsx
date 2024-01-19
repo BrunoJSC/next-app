@@ -24,6 +24,7 @@ import { z } from "zod";
 
 export function FormMotorbike() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof motorbikeSchema>>({
     resolver: zodResolver(motorbikeSchema),
@@ -77,31 +78,38 @@ export function FormMotorbike() {
   };
 
   const handleSubmit = async (data: z.infer<typeof motorbikeSchema>) => {
-    await addDoc(collection(db, "formMotorbike"), {
-      id: Date().toString(),
-      name: data.name,
-      email: data.email,
-      fip: data.fip,
-      phone: data.phone,
-      location: data.location,
-      motorbikeBrand: data.motorbikeBrand,
-      motorbikeModel: data.motorbikeModel,
-      mechanic: data.mechanic,
-      plate: data.plate,
-      auction: data.auction,
-      yearFabrication: data.yearFabrication,
-      yearModification: data.yearModification,
-      color: data.color,
-      fuel: data.fuel,
-      km: data.km,
-      price: data.price,
-      description: data.description,
-      fairing: data.fairing,
-      cylinder: data.cylinder,
-      images: await handleUpload(),
-    });
+    try {
+      setLoading(true);
+      await addDoc(collection(db, "formMotorbike"), {
+        id: Date().toString(),
+        name: data.name,
+        email: data.email,
+        fip: data.fip,
+        phone: data.phone,
+        location: data.location,
+        motorbikeBrand: data.motorbikeBrand,
+        motorbikeModel: data.motorbikeModel,
+        mechanic: data.mechanic,
+        plate: data.plate,
+        auction: data.auction,
+        yearFabrication: data.yearFabrication,
+        yearModification: data.yearModification,
+        color: data.color,
+        fuel: data.fuel,
+        km: data.km,
+        price: data.price,
+        description: data.description,
+        fairing: data.fairing,
+        cylinder: data.cylinder,
+        images: await handleUpload(),
+      });
 
-    form.reset();
+      form.reset();
+    } catch (error) {
+      console.error("Erro ao fazer upload:", error);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="w-full">
@@ -494,8 +502,8 @@ export function FormMotorbike() {
             </div>
           </div>
 
-          <Button type="submit" className="w-full">
-            Enviar
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Enviando..." : "Enviar"}
           </Button>
         </form>
       </Form>

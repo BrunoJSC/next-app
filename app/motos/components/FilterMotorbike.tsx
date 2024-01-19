@@ -15,6 +15,9 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterFuel, setFilterFuel] = useState<string>("");
   const [filterModelCar, setFilterModelCar] = useState<string>("");
   const [filterYear, setFilterYear] = useState<string>("");
+  const [color, setColor] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [cylinder, setCylinder] = useState<string>("");
   const [data, setData] = useState<IMotorbike[]>([]);
 
   const handleFilterChange = (e: React.FormEvent) => {
@@ -28,7 +31,10 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
           ?.toLowerCase()
           .includes(filterModelCar.toLowerCase()) &&
         motorbike.fuel?.toLowerCase().includes(filterFuel.toLowerCase()) &&
-        motorbike.yearFabrication?.toString().includes(filterYear)
+        motorbike.yearFabrication?.toString().includes(filterYear) &&
+        motorbike.color?.toLowerCase().includes(color.toLowerCase()) &&
+        motorbike.location?.toLowerCase().includes(location.toLowerCase()) &&
+        motorbike.cylinder?.toLowerCase().includes(cylinder.toLowerCase())
       );
     });
 
@@ -49,7 +55,6 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
   return (
     <form onSubmit={handleFilterChange} className="flex flex-col space-y-2">
-      {/* ... (rest of your code) */}
       <Input
         type="text"
         placeholder="Marca"
@@ -86,10 +91,6 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
             height="24"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
           >
             <path d="m7 15 5 5 5-5" />
             <path d="m7 9 5-5 5 5" />
@@ -102,6 +103,30 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         placeholder="Ano"
         value={filterYear}
         onChange={(e) => setFilterYear(e.target.value)}
+        className="bg-white"
+      />
+
+      <Input
+        type="text"
+        placeholder="Cor"
+        value={color}
+        onChange={(e) => setColor(e.target.value)}
+        className="bg-white"
+      />
+
+      <Input
+        type="text"
+        placeholder="Cidade"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        className="bg-white"
+      />
+
+      <Input
+        type="text"
+        placeholder="Cilindradas"
+        value={cylinder}
+        onChange={(e) => setCylinder(e.target.value)}
         className="bg-white"
       />
 
