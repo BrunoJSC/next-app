@@ -60,7 +60,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
         {car?.map((item) => (
           <Card key={item.id} className="w-full h-auto mb-8">
             <div className="overflow-hidden">

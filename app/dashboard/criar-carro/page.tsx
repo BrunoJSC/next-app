@@ -82,6 +82,8 @@ export default function Page() {
             </div>
 
             <div className="w-full p-4 flex items-center justify-between">
+              <Button variant="outline">Editar</Button>
+
               <Button variant="destructive" onClick={() => deleteCar(car.id)}>
                 Excluir
               </Button>

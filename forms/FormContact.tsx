@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,6 +15,7 @@ import { db } from "@/firebase";
 import { contactSchema } from "@/validation/schemas";
 import { addDoc, collection } from "firebase/firestore";
 import { MessageSquare } from "lucide-react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -125,10 +126,16 @@ export function FormContact() {
                 um de nossos especialistas!
               </p>
 
-              <Button className="w-full mt-4" type="submit">
-                <MessageSquare />
+              <Link
+                className={buttonVariants({
+                  className: "w-full mt-4",
+                })}
+                type="submit"
+                href="https://wa.me/5511940723891"
+              >
+                <MessageSquare className="mr-5" />
                 Chamar no WhatsApp
-              </Button>
+              </Link>
             </div>
 
             <div>

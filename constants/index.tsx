@@ -10,7 +10,7 @@ export const NAV_LINK = [
 
   { label: "Motos", href: "/motos" },
 
-  { label: "Oficina de Dicas", href: "/oficina de Dicas" },
+  { label: "Oficina de Dicas", href: "/oficina-de-dicas" },
   { label: "Lojas", href: "/lojas" },
 
   { label: "Contato", href: "/contato" },
@@ -21,7 +21,7 @@ export const ADMIN_LINK: { label: string; href: string }[] = [
   { label: "Carros", href: "/dashboard/criar-carro" },
   { label: "Motos", href: "/dashboard/criar-moto" },
   { label: "Contatos", href: "/dashboard/contatos" },
-  { label: "Emails", href: "/dashboard/emails" },
+  { label: "Anuncios", href: "/dashboard/anuncios" },
 ];
 
 export const LinksDashboard = [

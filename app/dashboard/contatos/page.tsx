@@ -37,16 +37,18 @@ export default function ListContact() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2">
-      {data?.map((item) => (
-        <Card key={item.id} className="w-full">
-          <CardHeader>
-            <CardTitle>{item.name}</CardTitle>
-            <CardDescription>{item.email}</CardDescription>
-          </CardHeader>
-          <CardContent>{item.message}</CardContent>
-        </Card>
-      ))}
-    </div>
+    <section className="w-full min-h-screen p-5">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+        {data?.map((item) => (
+          <Card key={item.id} className="w-full">
+            <CardHeader>
+              <CardTitle>{item.name}</CardTitle>
+              <CardDescription>{item.email}</CardDescription>
+            </CardHeader>
+            <CardContent>{item.message}</CardContent>
+          </Card>
+        ))}
+      </div>
+    </section>
   );
 }

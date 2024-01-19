@@ -80,7 +80,7 @@ export function Footer() {
               <li>
                 <a
                   className="text-white   text-[16px] font-light leading-5 hover:text-green-800"
-                  href="/"
+                  href="/anunciar"
                 >
                   Anunciar meu veículo
                 </a>

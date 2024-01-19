@@ -144,6 +144,13 @@ export default function Page({
               </div>
 
               <div className="grid grid-cols-1 gap-2">
+                <Label htmlFor="cpf" className="text-white">
+                  CPF
+                </Label>
+                <Input id="email" type="cpf" className="bg-white" />
+              </div>
+
+              <div className="grid grid-cols-1 gap-2">
                 <Label htmlFor="email" className="text-white">
                   Email
                 </Label>

@@ -111,7 +111,7 @@ export default function Page({
             </div>
 
             <div>
-              <p className="font-bold">Cambio</p>
+              <p className="font-bold">Cilindradas</p>
               <p className="text-primary">{searchParams.cylinder}</p>
             </div>
 
@@ -135,6 +135,13 @@ export default function Page({
                   Nome
                 </Label>
                 <Input id="name" className="bg-white" />
+              </div>
+
+              <div className="grid grid-cols-1 gap-4">
+                <Label htmlFor="cpf" className="text-white">
+                  CPF
+                </Label>
+                <Input id="cpf" className="bg-white" />
               </div>
 
               <div className="grid grid-cols-1 gap-4">

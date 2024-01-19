@@ -449,7 +449,7 @@ export function FormMotorbike() {
             name="cylinder"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Carenagem</FormLabel>
+                <FormLabel>Cilindradas</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Digite se está boa, media, ruim"

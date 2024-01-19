@@ -18,7 +18,7 @@ export default function Page() {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "motorbike"), (snapshot) => {
+    const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -43,7 +43,7 @@ export default function Page() {
         <DrawerBikes open={open} setOpen={setOpen} />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
         {data.map((motorbike: IMotorbike) => (
           <Card key={motorbike.id}>
             <div className="w-full h-[300px]">
