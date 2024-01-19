@@ -31,7 +31,7 @@ export function DrawerUserCar() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Cadastrar carro</Button>
+        <Button variant="outline">Anunciar carro</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] h-[85vh] overflow-y-auto">
         <DialogHeader>

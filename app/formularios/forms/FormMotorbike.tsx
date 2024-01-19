@@ -45,6 +45,8 @@ export function FormMotorbike() {
       km: "",
       price: "",
       description: "",
+      fairing: "",
+      cylinder: "",
       images: "",
     },
   });
@@ -94,6 +96,8 @@ export function FormMotorbike() {
       km: data.km,
       price: data.price,
       description: data.description,
+      fairing: data.fairing,
+      cylinder: data.cylinder,
       images: await handleUpload(),
     });
 
@@ -416,6 +420,39 @@ export function FormMotorbike() {
                 <FormControl>
                   <Textarea
                     placeholder="Digite a descrição da moto"
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="fairing"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Carenagem</FormLabel>
+                <FormControl>
+                  <Input placeholder="Digite a descrição da moto" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="cylinder"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Carenagem</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Digite se está boa, media, ruim"
                     {...field}
                   />
                 </FormControl>

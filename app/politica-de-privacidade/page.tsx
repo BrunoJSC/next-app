@@ -1,7 +1,7 @@
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="max-w-5xl text-center">
+      <div className="max-w-7xl text-center">
         <h1 className="text-5xl font-bold text-primary">
           Política de privacidade.
         </h1>
@@ -10,7 +10,7 @@ export default function Page() {
         </p>
       </div>
 
-      <div className="flex flex-col space-y-10 mt-10">
+      <div className="max-w-7xl mx-auto flex flex-col space-y-10 mt-10">
         <p className="text-md">
           1. O QUE SÃO DADOS PESSOAIS? Dados pessoais são quaisquer informações
           relacionadas à pessoa natural identificada ou identificável, ou seja,

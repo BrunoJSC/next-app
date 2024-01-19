@@ -149,10 +149,12 @@ export const finances = [
 ];
 
 export const accessories = [
-  { label: "Air bag", value: "Air bag" },
   { label: "Ar condicionado", value: "Ar condicionado" },
-  { label: "ABS", value: "ABS" },
   { label: "Direção hidráulica", value: "Direção hidráulica" },
   { label: "Trava elétrica", value: "Trava elétrica" },
-  { label: "Piloto automático", value: "Piloto automático" },
+  { label: "vidro eletrico", value: "vidro eletrico" },
+  { label: "Teto solar", value: "teto solar" },
+  { label: "Som", value: "som" },
+  { label: "Multimidia", value: "multimidia" },
+  { label: "Blindado", value: "blindado" },
 ];

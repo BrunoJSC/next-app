@@ -101,6 +101,8 @@ export const carSchema = z.object({
    km: z.string().min(1, { message: "Km is required" }),
    price: z.string().min(1, { message: "Price is required" }),
    description: z.string().min(1, { message: "Description is required" }),
+   fairing: z.string().min(1, { message: "Fairing is required" }),
+   cylinder: z.string().min(1, { message: "Cylinder is required" }),
    images: z
      .any()
      .refine((files) => {
