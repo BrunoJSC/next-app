@@ -32,13 +32,10 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         motorbike.motorbikeModel
           ?.toLowerCase()
           .includes(filterModelCar.toLowerCase()) &&
-        motorbike.fuel?.toLowerCase().includes(filterFuel.toLowerCase()) &&
-        motorbike.yearFabrication?.toString().includes(filterYear) &&
+        motorbike.fuel.toLowerCase().includes(filterFuel.toLowerCase()) &&
+        motorbike.yearFabrication.toString().includes(filterYear) &&
         motorbike.yearFabrication.toString() >= startYear &&
-        motorbike.yearFabrication.toString() <= endYear &&
-        motorbike.color?.toLowerCase().includes(color.toLowerCase()) &&
-        motorbike.location?.toLowerCase().includes(location.toLowerCase()) &&
-        motorbike.cylinder?.toLowerCase().includes(cylinder.toLowerCase())
+        motorbike.yearFabrication.toString() <= endYear
       );
     });
 
@@ -85,6 +82,8 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
           <option>Alcool</option>
           <option>Disel</option>
           <option>Etanol</option>
+          <option>Eletrico</option>
+          <option>Flex</option>
         </select>
 
         <div className="absolute top-1/2 end-3 -translate-y-1/2">
@@ -133,30 +132,6 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
           autoCapitalize="off"
         />
       </div>
-
-      <Input
-        type="text"
-        placeholder="Cor"
-        value={color}
-        onChange={(e) => setColor(e.target.value)}
-        className="bg-white"
-      />
-
-      <Input
-        type="text"
-        placeholder="Cidade"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        className="bg-white"
-      />
-
-      <Input
-        type="text"
-        placeholder="Cilindradas"
-        value={cylinder}
-        onChange={(e) => setCylinder(e.target.value)}
-        className="bg-white"
-      />
 
       <Button type="submit" className="w-full" variant="outline">
         Pesquisar
