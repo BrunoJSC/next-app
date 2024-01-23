@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 
 import { IMotorbike } from "@/types";
 import { db } from "@/firebase";
-import { onSnapshot, collection } from "firebase/firestore";
+import { onSnapshot, collection, deleteDoc, doc } from "firebase/firestore";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -17,14 +17,28 @@ export default function Page() {
   const [data, setData] = useState<IMotorbike[]>([]);
   const { user } = useContext(AuthContext);
 
+  function deleteMotorbike(id: string) {
+    console.log(id);
+    deleteDoc(doc(db, "motorbikes", id))
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  }
+
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as IMotorbike[];
-      setData(data);
-    });
+    const unsubscribe = onSnapshot(
+      collection(db, "formMotorbike"),
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as IMotorbike[];
+        setData(data);
+      }
+    );
 
     return () => unsubscribe();
   }, []);
@@ -65,7 +79,15 @@ export default function Page() {
             <div className="w-full p-4 flex items-center justify-between">
               <Button variant="outline">Editar</Button>
 
-              <Button variant="destructive">Excluir</Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  deleteMotorbike(motorbike.id);
+                  console.log(motorbike.id);
+                }}
+              >
+                Excluir
+              </Button>
             </div>
           </Card>
         ))}

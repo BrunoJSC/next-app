@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { AuthContext } from "@/context/auth";
 import { db, storage } from "@/firebase";
 import { ICar, IMotorbike } from "@/types";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -61,6 +61,16 @@ export default function Page() {
     return redirect("/");
   }
 
+  async function deleteAnnounce(id: string) {
+    console.log(id);
+    try {
+      await deleteDoc(doc(db, "formCar", id));
+      console.log("Document successfully deleted!");
+    } catch (error) {
+      console.error("Error removing document: ", error);
+    }
+  }
+
   return (
     <>
       <h1 className="text-3xl font-bold text-black text-center mt-5">Carros</h1>
@@ -85,9 +95,29 @@ export default function Page() {
               <h2 className="text-xl font-semibold mb-2">
                 modelo: {item.modelCar}
               </h2>
+              <p className="text-gray-600 mb-2">Nome: {item.name}</p>
+
+              <p className="text-gray-600 mb-2">Email: {item.email}</p>
+
+              <p className="text-gray-600 mb-2">Localização: {item.location}</p>
+
+              <p className="text-gray-600 mb-2">Celular: {item.phone}</p>
+
+              <p className="text-gray-600 mb-2">
+                Tipo de carroceria: {item.bodyType}
+              </p>
+
+              <p className="text-gray-600 mb-2">Leilão: {item.auction}</p>
+
+              <p className="text-gray-600 mb-2">Condição: {item.condition}</p>
+              <p className="text-gray-600 mb-2">
+                Potência do motor: {item.motors}
+              </p>
+
               <p className="text-gray-600 mb-2">
                 Ano de fabricação: {item.yearFabrication}
               </p>
+
               <p className="text-gray-600 mb-2">
                 Ano de modificação: {item.yearModification}
               </p>
@@ -117,6 +147,14 @@ export default function Page() {
                 ))}
               </div>
             </div>
+
+            <Button
+              variant="destructive"
+              className="w-full"
+              onClick={() => deleteAnnounce(item.id)}
+            >
+              Deletar
+            </Button>
           </Card>
         ))}
       </div>

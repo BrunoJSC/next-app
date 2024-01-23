@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { finances } from "@/constants";
+import { MessageSquare } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -38,13 +39,17 @@ export default function Finance() {
               de nossos especialistas!
             </p>
 
-            <Button
-              variant="secondary"
-              className="w-full h-[50px] mt-4 font-bold text-primary hover:bg-secondary-foreground hover:text-white duration-300 transition-all"
-              asChild
+            <Link
+              className={buttonVariants({
+                className: "w-full mt-4",
+                variant: "secondary",
+              })}
+              type="submit"
+              href="https://wa.me/5511940723891"
             >
-              <Link href="https://wa.me/5511940723891">WhatsApp</Link>
-            </Button>
+              <MessageSquare className="mr-5" />
+              Chamar no WhatsApp
+            </Link>
           </div>
 
           <div className="w-full md:w-[491px] h-[291px] absolute bottom-0 right-0 md:-mr-0 hidden md:block">

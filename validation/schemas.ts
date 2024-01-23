@@ -61,7 +61,7 @@ export const carSchema = z.object({
 
    price: z.string().min(1, { message: "Price is required" }),
    exchange: z.string().min(1, { message: "Exchange is required" }),
-
+   
   description: z.string().min(1, { message: "Description is required" }),
   images: z
      .any()
@@ -72,6 +72,7 @@ export const carSchema = z.object({
        (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
        "Only .jpg, .jpeg, .png and .webp formats are supported."
      ),
+     
  });
 
  export const motorbikeSchema = z.object({
@@ -140,6 +141,8 @@ export const carShowSchema = z.object({
       return files?.[0]?.size <= MAX_FILE_SIZE;
     }, `Max image size is 5MB.`)
     .refine((files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type)),
+    announce: z.string().min(1, { message: "Announce is required" }),
+    motors: z.string().min(1, { message: "Motors is required" }),
 });
 
 export const motorbikeShowSchema = z.object({
@@ -157,6 +160,7 @@ export const motorbikeShowSchema = z.object({
   color: z.string().min(1, { message: "Color is required" }),
   description: z.string().min(1, { message: "Description is required" }),
   cylinder: z.string().min(1, { message: "Cylinder is required" }),
+  fairing: z.string().min(1, { message: "Fairing is required" }),
   images: z
     .any()
     .refine((files) => {

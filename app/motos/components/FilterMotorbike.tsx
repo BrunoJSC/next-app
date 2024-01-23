@@ -18,6 +18,8 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [color, setColor] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [cylinder, setCylinder] = useState<string>("");
+  const [startYear, setStartYear] = useState<string>("");
+  const [endYear, setEndYear] = useState<string>("");
   const [data, setData] = useState<IMotorbike[]>([]);
 
   const handleFilterChange = (e: React.FormEvent) => {
@@ -32,6 +34,8 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
           .includes(filterModelCar.toLowerCase()) &&
         motorbike.fuel?.toLowerCase().includes(filterFuel.toLowerCase()) &&
         motorbike.yearFabrication?.toString().includes(filterYear) &&
+        motorbike.yearFabrication.toString() >= startYear &&
+        motorbike.yearFabrication.toString() <= endYear &&
         motorbike.color?.toLowerCase().includes(color.toLowerCase()) &&
         motorbike.location?.toLowerCase().includes(location.toLowerCase()) &&
         motorbike.cylinder?.toLowerCase().includes(cylinder.toLowerCase())
@@ -98,13 +102,37 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         </div>
       </div>
 
-      <Input
-        type="text"
-        placeholder="Ano"
-        value={filterYear}
-        onChange={(e) => setFilterYear(e.target.value)}
-        className="bg-white"
-      />
+      <div className="flex space-x-2 gap-2">
+        <Input
+          type="text"
+          placeholder="Ano Inicial"
+          value={startYear}
+          onChange={(e) => setStartYear(e.target.value)}
+          className="bg-white"
+          maxLength={4}
+          pattern="[0-9]*"
+          inputMode="numeric"
+          autoComplete="off"
+          spellCheck="false"
+          autoCorrect="off"
+          autoCapitalize="off"
+        />
+
+        <Input
+          type="text"
+          placeholder="Ano Final"
+          value={endYear}
+          onChange={(e) => setEndYear(e.target.value)}
+          className="bg-white"
+          maxLength={4}
+          pattern="[0-9]*"
+          inputMode="numeric"
+          autoComplete="off"
+          spellCheck="false"
+          autoCorrect="off"
+          autoCapitalize="off"
+        />
+      </div>
 
       <Input
         type="text"

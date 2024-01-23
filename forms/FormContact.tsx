@@ -30,7 +30,7 @@ export function FormContact() {
 
   const handleSubmit = async (data: z.infer<typeof contactSchema>) => {
     await addDoc(collection(db, "contact"), {
-      id: Date().toString(),
+      id: Math.random().toString(),
       name: data.name,
       email: data.email,
       message: data.message,

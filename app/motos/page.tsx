@@ -25,9 +25,9 @@ export default function Page() {
   return (
     <main className="max-w-7xl mx-auto min-h-screen p-4 mb-72">
       <div className="flex flex-col md:flex-row gap-4">
-        <Card className="w-full md:w-[300px] h-[300px] md:h-[456px] bg-primary rounded-md p-4 mb-4 md:mb-0">
+        <Card className="w-full md:w-[300px] h-[500px] md:h-[556px] bg-primary rounded-md p-4 mb-4 md:mb-0">
           <h1 className="text-3xl font-bold text-white mb-4">Filtros</h1>
-          {/* <Filters db={db} collectionCar="motorbikes" /> */}
+
           <FilterMotorbike onFilterChange={setData} />
         </Card>
 

@@ -81,7 +81,7 @@ export function FormMotorbike() {
     try {
       setLoading(true);
       await addDoc(collection(db, "formMotorbike"), {
-        id: Date().toString(),
+        id: Math.random().toString(),
         name: data.name,
         email: data.email,
         fip: data.fip,
@@ -151,33 +151,14 @@ export function FormMotorbike() {
 
           <FormField
             control={form.control}
-            name="fip"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>FIP</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite o FIP para o modelo de carro"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Telefone</FormLabel>
+                <FormLabel>Celular</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite seu número de telefone"
+                    placeholder="Digite neste formato (11) 99999-9999"
                     {...field}
                   />
                 </FormControl>
@@ -196,7 +177,7 @@ export function FormMotorbike() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite sua localização"
+                    placeholder="Digite a localização"
                     {...field}
                   />
                 </FormControl>
@@ -215,7 +196,7 @@ export function FormMotorbike() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite o modelo da moto"
+                    placeholder="Digite a marca da moto"
                     {...field}
                   />
                 </FormControl>
@@ -253,14 +234,10 @@ export function FormMotorbike() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite sim ou não"
+                    placeholder="Digite se a moto já foi modificada sim ou não"
                     {...field}
                   />
                 </FormControl>
-
-                <FormDescription>
-                  Informe se o carros já modificado
-                </FormDescription>
 
                 <FormMessage />
               </FormItem>
@@ -295,7 +272,7 @@ export function FormMotorbike() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite se o veiculo é de leilão ou não"
+                    placeholder="Digite se a moto é de leilão ou não"
                     {...field}
                   />
                 </FormControl>
@@ -314,7 +291,7 @@ export function FormMotorbike() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite sua data de fabricação"
+                    placeholder="Digite a data de fabricação"
                     {...field}
                   />
                 </FormControl>
@@ -333,7 +310,7 @@ export function FormMotorbike() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite sua data de modificação"
+                    placeholder="Digite a data de modificação"
                     {...field}
                   />
                 </FormControl>
@@ -352,7 +329,7 @@ export function FormMotorbike() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite a cor do veiculo"
+                    placeholder="Digite a cor da moto"
                     {...field}
                   />
                 </FormControl>
@@ -367,11 +344,11 @@ export function FormMotorbike() {
             name="km"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Km</FormLabel>
+                <FormLabel>KM</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite a quilometragem do veiculo"
+                    placeholder="Digite a quilometragem da moto"
                     {...field}
                   />
                 </FormControl>
@@ -390,7 +367,59 @@ export function FormMotorbike() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite o combustível do veiculo"
+                    placeholder="Digite o tipo de combustível da moto"
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="fairing"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Carenagem</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Digite o estado da carenagem. boa, media ou ruim"
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="cylinder"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cilindradas</FormLabel>
+                <FormControl>
+                  <Input placeholder="Digite a cilindrada da moto" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="fip"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>FIP</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Digite a FIP da moto"
                     {...field}
                   />
                 </FormControl>
@@ -409,7 +438,7 @@ export function FormMotorbike() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite o preço do veiculo"
+                    placeholder="Digite o preço da moto"
                     {...field}
                   />
                 </FormControl>
@@ -426,43 +455,7 @@ export function FormMotorbike() {
               <FormItem>
                 <FormLabel>Descrição</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Digite a descrição da moto"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="fairing"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Carenagem</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite a descrição da moto" {...field} />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="cylinder"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cilindradas</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Digite se está boa, media, ruim"
-                    {...field}
-                  />
+                  <Textarea className="h-[300px]" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -493,7 +486,11 @@ export function FormMotorbike() {
                       multiple
                     />
                   </label>
-                  <p className="pl-1">or drag and drop</p>
+                  <p className="pl-1">
+                    Ao tirar a foto do veículo siga as seguintes orientações:
+                    Frente, Traseira, Lateral Esquerda, Lateral Direita Fotos
+                    precisaram pegar o ângulo do carro inteiro
+                  </p>
                 </div>
                 <p className="text-xs leading-5 text-gray-600">
                   PNG, JPG, GIF up to 10MB

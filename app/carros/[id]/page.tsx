@@ -158,7 +158,7 @@ export default function Page({
                 <h2 className="text-2xl font-bold text-primary">
                   Entre em contato com o Vendedor!
                 </h2>
-                <p className="text-white">Coloque seus dados*</p>
+                <p className="text-white">veja condições de financiamento.</p>
               </div>
 
               <div className="grid grid-cols-1 gap-2">
@@ -217,7 +217,6 @@ export default function Page({
               <Link
                 className={buttonVariants({
                   className: "w-full mt-4",
-                  variant: "secondary",
                 })}
                 type="submit"
                 href="https://wa.me/5511940723891"

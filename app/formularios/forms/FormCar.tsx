@@ -3,12 +3,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+ 
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,11 +15,9 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { CameraIcon } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
-import Select from "react-select";
 
 import { z } from "zod";
 import { accessories } from "@/constants";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
 export function FormCar() {
@@ -92,7 +85,7 @@ export function FormCar() {
     try {
       setLoading(true);
       await addDoc(collection(db, "formCar"), {
-        id: Date().toString(),
+        id: Math.random().toString(),
         name: data.name,
         email: data.email,
         fip: data.fip,
@@ -113,6 +106,7 @@ export function FormCar() {
         accessories: data.accessories,
         price: data.price,
         description: data.description,
+        condition: data.condition,
         images: await handleUpload(),
       });
 
@@ -150,22 +144,13 @@ export function FormCar() {
                 className="mt-2"
               />
             </div>
-
-            <div className="mt-3">
-              <Label htmlFor="fip">Fip</Label>
-              <Input
-                {...form.register("fip")}
-                placeholder="Fip"
-                className="mt-2"
-              />
-            </div>
           </div>
 
           <div className="mt-3">
             <Label htmlFor="phone">Celular</Label>
             <Input
               {...form.register("phone")}
-              placeholder="Digite seu número de celular"
+              placeholder="Digite neste formato (11) 99999-9999"
               className="mt-2"
             />
           </div>
@@ -193,7 +178,7 @@ export function FormCar() {
             <Input
               {...form.register("modelCar")}
               className="mt-2"
-              placeholder="modelo do veículo"
+              placeholder="Modelo do veículo"
             />
           </div>
 
@@ -297,12 +282,12 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="km">Km</Label>
+            <Label htmlFor="km">KM</Label>
 
             <Input
               {...form.register("km")}
               className="mt-2"
-              placeholder="Quantidade de km rodados"
+              placeholder="Quantidade de KM rodados"
             />
           </div>
 
@@ -312,7 +297,7 @@ export function FormCar() {
             <Input
               {...form.register("motors")}
               className="mt-2"
-              placeholder="Potencia do motor"
+              placeholder="Potência do motor"
             />
           </div>
 
@@ -327,6 +312,16 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
+            <Label htmlFor="exchange">Câmbio</Label>
+
+            <Input
+              {...form.register("exchange")}
+              className="mt-2"
+              placeholder="Tipo de cambio do veiculo"
+            />
+          </div>
+
+          <div className="mt-3">
             <Label htmlFor="documents">Documentos</Label>
 
             <Input
@@ -337,12 +332,11 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="exchange">Câmbio</Label>
-
+            <Label htmlFor="fip">FIP</Label>
             <Input
-              {...form.register("exchange")}
+              {...form.register("fip")}
+              placeholder="FIP"
               className="mt-2"
-              placeholder="Tipo de cambio do veiculo"
             />
           </div>
 
@@ -374,13 +368,8 @@ export function FormCar() {
           <div className="mt-3">
             <Label htmlFor="description">Descriçao</Label>
 
-            <Textarea
-              {...form.register("description")}
-              className="mt-2 h-52"
-              placeholder="Se o veiculo tem mutas ou restrições"
-            />
+            <Textarea {...form.register("description")} className="mt-2 h-52" />
           </div>
-
           <div className="col-span-full">
             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
               <div className="text-center">
@@ -404,7 +393,11 @@ export function FormCar() {
                       multiple
                     />
                   </label>
-                  <p className="pl-1">or drag and drop</p>
+                  <p className="pl-1">
+                    Ao tirar a foto do veículo siga as seguintes orientações:
+                    Frente, Traseira, Lateral Esquerda, Lateral Direita Fotos
+                    precisaram pegar o ângulo do carro inteiro
+                  </p>
                 </div>
                 <p className="text-xs leading-5 text-gray-600">
                   PNG, JPG, GIF up to 10MB

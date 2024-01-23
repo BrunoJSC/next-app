@@ -27,15 +27,17 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
     const filteredData = data.filter((car) => {
       return (
-        car.brandCar.toLowerCase().includes(filterBrand.toLowerCase()) &&
-        car.modelCar.toLowerCase().includes(filterModelCar.toLowerCase()) &&
-        car.fuel.toLowerCase().includes(filterFuel.toLowerCase()) &&
-        car.yearFabrication.toLowerCase().includes(filterYear.toLowerCase()) &&
-        car.yearFabrication >= startYear &&
-        car.yearFabrication <= endYear &&
-        car.color.toLowerCase().includes(color.toLowerCase()) &&
-        car.location.toLowerCase().includes(location.toLowerCase()) &&
-        car.exchange.toLowerCase().includes(exchange.toLowerCase())
+        car.brandCar.toLowerCase().includes(filterBrand.toLowerCase()) ||
+        (!filterBrand &&
+          car.modelCar.toLowerCase().includes(filterModelCar.toLowerCase())) ||
+        (!filterModelCar &&
+          car.fuel.toLowerCase().includes(filterFuel.toLowerCase()) &&
+          car.yearFabrication.toString().includes(filterYear) &&
+          car.yearFabrication.toString() >= startYear &&
+          car.yearFabrication.toString() <= endYear &&
+          car.color.toLowerCase().includes(color.toLowerCase()) &&
+          car.location.toLowerCase().includes(location.toLowerCase()) &&
+          car.exchange.toLowerCase().includes(exchange.toLowerCase()))
       );
     });
 
@@ -87,6 +89,8 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
             <option>Alcool</option>
             <option>Disel</option>
             <option>Etanol</option>
+            <option>Flex</option>
+            <option>Hibrido</option>
           </select>
 
           <div className="absolute top-1/2 end-3 -translate-y-1/2">

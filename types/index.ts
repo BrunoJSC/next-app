@@ -28,7 +28,8 @@ export interface ICar {
   price: string;
   exchange: string;
   description: string;
-
+  condition: string;
+  motors: string;
   images: string[];
 }
 

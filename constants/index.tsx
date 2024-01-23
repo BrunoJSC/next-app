@@ -149,10 +149,10 @@ export const finances = [
 ];
 
 export const accessories = [
-  { label: "Ar condicionado", value: "Ar condicionado" },
-  { label: "Direção hidráulica", value: "Direção hidráulica" },
-  { label: "Trava elétrica", value: "Trava elétrica" },
-  { label: "vidro eletrico", value: "vidro eletrico" },
+  { label: "Ar condicionado", value: "ar condicionado" },
+  { label: "Direção hidráulica", value: "direção hidráulica" },
+  { label: "Trava elétrica", value: "trava eletrica" },
+  { label: "Vidro Elétrico", value: "vidro eletrico" },
   { label: "Teto solar", value: "teto solar" },
   { label: "Som", value: "som" },
   { label: "Multimidia", value: "multimidia" },
