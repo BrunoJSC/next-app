@@ -53,7 +53,7 @@ const data = [
   },
   {
     link: "https://www.google.com.br/maps/place/Grupo+Edificar+Veiculos+-+Matriz+Digital/@-23.6816052,-46.6106113,14.17z/...",
-    image: "/diadema-2.jpg",
+    image: "/diadema2.jpg",
     address: "Av. Presidente Kennedy 175 - Diadema SP.",
     phone: "(11)4055-2424",
   },

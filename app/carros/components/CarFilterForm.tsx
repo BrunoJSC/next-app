@@ -1,11 +1,19 @@
-// components/Filters.tsx
-import { useEffect, useState, useCallback } from "react";
-import { ICar } from "@/types";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "@/firebase";
-import { Input } from "@/components/ui/input";
+// ... (importações e definição de interface)
+
 import { Button } from "@/components/ui/button";
-import { getDocs } from "firebase/firestore";
+import { Input } from "@/components/ui/input";
+import { db } from "@/firebase";
+import { ICar } from "@/types";
+import {
+  CollectionReference,
+  DocumentData,
+  Query,
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { useCallback, useEffect, useState } from "react";
 
 interface FiltersProps {
   onFilterChange: (filteredData: ICar[]) => void;
@@ -18,29 +26,43 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterYear, setFilterYear] = useState<string>("");
   const [data, setData] = useState<ICar[]>([]);
 
-  const handleFilterChange = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const fetchFilteredCars = async () => {
+    try {
+      let carCollection: CollectionReference<DocumentData> = collection(
+        db,
+        "cars"
+      );
 
-    const carsCollection = collection(db, "cars");
-    const carsQuery = query(
-      carsCollection,
-      where("brandCar", "==", filterBrand),
-      where("modelCar", "==", filterModelCar),
-      where("fuel", "==", filterFuel),
-      where("yearFabrication", ">=", filterYear)
-    );
+      // Construindo a query com base nos filtros
+      let q: Query<DocumentData> = query(carCollection);
 
-    const querySnapshot = await getDocs(carsQuery);
-    const filteredData = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as ICar[];
+      if (filterBrand) {
+        q = query(q, where("brandCar", "==", filterBrand));
+      }
 
-    onFilterChange(filteredData);
+      if (filterModelCar) {
+        q = query(q, where("modelCar", "==", filterModelCar));
+      }
+
+      // Adicione mais condições conforme necessário para outros filtros
+
+      const querySnapshot = await getDocs(q);
+
+      const filteredData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as ICar[];
+
+      onFilterChange(filteredData);
+    } catch (error) {
+      console.error("Erro ao buscar carros filtrados:", error);
+    }
   };
 
   const resetFilter = useCallback(() => {
     setFilterBrand("");
+    setFilterModelCar("");
+    // Adicione mais lógica para resetar outros filtros conforme necessário
   }, []);
 
   useEffect(() => {
@@ -58,7 +80,7 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
   return (
     <>
-      <form onSubmit={handleFilterChange} className="flex flex-col space-y-2">
+      <div className="flex flex-col space-y-2">
         <label>
           Filtrar por marca
           <Input
@@ -99,10 +121,14 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
           />
         </label>
 
-        <Button type="submit" className="w-full">
-          Filtrar
+        <Button type="button" onClick={fetchFilteredCars} className="w-full">
+          Pesquisar
         </Button>
-      </form>
+
+        <Button type="button" onClick={resetFilter} className="w-full mt-2">
+          Resetar Filtros
+        </Button>
+      </div>
     </>
   );
 };
