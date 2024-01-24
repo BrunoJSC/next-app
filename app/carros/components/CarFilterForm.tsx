@@ -2,6 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  brandCar,
+  fuelCar,
+  doors,
+  carColors,
+  locations,
+} from "@/constants/filterCar";
+
 import { db } from "@/firebase";
 import { ICar } from "@/types";
 import {
@@ -24,7 +33,12 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterFuel, setFilterFuel] = useState<string>("");
   const [filterModelCar, setFilterModelCar] = useState<string>("");
   const [filterYear, setFilterYear] = useState<string>("");
+  const [filterDoors, setFilterDoors] = useState<string>("");
   const [data, setData] = useState<ICar[]>([]);
+  const [startYear, setStartYear] = useState<string>("");
+  const [endYear, setEndYear] = useState<string>("");
+  const [filterColor, setFilterColor] = useState<string>("");
+  const [filterLocation, setFilterLocation] = useState<string>("");
 
   const fetchFilteredCars = async () => {
     try {
@@ -44,7 +58,37 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("modelCar", "==", filterModelCar));
       }
 
-      // Adicione mais condições conforme necessário para outros filtros
+      if (filterFuel) {
+        q = query(q, where("fuel", "==", filterFuel));
+      }
+
+      if (filterDoors) {
+        q = query(q, where("doors", "==", filterDoors));
+      }
+
+      if (filterYear) {
+        q = query(q, where("yearFabrication", "==", filterYear));
+      }
+
+      if (filterYear) {
+        q = query(q, where("yearFabrication", "==", filterYear));
+      }
+
+      if (startYear) {
+        q = query(q, where("yearFabrication", ">=", startYear));
+      }
+
+      if (endYear) {
+        q = query(q, where("yearFabrication", "<=", endYear));
+      }
+
+      if (filterColor) {
+        q = query(q, where("color", "==", filterColor));
+      }
+
+      if (filterLocation) {
+        q = query(q, where("location", "==", filterLocation));
+      }
 
       const querySnapshot = await getDocs(q);
 
@@ -81,47 +125,201 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   return (
     <>
       <div className="flex flex-col space-y-2">
-        <label>
-          Filtrar por marca
-          <Input
-            type="text"
-            placeholder="Marca"
-            value={filterBrand}
-            onChange={(e) => setFilterBrand(e.target.value)}
-          />
-        </label>
+        <Label htmlFor="brandCar" className="text-sm font-medium mb-3">
+          Marca
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={(e) => setFilterBrand(e.target.value)}
+            >
+              <option value="">Selecionar modelo de carro</option>
+              {brandCar.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
 
-        <label>
-          Filtrar por modelo
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
+        </Label>
+
+        <Label htmlFor="modelCar" className="text-sm font-medium mb-3">
+          Modelo
           <Input
             type="text"
             placeholder="Modelo"
             value={filterModelCar}
             onChange={(e) => setFilterModelCar(e.target.value)}
+            className="w-full bg-white "
           />
+        </Label>
+
+        <label>
+          Tipo de combustível
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={(e) => setFilterFuel(e.target.value)}
+            >
+              <option value="">Selecionar tipo de combustível do carro</option>
+              {fuelCar.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
+        </label>
+
+        <div>
+          <Label htmlFor="doors" className="text-sm font-medium">
+            Tipo de combustível
+          </Label>
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={(e) => setFilterDoors(e.target.value)}
+            >
+              <option value="">Portas</option>
+              {doors.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <Label className="text-sm font-medium mb-3">Ano incial</Label>
+            <Input
+              type="text"
+              placeholder="Ano Inicial"
+              value={startYear}
+              onChange={(e) => setStartYear(e.target.value)}
+              className="w-full bg-white"
+            />
+          </div>
+
+          <div>
+            <Label className="text-sm font-medium mb-5">Ano Final</Label>
+            <Input
+              type="text"
+              placeholder="Ano Final"
+              value={endYear}
+              onChange={(e) => setEndYear(e.target.value)}
+              className="w-full bg-white"
+            />
+          </div>
+        </div>
+
+        <label>
+          Cor
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={(e) => setFilterColor(e.target.value)}
+            >
+              <option value="">Cor do carro</option>
+              {carColors.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
         </label>
 
         <label>
-          Filtrar por combustível
-          <Input
-            type="text"
-            placeholder="Combustível"
-            value={filterFuel}
-            onChange={(e) => setFilterFuel(e.target.value)}
-          />
+          Localização
+          <select
+            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            onChange={(e) => setFilterLocation(e.target.value)}
+          >
+            <option value="">Localização do carro</option>
+            {locations.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div className="absolute top-1/2 end-3 -translate-y-1/2">
+            <svg
+              className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="m7 15 5 5 5-5" />
+              <path d="m7 9 5-5 5 5" />
+            </svg>
+          </div>
         </label>
 
-        <label>
-          Filtrar por ano de fabricação
-          <Input
-            type="text"
-            placeholder="Ano"
-            value={filterYear}
-            onChange={(e) => setFilterYear(e.target.value)}
-          />
-        </label>
-
-        <Button type="button" onClick={fetchFilteredCars} className="w-full">
+        <Button
+          type="button"
+          onClick={fetchFilteredCars}
+          className="w-full"
+          variant={"secondary"}
+        >
           Pesquisar
         </Button>
 
