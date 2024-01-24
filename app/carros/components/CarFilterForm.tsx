@@ -1,10 +1,11 @@
 // components/Filters.tsx
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ICar } from "@/types";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { getDocs } from "firebase/firestore";
 
 interface FiltersProps {
   onFilterChange: (filteredData: ICar[]) => void;
@@ -14,32 +15,26 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterBrand, setFilterBrand] = useState<string>("");
   const [filterFuel, setFilterFuel] = useState<string>("");
   const [filterModelCar, setFilterModelCar] = useState<string>("");
-  const [startYear, setStartYear] = useState<string>("");
-  const [endYear, setEndYear] = useState<string>("");
   const [filterYear, setFilterYear] = useState<string>("");
-  const [color, setColor] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
-  const [exchange, setExchange] = useState<string>("");
   const [data, setData] = useState<ICar[]>([]);
 
-  const handleFilterChange = (e: React.FormEvent) => {
+  const handleFilterChange = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const filteredData = data.filter((car) => {
-      return (
-        car.brandCar.toLowerCase().includes(filterBrand.toLowerCase()) ||
-        (!filterBrand &&
-          car.modelCar.toLowerCase().includes(filterModelCar.toLowerCase())) ||
-        (!filterModelCar &&
-          car.fuel.toLowerCase().includes(filterFuel.toLowerCase()) &&
-          car.yearFabrication.toString().includes(filterYear) &&
-          car.yearFabrication.toString() >= startYear &&
-          car.yearFabrication.toString() <= endYear &&
-          car.color.toLowerCase().includes(color.toLowerCase()) &&
-          car.location.toLowerCase().includes(location.toLowerCase()) &&
-          car.exchange.toLowerCase().includes(exchange.toLowerCase()))
-      );
-    });
+    const carsCollection = collection(db, "cars");
+    const carsQuery = query(
+      carsCollection,
+      where("brandCar", "==", filterBrand),
+      where("modelCar", "==", filterModelCar),
+      where("fuel", "==", filterFuel),
+      where("yearFabrication", ">=", filterYear)
+    );
+
+    const querySnapshot = await getDocs(carsQuery);
+    const filteredData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as ICar[];
 
     onFilterChange(filteredData);
   };
@@ -49,142 +44,63 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, "cars"));
+      const carData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       })) as ICar[];
-      setData(data);
-    });
+      setData(carData);
+    };
 
-    return () => unsubscribe();
+    fetchData();
   }, []);
 
   return (
     <>
       <form onSubmit={handleFilterChange} className="flex flex-col space-y-2">
-        <Input
-          type="text"
-          placeholder="Marca"
-          value={filterBrand}
-          onChange={(e) => setFilterBrand(e.target.value)}
-          className="bg-white"
-        />
+        <label>
+          Filtrar por marca
+          <Input
+            type="text"
+            placeholder="Marca"
+            value={filterBrand}
+            onChange={(e) => setFilterBrand(e.target.value)}
+          />
+        </label>
 
-        <Input
-          type="text"
-          placeholder="Modelo"
-          value={filterModelCar}
-          onChange={(e) => setFilterModelCar(e.target.value)}
-          className="bg-white"
-        />
+        <label>
+          Filtrar por modelo
+          <Input
+            type="text"
+            placeholder="Modelo"
+            value={filterModelCar}
+            onChange={(e) => setFilterModelCar(e.target.value)}
+          />
+        </label>
 
-        <div className="relative">
-          <select
-            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        <label>
+          Filtrar por combustível
+          <Input
+            type="text"
+            placeholder="Combustível"
+            value={filterFuel}
             onChange={(e) => setFilterFuel(e.target.value)}
-          >
-            <option value="">combustível</option>
-            <option>Gasolina</option>
-            <option>Alcool</option>
-            <option>Disel</option>
-            <option>Etanol</option>
-            <option>Flex</option>
-            <option>Hibrido</option>
-          </select>
+          />
+        </label>
 
-          <div className="absolute top-1/2 end-3 -translate-y-1/2">
-            <svg
-              className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path d="m7 15 5 5 5-5" />
-              <path d="m7 9 5-5 5 5" />
-            </svg>
-          </div>
-        </div>
+        <label>
+          Filtrar por ano de fabricação
+          <Input
+            type="text"
+            placeholder="Ano"
+            value={filterYear}
+            onChange={(e) => setFilterYear(e.target.value)}
+          />
+        </label>
 
-        <Input
-          type="text"
-          placeholder="Ano Inicial"
-          value={startYear}
-          onChange={(e) => setStartYear(e.target.value)}
-          className="bg-white"
-          maxLength={4}
-          pattern="[0-9]*"
-          inputMode="numeric"
-          autoComplete="off"
-          spellCheck="false"
-          autoCorrect="off"
-          autoCapitalize="off"
-        />
-
-        <Input
-          type="text"
-          placeholder="Ano Final"
-          value={endYear}
-          onChange={(e) => setEndYear(e.target.value)}
-          className="bg-white"
-          maxLength={4}
-          pattern="[0-9]*"
-          inputMode="numeric"
-          autoComplete="off"
-          spellCheck="false"
-          autoCorrect="off"
-          autoCapitalize="off"
-        />
-
-        <Input
-          type="text"
-          placeholder="Cor"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-          className="bg-white"
-        />
-
-        <Input
-          type="text"
-          placeholder="Cidade"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="bg-white"
-        />
-
-        <div className="relative">
-          <select
-            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            onChange={(e) => setExchange(e.target.value)}
-          >
-            <option value="">Tipo de cambio</option>
-            <option>Manual</option>
-            <option>Automatico</option>
-            <option>CVT</option>
-            <option>Eletrico</option>
-          </select>
-
-          <div className="absolute top-1/2 end-3 -translate-y-1/2">
-            <svg
-              className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path d="m7 15 5 5 5-5" />
-              <path d="m7 9 5-5 5 5" />
-            </svg>
-          </div>
-        </div>
-
-        <Button type="submit" className="w-full" variant="outline">
-          Pesquisar
+        <Button type="submit" className="w-full">
+          Filtrar
         </Button>
       </form>
     </>
