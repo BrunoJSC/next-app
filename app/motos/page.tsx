@@ -51,8 +51,8 @@ export default function Page() {
               }}
               key={motorbike.id}
             >
-              <div className="w-ful h-56 bg-white rounded-md flex shadow-md">
-                <div className="w-[350px] h-full">
+              <div className="w-ful md:h-56 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row">
+                <div className="md:w-[350px] h-full w-full">
                   <Image
                     src={motorbike.images[0]}
                     width={200}

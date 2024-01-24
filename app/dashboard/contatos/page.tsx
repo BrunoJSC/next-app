@@ -42,10 +42,14 @@ export default function ListContact() {
         {data?.map((item) => (
           <Card key={item.id} className="w-full">
             <CardHeader>
-              <CardTitle>{item.name}</CardTitle>
-              <CardDescription>{item.email}</CardDescription>
+              <CardTitle>Nome: {item.name}</CardTitle>
+              <CardDescription>Email: {item.email}</CardDescription>
+              <CardDescription>Celular: {item.phone}</CardDescription>
+              <CardDescription>CPF: {item.cpf}</CardDescription>
             </CardHeader>
-            <CardContent>{item.message}</CardContent>
+            <CardContent>
+              <p>Mensagem: {item.message}</p>
+            </CardContent>
           </Card>
         ))}
       </div>

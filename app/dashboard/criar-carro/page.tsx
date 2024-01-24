@@ -63,7 +63,7 @@ export default function Page() {
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
         {carData.map((car: ICar) => (
-          <div key={car.id}>
+          <Card key={car.id}>
             <div className="w-full h-[300px]">
               <Image
                 src={car.images[0]}
@@ -73,22 +73,14 @@ export default function Page() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <h1>{car.id}</h1>
 
             <div className="w-full p-4">
               <h1 className="text-2xl font-bold text-black font-poppins">
-                {car.brandCar} {car.modelCar}
+                {car.brandCar}{" "}
+                <span className="text-primary">{car.modelCar}</span>
               </h1>
             </div>
-
-            <div className="w-full p-4 flex items-center justify-between">
-              <Button variant="outline">Editar</Button>
-
-              <Button variant="destructive" onClick={() => deleteCar(car.id)}>
-                Excluir
-              </Button>
-            </div>
-          </div>
+          </Card>
         ))}
       </div>
     </section>

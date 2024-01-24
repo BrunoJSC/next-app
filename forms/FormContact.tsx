@@ -1,124 +1,161 @@
-// components/Filters.tsx
-import { useEffect, useState } from "react";
-import { ICar } from "@/types";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "@/firebase";
+"use client";
+
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { db } from "@/firebase";
+import { contactSchema } from "@/validation/schemas";
+import { addDoc, collection } from "firebase/firestore";
+import { MessageSquare } from "lucide-react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-interface FiltersProps {
-  onFilterChange: (filteredData: ICar[]) => void;
-}
+export function FormContact() {
+  const form = useForm<z.infer<typeof contactSchema>>({
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
 
-const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
-  const [filterBrand, setFilterBrand] = useState<string>("");
-  const [filterFuel, setFilterFuel] = useState<string>("");
-  const [filterModelCar, setFilterModelCar] = useState<string>("");
-  const [startYear, setStartYear] = useState<string>("");
-  const [endYear, setEndYear] = useState<string>("");
-  const [color, setColor] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
-  const [exchange, setExchange] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const handleFilterChange = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    setLoading(true);
-
-    const carsCollection = collection(db, "cars");
-    const carsQuery = query(
-      carsCollection,
-      where("brandCar", "==", filterBrand),
-      where("modelCar", "==", filterModelCar),
-      where("fuel", "==", filterFuel),
-      where("yearFabrication", ">=", startYear),
-      where("yearFabrication", "<=", endYear),
-      where("color", "==", color),
-      where("location", "==", location),
-      where("exchange", "==", exchange)
-    );
-
-    const querySnapshot = await onSnapshot(carsQuery, (snapshot) => {
-      const filteredData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as ICar[];
-
-      onFilterChange(filteredData);
-      setLoading(false);
+  const handleSubmit = async (data: z.infer<typeof contactSchema>) => {
+    await addDoc(collection(db, "contact"), {
+      id: Math.random().toString(),
+      name: data.name,
+      email: data.email,
+      message: data.message,
     });
+
+    form.reset();
+    console.log(data);
   };
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as ICar[];
-      onFilterChange(data);
-    });
-
-    return () => unsubscribe();
-  }, []); // Executa somente na montagem do componente
-
   return (
-    <>
-      <form onSubmit={handleFilterChange} className="flex flex-col space-y-2">
-        <Input
-          type="text"
-          placeholder="Filtrar por marca"
-          value={filterBrand}
-          onChange={(e) => setFilterBrand(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Filtrar por modelo"
-          value={filterModelCar}
-          onChange={(e) => setFilterModelCar(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Filtrar por combustível"
-          value={filterFuel}
-          onChange={(e) => setFilterFuel(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Filtrar por ano de fabricação"
-          value={startYear}
-          onChange={(e) => setStartYear(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Até o ano"
-          value={endYear}
-          onChange={(e) => setEndYear(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Filtrar por cor"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Filtrar por localização"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Filtrar por tipo de câmbio"
-          value={exchange}
-          onChange={(e) => setExchange(e.target.value)}
-        />
-        <Button type="submit" className="w-full" disabled={loading}>
-          Filtrar
-        </Button>
-      </form>
-    </>
-  );
-};
+    <section className="w-full">
+      <div className="w-full max-w-screen-xl mx-auto mt-5">
+        <h1 className="md:text-[52px] text-3xl font-bold text-center md:text-left leading-relaxed">
+          Queremos fazer parte da sua história!
+        </h1>
 
-export default CarFilterForm;
+        <div className="flex flex-col md:flex-row md:justify-between  p-4">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="md:w-[466px] md:p-0 p-4 md:mt-16 space-y-8"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-black text-[32px] font-bold">
+                      Nome
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="Digite seu nome" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-black text-[32px] font-bold">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="Digite seu email" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-black text-[32px] font-bold">
+                      Mensagem
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="h-52"
+                        placeholder="Escreva sua mensagem"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                className="w-full mt-4"
+                type="submit"
+                disabled={form.formState.isSubmitting}
+              >
+                Enviar
+              </Button>
+            </form>
+          </Form>
+
+          <div className="w-full md:w-[466px] md:p-0 p-4 md:mt-8 space-y-8 md:flex md:flex-col justify-between  md:ml-10">
+            <div className="md:w-full md:max-w-[266px] md:p-0 p-4 space-y-8 flex flex-col">
+              <h2 className="text-black text-[32px] font-bold">Duvidas?</h2>
+              <p>
+                Chame no WhatsApp através do botão abaixo para ser atendido por
+                um de nossos especialistas!
+              </p>
+
+              <Link
+                className={buttonVariants({
+                  className: "w-full mt-4",
+                })}
+                type="submit"
+                href="https://wa.me/5511940723891"
+              >
+                <MessageSquare className="mr-5" />
+                Chamar no WhatsApp
+              </Link>
+            </div>
+
+            <div>
+              <h2 className="text-black text-[32px] font-bold">Contato</h2>
+
+              <p>(11) 3456-3427</p>
+              <p>(11) 94072-3891</p>
+              <p>autonegocie@gmail.com</p>
+            </div>
+
+            <div>
+              <h2 className="text-black text-[32px] font-bold">Rede Social</h2>
+
+              <p>Instagram</p>
+              <p>Facebook</p>
+              <p>Twitter</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

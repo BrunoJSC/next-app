@@ -72,22 +72,9 @@ export default function Page() {
 
             <div className="w-full p-4">
               <h1 className="text-2xl font-bold text-black font-poppins">
-                {motorbike.motorbikeBrand} {motorbike.motorbikeModel}
+                {motorbike.motorbikeBrand}{" "}
+                <span className="text-primary">{motorbike.motorbikeModel}</span>
               </h1>
-            </div>
-
-            <div className="w-full p-4 flex items-center justify-between">
-              <Button variant="outline">Editar</Button>
-
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  deleteMotorbike(motorbike.id);
-                  console.log(motorbike.id);
-                }}
-              >
-                Excluir
-              </Button>
             </div>
           </Card>
         ))}
