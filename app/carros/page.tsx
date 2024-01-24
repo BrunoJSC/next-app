@@ -11,6 +11,7 @@ import CarFilterForm from "./components/CarFilterForm";
 
 export default function Cars() {
   const [data, setData] = useState<ICar[]>([]);
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
@@ -24,11 +25,28 @@ export default function Cars() {
     return () => unsubscribe();
   }, []);
 
+  const toggleFilterVisibility = () => {
+    setIsFilterVisible((prev) => !prev);
+  };
+
   return (
     <div>
       <main className="max-w-7xl mx-auto min-h-screen p-4 mb-72">
         <div className="flex flex-col md:flex-row gap-4">
-          <Card className="w-full md:w-[300px] h- md:h-[756px] bg-primary rounded-md p-4 mb-4 md:mb-0">
+          <div className="md:hidden">
+            <button
+              className="bg-primary text-white px-4 py-2 rounded-md"
+              onClick={toggleFilterVisibility}
+            >
+              {isFilterVisible ? "Fechar Filtros" : "Abrir Filtros"}
+            </button>
+          </div>
+
+          <Card
+            className={`w-full md:w-[300px] h- md:h-[756px] bg-primary rounded-md p-4 mb-4 md:mb-0 ${
+              isFilterVisible ? "block" : "hidden md:block"
+            }`}
+          >
             <h1 className="text-3xl font-bold text-white mb-4">Filtros</h1>
 
             <CarFilterForm onFilterChange={setData} />
