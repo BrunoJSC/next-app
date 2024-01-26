@@ -132,12 +132,12 @@ export const bodyType = [
 
 
 export const accessories = [
-  { label: "Ar condicionado", value: "Ar condicionado" },
-  { label: "Direção hidráulica", value: "Direção hidráulica" },
-  { label: "Trava elétrica", value: "Trava eletrica" },
-  { label: "Vidro Elétrico", value: "Vidro eletrico" },
-  { label: "Teto solar", value: "Teto solar" },
-  { label: "Som", value: "Som" },
-  { label: "Multimidia", value: "Multimidia" },
-  { label: "Blindado", value: "Blindado" },
+  { label: "ar condicionado", value: "ar condicionado" },
+  { label: "direção hidráulica", value: "direção hidráulica" },
+  { label: "trava elétrica", value: "trava eletrica" },
+  { label: "vidro Elétrico", value: "vidro eletrico" },
+  { label: "teto solar", value: "teto solar" },
+  { label: "som", value: "Som" },
+  { label: "multimidia", value: "multimidia" },
+  { label: "blindado", value: "blindado" },
 ];

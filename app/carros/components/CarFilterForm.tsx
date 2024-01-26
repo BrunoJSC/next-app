@@ -1,6 +1,7 @@
 // ... (importações e definição de interface)
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -115,6 +116,14 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
     }
   };
 
+  const handleAccessoryChange = (accessoryValue: string) => {
+    if (accessory.includes(accessoryValue)) {
+      setAccessory(accessory.filter((item) => item !== accessoryValue));
+    } else {
+      setAccessory([...accessory, accessoryValue]);
+    }
+  };
+
   const resetFilter = useCallback(() => {
     setFilterBrand("");
     setFilterModelCar("");
@@ -210,7 +219,7 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
       <div>
         <Label htmlFor="doors" className="text-sm font-medium">
-          Tipo de combustível
+          Portas
         </Label>
         <div className="relative">
           <select
@@ -328,32 +337,23 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <Label htmlFor="doors" className="text-sm font-medium">
           Acessórios
         </Label>
-        <div className="relative">
-          <select
-            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            onChange={(e) => setAccessory([e.target.value])}
-          >
-            <option value="">Acessórios do carro</option>
-            {accessories.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
 
-          <div className="absolute top-1/2 end-3 -translate-y-1/2">
-            <svg
-              className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path d="m7 15 5 5 5-5" />
-              <path d="m7 9 5-5 5 5" />
-            </svg>
-          </div>
+        <div className="grid grid-cols-2 gap-2">
+          {accessories.map((option) => (
+            <div key={option.value} className="flex items-center">
+              <input
+                type="checkbox"
+                id={option.value}
+                value={option.value}
+                checked={accessory.includes(option.value)}
+                onChange={() => handleAccessoryChange(option.value)}
+                className="mr-2"
+              />
+              <label htmlFor={option.value} className="text-sm font-medium">
+                {option.label}
+              </label>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -366,7 +366,12 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         Pesquisar
       </Button>
 
-      <Button type="button" onClick={resetFilter} className="w-full mt-2">
+      <Button
+        type="button"
+        onClick={resetFilter}
+        className="w-full mt-2"
+        variant={"secondary"}
+      >
         Resetar Filtros
       </Button>
     </div>
