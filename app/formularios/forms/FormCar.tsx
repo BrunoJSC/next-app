@@ -1,10 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
- 
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { db, storage } from "@/firebase";
@@ -19,6 +16,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { accessories } from "@/constants";
 import { Label } from "@/components/ui/label";
+import {
+  brandCar,
+  carColors,
+  doors,
+  fuelCar,
+  locations,
+} from "@/constants/filterCar";
 
 export function FormCar() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
@@ -156,21 +160,64 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="location">Localização</Label>
-            <Input
+            <Label>Localização</Label>
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               {...form.register("location")}
-              placeholder="Localização do veículo"
-              className="mt-2"
-            />
+            >
+              <option value="">Localização do carro</option>
+              {locations.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="brandCar">Marca</Label>
-            <Input
-              {...form.register("brandCar")}
-              className="mt-2"
-              placeholder="Marca do veículo"
-            />
+            <Label htmlFor="brandCar" className="text-sm font-medium mb-3">
+              Marca
+            </Label>
+            <div className="relative">
+              <select
+                className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                {...form.register("brandCar")}
+              >
+                <option value="">Selecionar modelo de carro</option>
+                {brandCar.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+
+              <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                <svg
+                  className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="m7 15 5 5 5-5" />
+                  <path d="m7 9 5-5 5 5" />
+                </svg>
+              </div>
+            </div>
           </div>
 
           <div className="mt-3">
@@ -252,33 +299,100 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="color">Cor do veículo</Label>
+            <Label>Cor</Label>
+            <div className="relative">
+              <select
+                className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                {...form.register("color")}
+              >
+                <option value="">Cor do carro</option>
+                {carColors.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
 
-            <Input
-              {...form.register("color")}
-              className="mt-2"
-              placeholder="Cor do veículo"
-            />
+              <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                <svg
+                  className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="m7 15 5 5 5-5" />
+                  <path d="m7 9 5-5 5 5" />
+                </svg>
+              </div>
+            </div>
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="doors">Portas</Label>
+            <Label htmlFor="doors" className="text-sm font-medium">
+              Portas
+            </Label>
+            <div className="relative">
+              <select
+                className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                {...form.register("doors")}
+              >
+                <option value="">Portas</option>
+                {doors.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
 
-            <Input
-              {...form.register("doors")}
-              className="mt-2"
-              placeholder="Quantidade de portas"
-            />
+              <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                <svg
+                  className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="m7 15 5 5 5-5" />
+                  <path d="m7 9 5-5 5 5" />
+                </svg>
+              </div>
+            </div>
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="fuel">Combustível</Label>
+            <Label>Tipo de combustível</Label>
+            <div className="relative">
+              <select
+                className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                {...form.register("fuel")}
+              >
+                <option value="">
+                  Selecionar tipo de combustível do carro
+                </option>
+                {fuelCar.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
 
-            <Input
-              {...form.register("fuel")}
-              className="mt-2"
-              placeholder="Tipo de combustível"
-            />
+              <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                <svg
+                  className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="m7 15 5 5 5-5" />
+                  <path d="m7 9 5-5 5 5" />
+                </svg>
+              </div>
+            </div>
           </div>
 
           <div className="mt-3">

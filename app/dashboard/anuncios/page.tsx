@@ -147,14 +147,6 @@ export default function Page() {
                 ))}
               </div>
             </div>
-
-            <Button
-              variant="destructive"
-              className="w-full"
-              onClick={() => deleteAnnounce(item.id)}
-            >
-              Deletar
-            </Button>
           </Card>
         ))}
       </div>

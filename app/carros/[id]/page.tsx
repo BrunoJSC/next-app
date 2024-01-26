@@ -1,7 +1,13 @@
 "use client";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { CardHeader, CardTitle, CardContent, Card } from "@/components/ui/card";
+import {
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Card,
+  CardDescription,
+} from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -79,7 +85,7 @@ export default function Page({
 
   return (
     <section className="w-full min-h-screen p-2 mb-48">
-      <div className="p-12 max-w-screen-xl mx-auto">
+      <div className="p-4 md:p-8 lg:p-12 max-w-screen-xl mx-auto">
         <Carousel
           opts={{
             align: "start",
@@ -88,7 +94,10 @@ export default function Page({
         >
           <CarouselContent>
             {searchParams.images.map((_, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:w-[400px]">
+              <CarouselItem
+                key={index}
+                className="md:basis-1/2 lg:w-[400px] md:mr-4" // Adjusted for responsiveness
+              >
                 <div className="w-full h-[400px]">
                   <Image
                     src={searchParams.images[index]}
@@ -101,8 +110,8 @@ export default function Page({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="hidden md:block" />
+          <CarouselNext className="hidden md:block" />
         </Carousel>
       </div>
 
@@ -114,8 +123,17 @@ export default function Page({
           </CardTitle>
         </CardHeader>
 
-        <div className="w-full flex justify-between">
-          <div className="w-[450px] grid grid-cols-2 gap-10 p-4">
+        <CardContent className="max-w-sm bg-red-500">
+          <CardTitle className="text-2xl font-bold text-primary">
+            Sobre o carro
+          </CardTitle>
+          <div>
+            <CardDescription>{searchParams.description}</CardDescription>
+          </div>
+        </CardContent>
+
+        <div className="w-full flex flex-col md:flex-row md:justify-between mt-4">
+          <div className="md:w-[450px] grid grid-cols-2 gap-4 p-4">
             <div>
               <p className="font-bold">Cidade</p>
               <p className="text-primary">{searchParams.location}</p>
@@ -151,14 +169,14 @@ export default function Page({
 
           <Form {...form}>
             <form
-              className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm h-[600px] rounded-xl"
+              className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl"
               onSubmit={form.handleSubmit(handleSubmit)}
             >
               <div>
                 <h2 className="text-2xl font-bold text-primary">
                   Entre em contato com o Vendedor!
                 </h2>
-                <p className="text-white">veja condições de financiamento.</p>
+                <p className="text-white">Veja condições de financiamento.</p>
               </div>
 
               <div className="grid grid-cols-1 gap-2">
@@ -227,23 +245,16 @@ export default function Page({
             </form>
           </Form>
         </div>
-
-        <CardContent className="max-w-xl">
-          <CardTitle className="text-2xl font-bold text-primary">
-            Sobre o carro
-          </CardTitle>
-          <p className="text-black">{searchParams.description}</p>
-        </CardContent>
       </Card>
 
-      <div className="p-12 max-w-screen-xl mx-auto mt-44">
+      <div className="p-4 md:p-12  max-w-screen-xl w-full mx-auto mt-8">
         <Carousel
           opts={{
             align: "start",
           }}
           className="w-full max-w-screen-lg mx-auto mt-2"
         >
-          <CarouselContent>
+          <CarouselContent className="w-full">
             {data.map((car) => (
               <Link
                 href={{
@@ -262,12 +273,13 @@ export default function Page({
                   },
                 }}
                 key={car.id}
+                className="w-[500px] md:w-[400px] lg:w-[400px] md:basis-1/2 basis-1/3  bg-red-500"
               >
                 <CarouselItem
                   key={car.id}
-                  className="md:basis-1/2 lg:w-[400px]"
+                  className="md:basis-1/2 basis-1/3 lg:w-[400px] md:mr-4  bg-red-500"
                 >
-                  <div className="w-full h-[300px]">
+                  <div className="w-full h-[300px] ">
                     <Image
                       src={car.images[0]}
                       alt="car"
@@ -294,8 +306,8 @@ export default function Page({
               </Link>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="hidden md:block" />
+          <CarouselNext className="hidden md:block" />
         </Carousel>
       </div>
     </section>

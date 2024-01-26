@@ -119,3 +119,25 @@ export const locations = [
   { label: "Ribeirão Pires", value: "Ribeirao Pires" },
   { label: "Mauá", value: "Mauá" },
 ];
+
+export const bodyType = [
+  { label: "Hatch", value: "Hatch" },
+  { label: "Sedan", value: "Sedan" },
+  { label: "SUV", value: "SUV" },
+  { label: "Pickup", value: "Pickup" },
+  { label: "Caminhonete", value: "Caminhonete" },
+  { label: "Van", value: "Van" },
+  
+]
+
+
+export const accessories = [
+  { label: "Ar condicionado", value: "Ar condicionado" },
+  { label: "Direção hidráulica", value: "Direção hidráulica" },
+  { label: "Trava elétrica", value: "Trava eletrica" },
+  { label: "Vidro Elétrico", value: "Vidro eletrico" },
+  { label: "Teto solar", value: "Teto solar" },
+  { label: "Som", value: "Som" },
+  { label: "Multimidia", value: "Multimidia" },
+  { label: "Blindado", value: "Blindado" },
+];
