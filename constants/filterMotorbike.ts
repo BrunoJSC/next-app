@@ -124,3 +124,8 @@ export const cylinder = [
  ]
  
  
+export const condition = [
+  {label: "Novo", value: "Novo"},
+  {label: "Usado", value: "Usado"},
+  {label: "Seminovo", value: "Seminovo"},
+]

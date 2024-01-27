@@ -8,7 +8,7 @@ export const brandCar = [
   { label: "Chery", value: "Chery" },
   { label: "GM/Chevrolet", value: "GM/Chevrolet" },
   { label: "Chrysler", value: "Chrysler" },
-  { label: "CitroEn", value: "CitroEn" },
+  { label: "Citroen", value: "Citroen" },
   { label: "Dodge", value: "Dodge" },
   { label: "Effa", value: "Effa" },
   { label: "Ferrari", value: "Ferrari" },
@@ -30,7 +30,7 @@ export const brandCar = [
   { label: "Lifan", value: "Lifan" },
   { label: "Mahindra", value: "Mahindra" },
   { label: "Maserati", value: "Maserati" },
-  { label: "Mercedes-Benz", value: "Mercedes-Benz" },
+  { label: "Mercedes Benz", value: "Mercedes Benz" },
   { label: "MG Motors", value: "MG Motors" },
   { label: "Mini", value: "Mini" },
   { label: "Mitsubishi", value: "Mitsubishi" },
@@ -120,17 +120,6 @@ export const locations = [
   { label: "Mauá", value: "Mauá" },
 ];
 
-export const bodyType = [
-  { label: "Hatch", value: "Hatch" },
-  { label: "Sedan", value: "Sedan" },
-  { label: "SUV", value: "SUV" },
-  { label: "Pickup", value: "Pickup" },
-  { label: "Caminhonete", value: "Caminhonete" },
-  { label: "Van", value: "Van" },
-  
-]
-
-
 export const accessories = [
   { label: "Ar Condicionado", value: "ar condicionado" },
   { label: "Direção Hidráulica", value: "direção hidráulica" },
@@ -153,3 +142,39 @@ export const stores = [
   { label: "GP Motors", value: "GP Motors" },
   { label: "Rhemar", value: "Rhemar" },
 ]
+
+export const bodyType = [
+  { label: "Hatch", value: "Hatch" },
+  { label: "Sedan", value: "Sedan" },
+  { label: "SUV", value: "SUV" },
+  { label: "Perua (ou Station Wagon)", value: "Perua (ou Station Wagon)" },
+  { label: "Cupê", value: "Cupê" },
+  { label: "Fastback", value: "Fastback" },
+  { label: "Van", value: "Van" },
+  { label: "Minivan", value: "Minivan" }
+];
+
+export const condition = [ 
+  {
+    label: "Novo",
+    value: "Novo",
+  },
+  {
+    label: "Usado",
+    value: "Usado",
+  },
+  {
+    label: "Seminovo",
+    value: "Seminovo",
+  }
+]
+
+export const transmissionType = [
+  { label: "Automático", value: "Automático" },
+  { label: "Manual", value: "Manual" },
+  { label: "Semi-automático", value: "Semi-automático" },
+  { label: "Automático Sequencial", value: "Automático Sequencial" },
+  { label: "Automatizado", value: "Automatizado" },
+  { label: "Automatizado DCT", value: "Automatizado DCT" },
+  { label: "CVT", value: "CVT" }
+];

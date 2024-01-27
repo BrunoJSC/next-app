@@ -15,9 +15,9 @@ export default function Finance() {
     <main className="w-full min-h-screen max-w-screen-xl mx-auto  mb-48">
       <section className="w-full min-h-screen">
         <div className="w-full mx-auto relative">
-          <div className="max-w-[977px]"></div>
+          <div className="w-full md:max-w-[977px]"></div>
 
-          <ul className="flex flex-col mx-auto w-[900px] mt-10 p-2">
+          <ul className="flex flex-col mx-auto w-full md:w-[900px] mt-10 p-2">
             <h1 className="text-3xl text-black font-bold mt-10 text-left">
               Financiamento
             </h1>

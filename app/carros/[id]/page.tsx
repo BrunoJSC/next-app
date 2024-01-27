@@ -46,6 +46,13 @@ export default function Page({
     color: string;
     description: string;
     accessories: string[];
+    price: string;
+    bodyType: string;
+    motors: string;
+    condition: string;
+    announce: string;
+    doors: string;
+    plate: string;
   };
 }) {
   const form = useForm<z.infer<typeof contactVehicleSchema>>({
@@ -121,6 +128,12 @@ export default function Page({
           <CardTitle className="text-2xl font-bold text-primary">
             {searchParams.brandCar}{" "}
             <span className="text-black">{searchParams.modelCar}</span>
+            <p className="text-primary">
+              R${" "}
+              <span className="text-black">
+                {Intl.NumberFormat("pt-BR").format(Number(searchParams.price))}
+              </span>
+            </p>
           </CardTitle>
         </CardHeader>
 
@@ -163,6 +176,36 @@ export default function Page({
             <div>
               <p className="font-bold">Cor</p>
               <p className="text-primary">{searchParams.color}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Pôtencia do motor</p>
+              <p className="text-primary">{searchParams.motors}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Condição</p>
+              <p className="text-primary">{searchParams.condition}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Tipo de anunciante</p>
+              <p className="text-primary">{searchParams.announce}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Placa</p>
+              <p className="text-primary">{searchParams.plate}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Carroceria</p>
+              <p className="text-primary">{searchParams.bodyType}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Portas</p>
+              <p className="text-primary">{searchParams.doors}</p>
             </div>
 
             <div className="col-span-2">

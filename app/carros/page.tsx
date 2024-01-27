@@ -77,6 +77,13 @@ export default function Cars() {
                     exchange: car.exchange,
                     color: car.color,
                     description: car.description,
+                    announce: car.announce,
+                    plate: car.plate,
+                    doors: car.doors,
+                    price: car.price,
+                    bodyType: car.bodyType,
+                    motors: car.motors,
+                    condition: car.condition,
                     accessories: car.accessories,
                   },
                 }}

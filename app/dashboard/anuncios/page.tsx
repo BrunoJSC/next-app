@@ -74,7 +74,7 @@ export default function Page() {
   return (
     <>
       <h1 className="text-3xl font-bold text-black text-center mt-5">Carros</h1>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10 p-4">
         {car?.map((item) => (
           <Card key={item.id} className="w-full h-auto mb-8">
             <div className="overflow-hidden">
@@ -152,7 +152,7 @@ export default function Page() {
       </div>
 
       <h1 className="text-3xl font-bold text-black text-center mt-5">Motos</h1>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10 p-4">
         {motorbike?.map((item) => (
           <Card key={item.id} className="w-full h-auto mb-8">
             <div className="overflow-hidden">

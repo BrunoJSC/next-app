@@ -32,6 +32,8 @@ export interface ICar {
   description: string;
   condition: string;
   motors: string;
+  stores: string;
+  announce: string;
   images: string[];
 }
 

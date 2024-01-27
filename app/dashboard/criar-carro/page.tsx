@@ -1,7 +1,6 @@
 "use client";
 
 import { DrawerCar } from "@/components/DrawerCar";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AuthContext } from "@/context/auth";
 import { db } from "@/firebase";
@@ -32,8 +31,6 @@ export default function Page() {
     });
     return () => unsubscribe();
   }, []);
-
-  // ... (código anterior)
 
   const deleteCar = async (id: string) => {
     try {

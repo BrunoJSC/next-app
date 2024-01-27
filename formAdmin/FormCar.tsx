@@ -15,6 +15,18 @@ import { db, storage } from "@/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ChangeEvent, useState } from "react";
 import { accessories } from "@/constants";
+import {
+  announceType,
+  bodyType,
+  brandCar,
+  carColors,
+  condition,
+  doors,
+  fuelCar,
+  locations,
+  stores,
+  transmissionType,
+} from "@/constants/filterCar";
 export function FormCar({ className }: { className?: string }) {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [loading, setLoading] = useState(false);
@@ -38,6 +50,7 @@ export function FormCar({ className }: { className?: string }) {
       description: "",
       announce: "",
       motors: "",
+      stores: "",
       accessories: [],
 
       images: "",
@@ -91,6 +104,7 @@ export function FormCar({ className }: { className?: string }) {
         accessories: data.accessories,
         announce: data.announce,
         motors: data.motors,
+        stores: data.stores,
         images: await handleUpload(),
       });
     } catch (error) {
@@ -111,8 +125,36 @@ export function FormCar({ className }: { className?: string }) {
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <div className="grid gap-2">
-          <Label htmlFor="brandCar">Marca do carro</Label>
-          <Input type="text" {...form.register("brandCar")} />
+          <Label htmlFor="brandCar" className="text-sm font-medium mb-3">
+            Marca
+          </Label>
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              {...form.register("brandCar")}
+            >
+              <option value="">Selecione</option>
+              {brandCar.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         <div className="grid gap-2">
@@ -126,13 +168,59 @@ export function FormCar({ className }: { className?: string }) {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="location">Localização</Label>
-          <Input type="text" {...form.register("location")} />
+          <Label>Localização</Label>
+          <select
+            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            {...form.register("location")}
+          >
+            <option value="">Selecione</option>
+            {locations.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div className="absolute top-1/2 end-3 -translate-y-1/2">
+            <svg
+              className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="m7 15 5 5 5-5" />
+              <path d="m7 9 5-5 5 5" />
+            </svg>
+          </div>
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="bodyType">Carroceria</Label>
-          <Input type="text" {...form.register("bodyType")} />
+          <Label>Carroceria</Label>
+          <select
+            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            {...form.register("bodyType")}
+          >
+            <option value="">Selecione</option>
+            {bodyType.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div className="absolute top-1/2 end-3 -translate-y-1/2">
+            <svg
+              className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="m7 15 5 5 5-5" />
+              <path d="m7 9 5-5 5 5" />
+            </svg>
+          </div>
         </div>
 
         <div className="grid gap-2">
@@ -141,47 +229,18 @@ export function FormCar({ className }: { className?: string }) {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="fuel">Tipo de combustível do veiculo</Label>
-          <Input type="text" {...form.register("fuel")} />
-        </div>
-
-        <div className="grid gap-2">
-          <Label htmlFor="km">Quilometragem</Label>
-          <Input type="text" {...form.register("km")} />
-        </div>
-
-        <div className="grid gap-2">
-          <Label htmlFor="condition">Condições do veículo</Label>
-          <Input type="text" {...form.register("condition")} />
-        </div>
-
-        <div className="grid gap-2">
-          <Label htmlFor="yearFabrication">Ano de fabricação</Label>
-          <Input type="text" {...form.register("yearFabrication")} />
-        </div>
-
-        <div className="grid gap-2">
-          <Label htmlFor="exchange">Tipo de cambio</Label>
-          <Input type="text" {...form.register("exchange")} />
-        </div>
-
-        <div className="grid gap-2">
-          <Label htmlFor="motors">Potência do motor</Label>
-          <Input type="text" {...form.register("motors")} />
-        </div>
-
-        <div className="grid gap-2">
-          <Label htmlFor="announce">Anunciante</Label>
+          <Label>Tipo de combustível</Label>
           <div className="relative">
             <select
               className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              {...form.register("announce")}
+              {...form.register("fuel")}
             >
-              <option>Particular</option>
-              <option>Edificar</option>
-              <option>Kairós</option>
-              <option>GP Motors</option>
-              <option>Rhemar Multimarcas</option>
+              <option value="">Selecione</option>
+              {fuelCar.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
 
             <div className="absolute top-1/2 end-3 -translate-y-1/2">
@@ -192,7 +251,6 @@ export function FormCar({ className }: { className?: string }) {
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="currentColor"
               >
                 <path d="m7 15 5 5 5-5" />
                 <path d="m7 9 5-5 5 5" />
@@ -202,13 +260,204 @@ export function FormCar({ className }: { className?: string }) {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="color">Cor</Label>
-          <Input type="text" {...form.register("color")} />
+          <Label htmlFor="km">KM</Label>
+          <Input type="text" {...form.register("km")} />
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="doors">Portas</Label>
-          <Input type="text" {...form.register("doors")} />
+          <Label>Tipo de combustível</Label>
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              {...form.register("condition")}
+            >
+              <option value="">Selecione</option>
+              {condition.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-2">
+          <Label htmlFor="yearFabrication">Ano de fabricação</Label>
+          <Input type="text" {...form.register("yearFabrication")} />
+        </div>
+
+        <div className="grid gap-2">
+          <Label>Tipo de câmbio</Label>
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              {...form.register("exchange")}
+            >
+              <option value="">Selecione</option>
+              {transmissionType.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-2">
+          <Label htmlFor="motors">Potência do motor</Label>
+          <Input type="text" {...form.register("motors")} />
+        </div>
+
+        <div className="grid gap-2">
+          <Label>Tipo de anunciante</Label>
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              {...form.register("announce")}
+            >
+              <option value="">Selecione</option>
+              {announceType.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-2">
+          <Label>Lojas</Label>
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              {...form.register("stores")}
+            >
+              <option value="">Selecione</option>
+              {stores.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-2">
+          <Label>Cor</Label>
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              {...form.register("color")}
+            >
+              <option value="">Selecione</option>
+              {carColors.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-2">
+          <Label>Portas</Label>
+          <div className="relative">
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              {...form.register("doors")}
+            >
+              <option value="">Selecione</option>
+              {doors.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 mt-3">
