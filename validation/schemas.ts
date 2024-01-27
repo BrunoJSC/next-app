@@ -72,7 +72,7 @@ export const carSchema = z.object({
        (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
        "Only .jpg, .jpeg, .png and .webp formats are supported."
      ),
-     
+     stores: z.string().min(1, { message: "Stores is required" }),
  });
 
  export const motorbikeSchema = z.object({

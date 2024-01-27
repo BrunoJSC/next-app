@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { carShowSchema } from "@/validation/schemas";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +17,8 @@ import { ChangeEvent, useState } from "react";
 import { accessories } from "@/constants";
 export function FormCar({ className }: { className?: string }) {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof carShowSchema>>({
     resolver: zodResolver(carShowSchema),
     defaultValues: {
@@ -67,27 +70,34 @@ export function FormCar({ className }: { className?: string }) {
   };
 
   const handleSubmit = async (data: z.infer<typeof carShowSchema>) => {
-    await addDoc(collection(db, "cars"), {
-      id: Math.random().toString(),
-      price: data.price,
-      location: data.location,
-      bodyType: data.bodyType,
-      brandCar: data.brandCar,
-      modelCar: data.modelCar,
-      fuel: data.fuel,
-      km: data.km,
-      plate: data.plate,
-      condition: data.condition,
-      yearFabrication: data.yearFabrication,
-      exchange: data.exchange,
-      color: data.color,
-      doors: data.doors,
-      description: data.description,
-      accessories: data.accessories,
-      announce: data.announce,
-      motors: data.motors,
-      images: await handleUpload(),
-    });
+    try {
+      setLoading(true);
+      await addDoc(collection(db, "cars"), {
+        id: uuidv4(),
+        price: data.price,
+        location: data.location,
+        bodyType: data.bodyType,
+        brandCar: data.brandCar,
+        modelCar: data.modelCar,
+        fuel: data.fuel,
+        km: data.km,
+        plate: data.plate,
+        condition: data.condition,
+        yearFabrication: data.yearFabrication,
+        exchange: data.exchange,
+        color: data.color,
+        doors: data.doors,
+        description: data.description,
+        accessories: data.accessories,
+        announce: data.announce,
+        motors: data.motors,
+        images: await handleUpload(),
+      });
+    } catch (error) {
+      console.error("Erro ao fazer upload:", error);
+    } finally {
+      setLoading(false);
+    }
 
     console.log(data);
 
@@ -232,8 +242,8 @@ export function FormCar({ className }: { className?: string }) {
           />
         </div>
 
-        <Button type="submit" variant="default">
-          Enviar
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Enviando..." : "Enviar"}
         </Button>
       </form>
     </Form>

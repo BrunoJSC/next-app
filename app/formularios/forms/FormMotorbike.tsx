@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { cylinder } from "@/constants/filterMotorbike";
 import { db, storage } from "@/firebase";
 import { motorbikeSchema } from "@/validation/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -456,6 +457,27 @@ export function FormMotorbike() {
                 <FormLabel>Descrição</FormLabel>
                 <FormControl>
                   <Textarea className="h-[300px]" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Descrição</FormLabel>
+                <FormControl>
+                  <select>
+                    {cylinder.map((cylinder) => (
+                      <option key={cylinder.value} value={cylinder.value}>
+                        {cylinder.label}
+                      </option>
+                    ))}
+                  </select>
                 </FormControl>
 
                 <FormMessage />
