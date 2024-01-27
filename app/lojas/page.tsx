@@ -69,7 +69,7 @@ export default function Page() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 min-h-screen font-sans px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         {data.map((store, index) => (
           <Link key={index} href={store.link} target="_blank">
-            <Card className="h-[500px] sm:h-auto lg:h-auto">
+            <Card className="md:h-[500px] h-auto lg:h-auto">
               <div>
                 <Image
                   src={store.image}

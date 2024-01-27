@@ -67,10 +67,60 @@ export const announceType = [
 ]
 
 
-
 export const stores = [
   { label: "Edificar", value: "Edificar" },
   { label: "Kairós", value: "Kairós" },
   { label: "GP Motors", value: "GP Motors" },
   { label: "Rhemar", value: "Rhemar" },
 ]
+
+export const cylinder = [
+  {label: "250", value: "250"
+ },
+ {label: "50", value: "50"
+ },
+ {label: "110", value: "110"
+ },
+ {label: "125", value: "125"
+ },
+ {label: "150", value: "150"
+ },
+ {label: "160", value: "160"
+ },
+ {label: "190", value: "190"
+ },
+ {label: "200", value: "200"
+ },
+ {label: "250", value: "250"
+ },
+ {label: "300", value: "300"
+ },
+ {label: "400", value: "400"
+ },
+ {label: "500", value: "500"
+ },
+ {label: "600", value: "600"
+ },
+ {label: "650", value: "650"
+ },
+ {label: "700", value: "700"
+ },
+ {label: "750", value: "750"
+ },
+ {label: "900", value: "900"
+ },
+ {label: "1000", value: "1000"
+ },
+ {label: "1100", value: "1100"
+ },
+ {label: "1200", value: "1200"
+ },
+ {label: "1250", value: "1250"
+ },
+ {label: "1600", value: "1600"
+ },
+ {label: "1800", value: "1800"
+ },
+ ]
+ 
+ 

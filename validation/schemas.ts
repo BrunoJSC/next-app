@@ -208,4 +208,5 @@ export const contactVehicleSchema = z.object({
 
     email: z.string().email({ message: "Invalid email format" }),
     phone: z.string().min(10, { message: "Invalid phone number" }), 
+    message: z.string().min(1, { message: "Message is required" }),
 })

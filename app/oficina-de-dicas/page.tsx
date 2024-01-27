@@ -56,7 +56,7 @@ export default function Page() {
         </h1>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-5">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-5 p-4">
         {articles.map((article) => (
           <Link href={article.link ?? ""} key={article.titulo}>
             <Card>

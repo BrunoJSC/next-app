@@ -14,7 +14,7 @@ export default function Announce() {
   return (
     <main className="w-full min-h-screen p-2 relative">
       <div className="w-full max-w-screen-xl mx-auto mb-48">
-        <div className="mt-12 p-4 ">
+        <div className="mt-12 p-4 text-center">
           <h1 className="text-[38px] text-black font-bold text mt-10 text-center">
             O que é AutoNegocie?
           </h1>
@@ -25,7 +25,7 @@ export default function Announce() {
           </p>
         </div>
 
-        <ul className="flex flex-col mx-auto items-center justify-center w-[900px] gap-5">
+        <ul className="flex flex-col mx-auto items-center justify-center md:w-[900px] w-full gap-5">
           {announce.map((an) => (
             <li key={an.title}>
               <h2 className="text-lg font-bold">{an.title}</h2>

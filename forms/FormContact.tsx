@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/firebase";
 import { contactSchema } from "@/validation/schemas";
 import { addDoc, collection } from "firebase/firestore";
-import { MessageSquare } from "lucide-react";
+import { FacebookIcon, InstagramIcon, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -149,9 +149,19 @@ export function FormContact() {
             <div>
               <h2 className="text-black text-[32px] font-bold">Rede Social</h2>
 
-              <p>Instagram</p>
-              <p>Facebook</p>
-              <p>Twitter</p>
+              <ul className="flex gap-5">
+                <li>
+                  <Link href="https://www.instagram.com/bmzsintonia?igsh=czc0c280MzFia2k5">
+                    <InstagramIcon className="text-black" />
+                  </Link>
+                </li>
+
+                <li>
+                  <Link href="https://www.facebook.com/CarrosUsadosABCD?mibextid=ZbWKwL">
+                    <FacebookIcon className="text-black" />
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

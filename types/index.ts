@@ -50,7 +50,7 @@ export interface IMotorbike {
   mechanic: string;
   plate: string;
   description: string;
-  // CILINDRADAS - 110, 125, 150, 160, 250, 300, 600, 800, 900, 1000, 1100
+  accessories: string[];
   cylinder: string;
   images: string[];
 }

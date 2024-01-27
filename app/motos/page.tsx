@@ -46,6 +46,7 @@ export default function Page() {
                   cylinder: motorbike.cylinder,
                   color: motorbike.color,
                   description: motorbike.description,
+                  accessories: motorbike.accessories,
                   images: motorbike.images,
                 },
               }}

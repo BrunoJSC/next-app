@@ -18,6 +18,7 @@ import {
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/firebase";
 import { ICar } from "@/types";
 import { contactVehicleSchema } from "@/validation/schemas";
@@ -123,14 +124,14 @@ export default function Page({
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="max-w-sm bg-red-500">
+        <div className="max-w-sm md:ml-4">
           <CardTitle className="text-2xl font-bold text-primary">
             Sobre o carro
           </CardTitle>
           <div>
             <CardDescription>{searchParams.description}</CardDescription>
           </div>
-        </CardContent>
+        </div>
 
         <div className="w-full flex flex-col md:flex-row md:justify-between mt-4">
           <div className="md:w-[450px] grid grid-cols-2 gap-4 p-4">
@@ -164,86 +165,122 @@ export default function Page({
               <p className="text-primary">{searchParams.color}</p>
             </div>
 
-            <div>{searchParams.accessories}</div>
+            <div className="col-span-2">
+              <p className="font-bold">Acessórios</p>
+              <div className="flex flex-wrap">
+                {Array.isArray(searchParams.accessories) ? (
+                  searchParams.accessories.map((accessory, index) => (
+                    <p key={index} className="text-primary">
+                      {accessory.split(", ").map((item, i) => (
+                        <span key={i}>
+                          {item}
+                          {i !== accessory.split(", ").length - 1 && ", "}
+                        </span>
+                      ))}
+                    </p>
+                  ))
+                ) : (
+                  <p className="text-primary">{searchParams.accessories}</p>
+                )}
+              </div>
+            </div>
           </div>
 
-          <Form {...form}>
-            <form
-              className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl"
-              onSubmit={form.handleSubmit(handleSubmit)}
-            >
-              <div>
-                <h2 className="text-2xl font-bold text-primary">
-                  Entre em contato com o Vendedor!
-                </h2>
-                <p className="text-white">Veja condições de financiamento.</p>
-              </div>
-
-              <div className="grid grid-cols-1 gap-2">
-                <Label htmlFor="name" className="text-white">
-                  Nome
-                </Label>
-                <Input
-                  id="name"
-                  className="bg-white"
-                  type="text"
-                  {...form.register("name")}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-2">
-                <Label htmlFor="cpf" className="text-white">
-                  CPF
-                </Label>
-                <Input
-                  id="email"
-                  type="cpf"
-                  className="bg-white"
-                  {...form.register("cpf")}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-2">
-                <Label htmlFor="email" className="text-white">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  className="bg-white"
-                  {...form.register("email")}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-2">
-                <Label htmlFor="phone" className="text-white">
-                  Telefone
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  className="bg-white"
-                  {...form.register("phone")}
-                  placeholder="Adicionar neste formato (11) 99999-9999"
-                />
-              </div>
-
-              <Button type="submit" className="w-full mt-5">
-                Enviar
-              </Button>
-
-              <Link
-                className={buttonVariants({
-                  className: "w-full mt-4",
-                })}
-                type="submit"
-                href="https://wa.me/5511940723891"
+          <div>
+            <Form {...form}>
+              <form
+                className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl md:mr-4"
+                onSubmit={form.handleSubmit(handleSubmit)}
               >
-                <MessageSquare className="mr-5" />
-                Chamar no WhatsApp
-              </Link>
-            </form>
-          </Form>
+                <div>
+                  <h2 className="text-2xl font-bold text-primary">
+                    Entre em contato com o Vendedor!
+                  </h2>
+                  <p className="text-white">Veja condições de financiamento.</p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="name" className="text-white">
+                    Nome
+                  </Label>
+                  <Input
+                    id="name"
+                    placeholder="Nome Completo"
+                    className="bg-white"
+                    type="text"
+                    {...form.register("name")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="cpf" className="text-white">
+                    CPF
+                  </Label>
+                  <Input
+                    id="cpf"
+                    type="cpf"
+                    className="bg-white"
+                    placeholder="Adicionar neste formato 999.999.999-99"
+                    {...form.register("cpf")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="email" className="text-white">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    className="bg-white"
+                    placeholder="Adicionar neste formato 3xX9w@example.com"
+                    {...form.register("email")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="phone" className="text-white">
+                    Telefone
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    className="bg-white"
+                    {...form.register("phone")}
+                    placeholder="Adicionar neste formato (11) 99999-9999"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="phone" className="text-white">
+                    Mensagem
+                  </Label>
+                  <Textarea
+                    id="message"
+                    rows={4}
+                    className="bg-white"
+                    {...form.register("message")}
+                    placeholder="Escreva sua mensagem..."
+                  />
+                </div>
+
+                <Button type="submit" className="w-full mt-5">
+                  Enviar
+                </Button>
+
+                <Link
+                  className={buttonVariants({
+                    className: "w-full mt-4",
+                  })}
+                  type="submit"
+                  href="https://wa.me/5511940723891"
+                >
+                  <MessageSquare className="mr-5" />
+                  Chamar no WhatsApp
+                </Link>
+              </form>
+            </Form>
+          </div>
         </div>
       </Card>
 
@@ -279,29 +316,31 @@ export default function Page({
                   key={car.id}
                   className="md:basis-1/2 basis-1/3 lg:w-[400px] md:mr-4  bg-red-500"
                 >
-                  <div className="w-full h-[300px] ">
-                    <Image
-                      src={car.images[0]}
-                      alt="car"
-                      width={400}
-                      height={400}
-                      className="w-full h-full rounded-xl"
-                    />
-                  </div>
+                  <Card className="md:w-[950px] w-[600px]">
+                    <div className="w-full h-[500px]">
+                      <Image
+                        src={car.images[0]}
+                        alt="car"
+                        width={400}
+                        height={400}
+                        className="w-full h-full rounded-xl object-cover object-center"
+                      />
+                    </div>
 
-                  <h2 className="text-black text-2xl font-bold text-primary">
-                    {car.brandCar}{" "}
-                    <span className="text-black">{car.modelCar}</span>
-                  </h2>
+                    <h2 className="text-black text-2xl font-bold text-primary">
+                      {car.brandCar}{" "}
+                      <span className="text-black">{car.modelCar}</span>
+                    </h2>
 
-                  <div className="grid grid-cols-2 gap-2">
-                    <p className="text-black font-black">{car.location}</p>
-                    <p className="text-black font-black">
-                      {car.yearFabrication}
-                    </p>
-                    <p className="text-black font-black">{car.km}KM</p>
-                    <p className="text-black font-black">{car.fuel}</p>
-                  </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <p className="text-black font-black">{car.location}</p>
+                      <p className="text-black font-black">
+                        {car.yearFabrication}
+                      </p>
+                      <p className="text-black font-black">{car.km}KM</p>
+                      <p className="text-black font-black">{car.fuel}</p>
+                    </div>
+                  </Card>
                 </CarouselItem>
               </Link>
             ))}

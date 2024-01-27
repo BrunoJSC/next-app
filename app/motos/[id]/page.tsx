@@ -1,7 +1,13 @@
 "use client";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -37,6 +43,7 @@ export default function Page({
     cylinder: string;
     color: string;
     description: string;
+    accessories: string[];
     images: string[];
   };
 }) {
@@ -46,6 +53,7 @@ export default function Page({
       email: "",
       cpf: "",
       phone: "",
+      message: "",
     },
   });
   const [data, setData] = useState<IMotorbike[]>([]);
@@ -57,6 +65,7 @@ export default function Page({
       email: data.email,
       cpf: data.cpf,
       phone: data.phone,
+      message: data.message,
     });
 
     form.reset();
@@ -99,8 +108,8 @@ export default function Page({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="hidden md:block" />
+          <CarouselNext className="hidden md:block" />
         </Carousel>
       </div>
 
@@ -112,8 +121,17 @@ export default function Page({
           </CardTitle>
         </CardHeader>
 
-        <div className="w-full flex justify-between">
-          <div className="w-[450px] grid grid-cols-2 gap-10 p-4">
+        <div className="max-w-sm md:ml-4">
+          <CardTitle className="text-2xl font-bold text-primary">
+            Sobre a moto
+          </CardTitle>
+          <div>
+            <CardDescription>{searchParams.description}</CardDescription>
+          </div>
+        </div>
+
+        <div className="w-full flex flex-col md:flex-row md:justify-between mt-4">
+          <div className="md:w-[450px] grid grid-cols-2 gap-4 p-4">
             <div>
               <p className="font-bold">Cidade</p>
               <p className="text-primary">{searchParams.location}</p>
@@ -143,102 +161,124 @@ export default function Page({
               <p className="font-bold">Cor</p>
               <p className="text-primary">{searchParams.color}</p>
             </div>
+
+            <div className="col-span-2">
+              <p className="font-bold">Acessórios</p>
+              <div className="flex flex-wrap">
+                {Array.isArray(searchParams.accessories) ? (
+                  searchParams.accessories.map((accessory, index) => (
+                    <p key={index} className="text-primary">
+                      {accessory.split(", ").map((item, i) => (
+                        <span key={i}>
+                          {item}
+                          {i !== accessory.split(", ").length - 1 && ", "}
+                        </span>
+                      ))}
+                    </p>
+                  ))
+                ) : (
+                  <p className="text-primary">{searchParams.accessories}</p>
+                )}
+              </div>
+            </div>
           </div>
 
-          <Form {...form}>
-            <form
-              className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm rounded-xl"
-              onSubmit={form.handleSubmit(handleSubmit)}
-            >
-              <div>
-                <h2 className="text-2xl font-bold text-primary">
-                  Entre em contato com o Vendedor!
-                </h2>
-                <p>Coloque seus dados*</p>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4">
-                <Label htmlFor="name" className="text-white">
-                  Nome
-                </Label>
-                <Input
-                  id="name"
-                  className="bg-white"
-                  type="text"
-                  {...form.register("name")}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-4">
-                <Label htmlFor="cpf" className="text-white">
-                  CPF
-                </Label>
-                <Input
-                  id="cpf"
-                  className="bg-white"
-                  {...form.register("cpf")}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-4">
-                <Label htmlFor="email" className="text-white">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  className="bg-white"
-                  {...form.register("email")}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-4">
-                <Label htmlFor="phone" className="text-white">
-                  Telefone
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  className="bg-white"
-                  {...form.register("phone")}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-4">
-                <Label htmlFor="phone" className="text-white">
-                  Descrição
-                </Label>
-                <Textarea
-                  id="description"
-                  className="bg-white"
-                  {...form.register("phone")}
-                ></Textarea>
-              </div>
-
-              <Button type="submit" className="w-full">
-                Enviar
-              </Button>
-
-              <Link
-                className={buttonVariants({
-                  className: "w-full mt-4",
-                })}
-                type="submit"
-                href="https://wa.me/5511940723891"
+          <div>
+            <Form {...form}>
+              <form
+                className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl md:mr-4"
+                onSubmit={form.handleSubmit(handleSubmit)}
               >
-                <MessageSquare className="mr-5" />
-                Chamar no WhatsApp
-              </Link>
-            </form>
-          </Form>
-        </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-primary">
+                    Entre em contato com o Vendedor!
+                  </h2>
+                  <p className="text-white">Veja condições de financiamento.</p>
+                </div>
 
-        <CardContent className="max-w-xl">
-          <CardTitle className="text-2xl font-bold text-primary">
-            Sobre o carro
-          </CardTitle>
-          <p className="text-black">{searchParams.description}</p>
-        </CardContent>
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="name" className="text-white">
+                    Nome
+                  </Label>
+                  <Input
+                    id="name"
+                    className="bg-white"
+                    type="text"
+                    placeholder="Nome Completo"
+                    {...form.register("name")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="cpf" className="text-white">
+                    CPF
+                  </Label>
+                  <Input
+                    id="cpf"
+                    className="bg-white"
+                    type="text"
+                    placeholder="Adicionar neste formato 999.999.999-99"
+                    {...form.register("cpf")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="email" className="text-white">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    placeholder="Adicionar neste formato 3xX9w@example.com"
+                    type="email"
+                    className="bg-white"
+                    {...form.register("email")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="phone" className="text-white">
+                    Telefone
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    className="bg-white"
+                    {...form.register("phone")}
+                    placeholder="Adicionar neste formato (11) 99999-9999"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="phone" className="text-white">
+                    Mensagem
+                  </Label>
+                  <Textarea
+                    id="message"
+                    rows={4}
+                    placeholder="Escreva sua mensagem..."
+                    className="bg-white resize-none"
+                    {...form.register("message")}
+                  />
+                </div>
+
+                <Button type="submit" className="w-full mt-5">
+                  Enviar
+                </Button>
+
+                <Link
+                  className={buttonVariants({
+                    className: "w-full mt-4",
+                  })}
+                  type="submit"
+                  href="https://wa.me/5511940723891"
+                >
+                  <MessageSquare className="mr-5" />
+                  Chamar no WhatsApp
+                </Link>
+              </form>
+            </Form>
+          </div>
+        </div>
       </Card>
 
       <div className="p-12 max-w-screen-xl mx-auto mt-44">
@@ -246,9 +286,9 @@ export default function Page({
           opts={{
             align: "start",
           }}
-          className="w-full max-w-screen-lg mx-auto mt-2"
+          className="w-full mx-auto mt-2"
         >
-          <CarouselContent>
+          <CarouselContent className="flex flex-wrap">
             {data.map((motorbike) => (
               <Link
                 href={{
@@ -267,12 +307,10 @@ export default function Page({
                   },
                 }}
                 key={motorbike.id}
+                className="w-full md:w-1/6 lg:w-1/3 xl:w-1/4 px-2 mb-4"
               >
-                <CarouselItem
-                  key={motorbike.id}
-                  className="md:basis-1/2 lg:w-[400px]"
-                >
-                  <div className="w-full h-[300px]">
+                <CarouselItem className="w-full">
+                  <div className="w-full h-[300px] md:h-[400px]">
                     <Image
                       src={motorbike.images[0]}
                       alt="car"
@@ -282,11 +320,11 @@ export default function Page({
                     />
                   </div>
 
-                  <h2 className="text-black text-2xl font-bold">
-                    {motorbike.motorbikeBrand} - {motorbike.motorbikeModel}{" "}
+                  <h2 className="text-black text-2xl font-bold mt-2">
+                    {motorbike.motorbikeBrand} - {motorbike.motorbikeModel}
                   </h2>
 
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-2 mt-2">
                     <p className="text-black font-black">
                       {motorbike.location}
                     </p>
@@ -300,8 +338,8 @@ export default function Page({
               </Link>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="hidden md:block" />
+          <CarouselNext className="hidden md:block" />
         </Carousel>
       </div>
     </section>
