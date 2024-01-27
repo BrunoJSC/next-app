@@ -132,12 +132,24 @@ export const bodyType = [
 
 
 export const accessories = [
-  { label: "ar condicionado", value: "ar condicionado" },
-  { label: "direção hidráulica", value: "direção hidráulica" },
-  { label: "trava elétrica", value: "trava eletrica" },
-  { label: "vidro Elétrico", value: "vidro eletrico" },
-  { label: "teto solar", value: "teto solar" },
-  { label: "som", value: "Som" },
-  { label: "multimidia", value: "multimidia" },
-  { label: "blindado", value: "blindado" },
+  { label: "Ar Condicionado", value: "ar condicionado" },
+  { label: "Direção Hidráulica", value: "direção hidráulica" },
+  { label: "Trava Elétrica", value: "trava eletrica" },
+  { label: "Vidro Elétrico", value: "vidro eletrico" },
+  { label: "Teto Solar", value: "teto solar" },
+  { label: "Som", value: "som" },
+  { label: "Multimidia", value: "multimidia" },
+  { label: "Blindado", value: "blindado" },
 ];
+
+export const announceType = [
+  {label: "Loja", value: "Loja"},
+  {label: "Particular", value: "Particular"}
+]
+
+export const stores = [
+  { label: "Edificar", value: "Edificar" },
+  { label: "Kairós", value: "Kairós" },
+  { label: "GP Motors", value: "GP Motors" },
+  { label: "Rhemar", value: "Rhemar" },
+]

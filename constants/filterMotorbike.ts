@@ -60,3 +60,17 @@ export const accessories = [
   { label: "Freio a Disco Traseiro", value: "Freio a Disco Traseiro" },
   { label: "Rodas de Liga Leve", value: "Rodas de Liga Leve" },
 ];
+
+export const announceType = [
+  {label: "Loja", value: "Loja"},
+  {label: "Particular", value: "Particular"}
+]
+
+
+
+export const stores = [
+  { label: "Edificar", value: "Edificar" },
+  { label: "Kairós", value: "Kairós" },
+  { label: "GP Motors", value: "GP Motors" },
+  { label: "Rhemar", value: "Rhemar" },
+]
