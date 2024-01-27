@@ -6,7 +6,6 @@ import { IMotorbike } from "@/types";
 import { db } from "@/firebase";
 import { onSnapshot, collection, deleteDoc, doc } from "firebase/firestore";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { DrawerBikes } from "@/components/DrawerBike";
 import { AuthContext } from "@/context/auth";
@@ -29,16 +28,13 @@ export default function Page() {
   }
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(db, "formMotorbike"),
-      (snapshot) => {
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as IMotorbike[];
-        setData(data);
-      }
-    );
+    const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as IMotorbike[];
+      setData(data);
+    });
 
     return () => unsubscribe();
   }, []);
