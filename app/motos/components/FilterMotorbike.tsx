@@ -41,6 +41,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [data, setData] = useState<IMotorbike[]>([]);
   const [filterColor, setFilterColor] = useState<string>("");
   const [filterLocation, setFilterLocation] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [accessory, setAccessory] = useState<string[]>([]);
 
   const fetchFilteredCars = async () => {
@@ -56,8 +57,9 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("motorbikeBrand", "==", filterBrand));
       }
 
-      if (filterModelMotorbike) {
-        q = query(q, where("motorbikeModel", "==", filterModelMotorbike));
+      if (searchTerm) {
+        q = query(q, where("motorbikeModel", ">=", searchTerm));
+        q = query(q, where("motorbikeModel", "<=", searchTerm + "\uf8ff"));
       }
 
       if (filterFuel) {
@@ -99,6 +101,12 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
     } catch (error) {
       console.error("Erro ao buscar carros filtrados:", error);
     }
+  };
+
+  const handleSearchTermChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleAccessoryChange = (accessoryValue: string) => {
@@ -177,8 +185,8 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
           id="model"
           type="text"
           placeholder="Filtrar por modelo"
-          value={filterModelMotorbike}
-          onChange={(e) => setFilterModelMotorbike(e.target.value)}
+          value={searchTerm}
+          onChange={handleSearchTermChange}
           className="w-full bg-white"
         />
       </div>

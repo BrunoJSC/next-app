@@ -46,7 +46,8 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [accessory, setAccessory] = useState<string[]>([]);
   const [filterStore, setFilterStore] = useState<string>("");
-  const [filterPrice, setFilterPrice] = useState<string>("");
+  const [filterPriceMin, setFilterPriceMin] = useState<string>("");
+  const [filterPriceMax, setFilterPriceMax] = useState<string>("");
 
   const fetchFilteredCars = async () => {
     try {
@@ -98,8 +99,12 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("location", "==", filterLocation));
       }
 
-      if (filterPrice) {
-        q = query(q, where("price", "==", filterPrice));
+      if (filterPriceMin) {
+        q = query(q, where("price", ">=", parseFloat(filterPriceMin)));
+      }
+
+      if (filterPriceMax) {
+        q = query(q, where("price", "<=", parseFloat(filterPriceMax)));
       }
 
       if (filterStore) {
@@ -202,6 +207,30 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
               <path d="m7 9 5-5 5 5" />
             </svg>
           </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <Label className="text-sm font-medium mb-3">Preço inicial</Label>
+          <Input
+            type="text"
+            placeholder="Ex: R$ 10.000"
+            value={filterPriceMin}
+            onChange={(e) => setFilterPriceMin(e.target.value)}
+            className="w-full bg-white"
+          />
+        </div>
+
+        <div>
+          <Label className="text-sm font-medium mb-5">Preço final</Label>
+          <Input
+            type="text"
+            placeholder="Ex: R$ 50.000"
+            value={filterPriceMax}
+            onChange={(e) => setFilterPriceMax(e.target.value)}
+            className="w-full bg-white"
+          />
         </div>
       </div>
 
@@ -430,24 +459,6 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
             <path d="m7 9 5-5 5 5" />
           </svg>
         </div>
-      </div>
-
-      <div>
-        <Label htmlFor="modelCar" className="text-sm font-medium mb-3">
-          Preço
-        </Label>
-        <Input
-          type="range"
-          id="price"
-          min={0}
-          max={100000}
-          step={100}
-          placeholder="Pesquisar modelo"
-          value={filterPrice}
-          onChange={(e) => setFilterPrice(e.target.value)}
-          className="w-full bg-white"
-        />
-        <p className="text-white">R${filterPrice ? filterPrice : 0}</p>
       </div>
 
       <div>
