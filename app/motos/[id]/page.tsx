@@ -45,6 +45,9 @@ export default function Page({
     description: string;
     accessories: string[];
     images: string[];
+    announce: string;
+    price: string;
+    plate: string;
   };
 }) {
   const form = useForm<z.infer<typeof contactVehicleSchema>>({
@@ -118,6 +121,9 @@ export default function Page({
           <CardTitle className="text-2xl font-bold text-primary">
             {searchParams.motorbikeBrand}{" "}
             <span className="text-black">{searchParams.motorbikeModel}</span>
+            <p className="text-primary">
+              R$ <span className="text-black">{searchParams.price}</span>
+            </p>
           </CardTitle>
         </CardHeader>
 
@@ -133,7 +139,7 @@ export default function Page({
         <div className="w-full flex flex-col md:flex-row md:justify-between mt-4">
           <div className="md:w-[450px] grid grid-cols-2 gap-4 p-4">
             <div>
-              <p className="font-bold">Cidade</p>
+              <p className="font-bold">Localização</p>
               <p className="text-primary">{searchParams.location}</p>
             </div>
 
@@ -160,6 +166,16 @@ export default function Page({
             <div>
               <p className="font-bold">Cor</p>
               <p className="text-primary">{searchParams.color}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Tipo de anúnciante</p>
+              <p className="text-primary">{searchParams.announce}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Placa</p>
+              <p className="text-primary">{searchParams.plate}</p>
             </div>
 
             <div className="col-span-2">

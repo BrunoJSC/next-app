@@ -54,5 +54,6 @@ export interface IMotorbike {
   description: string;
   accessories: string[];
   cylinder: string;
+  announce: string;
   images: string[];
 }
