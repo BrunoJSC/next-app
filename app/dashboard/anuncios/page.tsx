@@ -110,9 +110,6 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Leilão: {item.auction}</p>
 
               <p className="text-gray-600 mb-2">Condição: {item.condition}</p>
-              <p className="text-gray-600 mb-2">
-                Potência do motor: {item.motors}
-              </p>
 
               <p className="text-gray-600 mb-2">
                 Ano de fabricação: {item.yearFabrication}
@@ -135,7 +132,8 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Portas: {item.doors}</p>
               <p className="text-gray-600 mb-2">Cambio: {item.exchange}</p>
               <p className="text-gray-600 mb-2">motor: {item.motors}</p>
-              <p className="text-gray-600 mb-2">motor: {item.documents}</p>
+              <p className="text-gray-600 mb-2">Documentos: {item.documents}</p>
+              <p className="text-gray-600 mb-2">Lataria: {item.bodyWork}</p>
               <p className="text-gray-600 mb-2">
                 Descrição: {item.description}
               </p>

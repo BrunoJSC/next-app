@@ -54,7 +54,6 @@ export const carSchema = z.object({
    fuel: z.string().min(1, { message: "Fuel is required" }),
    km: z.string().min(1, { message: "Km is required" }),
    motors: z.string().min(1, { message: "Motors is required" }),
-   bodywork: z.string().min(1, { message: "Bodywork is required" }),
    documents: z.string().min(1, { message: "Documents is required" }),
   accessories: z.array(
      z.string().min(1, { message: "Accessories is required" })

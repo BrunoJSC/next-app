@@ -17,12 +17,12 @@ import { z } from "zod";
 import { accessories } from "@/constants";
 import { Label } from "@/components/ui/label";
 import {
+  bodyType,
   brandCar,
   carColors,
   doors,
   fuelCar,
   locations,
-  stores,
   transmissionType,
 } from "@/constants/filterCar";
 
@@ -52,7 +52,7 @@ export function FormCar() {
       fuel: "",
       km: "",
       motors: "",
-      bodywork: "",
+      bodyWork: "",
       documents: "",
       accessories: [],
       description: "",
@@ -115,7 +115,7 @@ export function FormCar() {
         condition: data.condition,
         exchange: data.exchange,
         documents: data.documents,
-        bodyWork: data.bodywork,
+        bodyWork: data.bodyWork,
         motors: data.motors,
         images: await handleUpload(),
       });
@@ -237,11 +237,30 @@ export function FormCar() {
 
           <div className="mt-3">
             <Label htmlFor="bodyType">Tipo de carroceria</Label>
-            <Input
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               {...form.register("bodyType")}
-              className="mt-2"
-              placeholder="Tipo de carroceria"
-            />
+            >
+              <option value="">Selecione</option>
+              {bodyType.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <div className="absolute top-1/2 end-3 -translate-y-1/2">
+              <svg
+                className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </div>
           </div>
 
           <div className="mt-3">
@@ -425,7 +444,7 @@ export function FormCar() {
             <Label htmlFor="bodywork">Lataria</Label>
 
             <Input
-              {...form.register("bodywork")}
+              {...form.register("bodyWork")}
               className="mt-2"
               placeholder="Se está boa, ou ruim"
             />
