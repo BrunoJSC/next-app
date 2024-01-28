@@ -1,7 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { db, storage } from "@/firebase";
@@ -25,6 +32,7 @@ import {
   locations,
   transmissionType,
 } from "@/constants/filterCar";
+import { NumericFormat } from "react-number-format";
 
 export function FormCar() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
@@ -502,12 +510,25 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="price">Preço</Label>
-
-            <Input
-              {...form.register("price")}
-              className="mt-2"
-              placeholder="Preço do veiculo"
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Preço</FormLabel>
+                  <FormControl>
+                    <NumericFormat
+                      thousandSeparator=","
+                      decimalSeparator="."
+                      prefix="$ "
+                      decimalScale={2}
+                      className="w-full bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
 

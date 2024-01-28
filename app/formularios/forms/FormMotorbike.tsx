@@ -28,6 +28,7 @@ import { CameraIcon } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { NumericFormat } from "react-number-format";
 
 export function FormMotorbike() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
@@ -119,6 +120,25 @@ export function FormMotorbike() {
       setLoading(false);
     }
   };
+
+  const formatPrice = (price: string): string => {
+    if (!price) return ""; // Retorna uma string vazia se o preço estiver vazio
+
+    // Remove todos os caracteres que não são dígitos
+    const numericInput = price.replace(/\D/g, "");
+
+    // Converte o preço para o formato de número
+    const numericPrice = Number(numericInput);
+
+    // Formata o preço com o símbolo da moeda brasileira (BRL)
+    const formattedPrice = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(numericPrice / 100); // Divida por 100 para tratar centavos
+
+    return formattedPrice;
+  };
+
   return (
     <div className="w-full">
       <Form {...form}>
@@ -558,13 +578,15 @@ export function FormMotorbike() {
               <FormItem>
                 <FormLabel>Preço</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite o preço da moto"
+                  <NumericFormat
+                    thousandSeparator=","
+                    decimalSeparator="."
+                    prefix="$ "
+                    decimalScale={2}
+                    className="w-full bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     {...field}
                   />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}

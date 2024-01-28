@@ -90,11 +90,8 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("cylinder", "==", filterCylinder));
       }
 
-      if (filterPriceMin) {
+      if (filterPriceMin && filterPriceMax) {
         q = query(q, where("price", ">=", filterPriceMin));
-      }
-
-      if (filterPriceMax) {
         q = query(q, where("price", "<=", filterPriceMax));
       }
 
@@ -301,7 +298,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
             className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={(e) => setFilterColor(e.target.value)}
           >
-            <option value="">Cor da moto</option>
+            <option value="">Selecione</option>
             {colorMotorbike.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
