@@ -43,6 +43,8 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterLocation, setFilterLocation] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [accessory, setAccessory] = useState<string[]>([]);
+  const [filterPriceMin, setFilterPriceMin] = useState<string>("");
+  const [filterPriceMax, setFilterPriceMax] = useState<string>("");
 
   const fetchFilteredCars = async () => {
     try {
@@ -84,6 +86,14 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
       if (filterCylinder) {
         q = query(q, where("cylinder", "==", filterCylinder));
+      }
+
+      if (filterPriceMin) {
+        q = query(q, where("price", ">=", parseFloat(filterPriceMin)));
+      }
+
+      if (filterPriceMax) {
+        q = query(q, where("price", "<=", parseFloat(filterPriceMax)));
       }
 
       if (accessory.length > 0) {
@@ -189,6 +199,30 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
           onChange={handleSearchTermChange}
           className="w-full bg-white"
         />
+      </div>
+
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <Label className="text-sm font-medium mb-3">Preço inicial</Label>
+          <Input
+            type="text"
+            placeholder="Ex: R$ 10.000"
+            value={filterPriceMin}
+            onChange={(e) => setFilterPriceMin(e.target.value)}
+            className="w-full bg-white"
+          />
+        </div>
+
+        <div>
+          <Label className="text-sm font-medium mb-5">Preço final</Label>
+          <Input
+            type="text"
+            placeholder="Ex: R$ 50.000"
+            value={filterPriceMax}
+            onChange={(e) => setFilterPriceMax(e.target.value)}
+            className="w-full bg-white"
+          />
+        </div>
       </div>
 
       <div>

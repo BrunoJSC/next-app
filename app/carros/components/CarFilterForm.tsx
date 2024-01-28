@@ -210,6 +210,19 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         </div>
       </div>
 
+      <div>
+        <Label htmlFor="modelCar" className="text-sm font-medium mb-3">
+          Modelo
+        </Label>
+        <Input
+          type="text"
+          placeholder="Pesquisar modelo"
+          value={searchTerm}
+          onChange={handleSearchTermChange}
+          className="w-full bg-white"
+        />
+      </div>
+
       <div className="grid grid-cols-2 gap-2">
         <div>
           <Label className="text-sm font-medium mb-3">Preço inicial</Label>
@@ -232,19 +245,6 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
             className="w-full bg-white"
           />
         </div>
-      </div>
-
-      <div>
-        <Label htmlFor="modelCar" className="text-sm font-medium mb-3">
-          Modelo
-        </Label>
-        <Input
-          type="text"
-          placeholder="Pesquisar modelo"
-          value={searchTerm}
-          onChange={handleSearchTermChange}
-          className="w-full bg-white"
-        />
       </div>
 
       <div>
