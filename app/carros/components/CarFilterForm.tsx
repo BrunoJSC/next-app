@@ -45,6 +45,8 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterLocation, setFilterLocation] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [accessory, setAccessory] = useState<string[]>([]);
+  const [filterStore, setFilterStore] = useState<string>("");
+  const [filterPrice, setFilterPrice] = useState<string>("");
 
   const fetchFilteredCars = async () => {
     try {
@@ -94,6 +96,14 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
       if (filterLocation) {
         q = query(q, where("location", "==", filterLocation));
+      }
+
+      if (filterPrice) {
+        q = query(q, where("price", "==", filterPrice));
+      }
+
+      if (filterStore) {
+        q = query(q, where("stores", "==", filterStore));
       }
 
       if (accessory.length > 0) {
@@ -396,8 +406,9 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <Label htmlFor="">Lojas</Label>
         <select
           name="store"
+          value={filterStore}
           className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          onChange={(e) => setFilterLocation(e.target.value)}
+          onChange={(e) => setFilterStore(e.target.value)}
         >
           <option value="">Selecione</option>
           {stores.map((option) => (
@@ -419,6 +430,24 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
             <path d="m7 9 5-5 5 5" />
           </svg>
         </div>
+      </div>
+
+      <div>
+        <Label htmlFor="modelCar" className="text-sm font-medium mb-3">
+          Preço
+        </Label>
+        <Input
+          type="range"
+          id="price"
+          min={0}
+          max={100000}
+          step={100}
+          placeholder="Pesquisar modelo"
+          value={filterPrice}
+          onChange={(e) => setFilterPrice(e.target.value)}
+          className="w-full bg-white"
+        />
+        <p className="text-white">R${filterPrice ? filterPrice : 0}</p>
       </div>
 
       <div>
