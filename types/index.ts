@@ -35,6 +35,7 @@ export interface ICar {
   stores: string;
   announce: string;
   documents: string;
+  bodyWork: string;
   images: string[];
 }
 

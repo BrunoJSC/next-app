@@ -114,6 +114,9 @@ export function FormCar() {
         description: data.description,
         condition: data.condition,
         exchange: data.exchange,
+        documents: data.documents,
+        bodyWork: data.bodywork,
+        motors: data.motors,
         images: await handleUpload(),
       });
     } catch (error) {

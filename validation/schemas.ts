@@ -38,6 +38,7 @@ export const carSchema = z.object({
    brandCar: z.string().min(1, { message: "Brand is required" }),
    modelCar: z.string().min(1, { message: "Model is required" }),
   bodyType: z.string().min(1, { message: "Body Type is required" }),
+  bodyWork: z.string().min(1, { message: "Body Work is required" }),
    mechanic: z.string().min(1, { message: "Mechanic is required" }),
    condition: z.string().min(1, { message: "Condition is required" }),
    plate: z.string().min(1, { message: "Plate is required" }),
