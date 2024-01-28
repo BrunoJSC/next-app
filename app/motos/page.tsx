@@ -86,7 +86,7 @@ export default function Page() {
                     {Intl.NumberFormat("pt-BR", {
                       style: "currency",
                       currency: "BRL",
-                    }).format(motorbike.price)}
+                    }).format(Number(motorbike.price))}
                   </p>
                 </div>
               </div>

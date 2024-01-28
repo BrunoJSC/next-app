@@ -41,7 +41,7 @@ export interface IMotorbike {
   id: string;
   motorbikeModel: string;
   motorbikeBrand: string;
-  price: number;
+  price: string;
   km: number;
   color: string;
   typeBody: string;
