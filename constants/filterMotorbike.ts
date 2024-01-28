@@ -128,3 +128,8 @@ export const condition = [
   {label: "Usado", value: "Usado"},
   {label: "Seminovo", value: "Seminovo"},
 ]
+
+export const price = [
+  {label: "R$5000,00", value: "500000"},
+  
+]

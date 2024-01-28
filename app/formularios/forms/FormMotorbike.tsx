@@ -121,24 +121,6 @@ export function FormMotorbike() {
     }
   };
 
-  const formatPrice = (price: string): string => {
-    if (!price) return ""; // Retorna uma string vazia se o preço estiver vazio
-
-    // Remove todos os caracteres que não são dígitos
-    const numericInput = price.replace(/\D/g, "");
-
-    // Converte o preço para o formato de número
-    const numericPrice = Number(numericInput);
-
-    // Formata o preço com o símbolo da moeda brasileira (BRL)
-    const formattedPrice = new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(numericPrice / 100); // Divida por 100 para tratar centavos
-
-    return formattedPrice;
-  };
-
   return (
     <div className="w-full">
       <Form {...form}>
