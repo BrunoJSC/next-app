@@ -191,8 +191,13 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Placa: {item.plate}</p>
               <p className="text-gray-600 mb-2">Cilindradas: {item.cylinder}</p>
               <p className="text-gray-600 mb-2">Localização: {item.location}</p>
-              <p className="text-gray-600 mb-2">Preço: {item.price}</p>
-
+              <p className="text-gray-600 mb-2">
+                Preço R$: {Intl.NumberFormat().format(Number(item.price))}
+              </p>
+              <p className="text-gray-600 mb-2">Leilão: {item.auction}</p>
+              <p className="text-gray-600 mb-2">Mecânico: {item.mechanic}</p>
+              <p className="text-gray-600 mb-2">FIP: {item.fip}</p>
+              <p className="text-gray-600 mb-2">Carenagem: {item.fairing}</p>
               <p className="text-gray-600 mb-2">
                 Descrição: {item.description}
               </p>

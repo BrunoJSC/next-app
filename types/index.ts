@@ -45,8 +45,7 @@ export interface IMotorbike {
   email: string;
   phone: string;
   auction: string;
-
-
+  fip: string;
   motorbikeModel: string;
   motorbikeBrand: string;
   price: string;
@@ -62,6 +61,7 @@ export interface IMotorbike {
   description: string;
   accessories: string[];
   cylinder: string;
+  fairing: string;
   announce: string;
   images: string[];
 }
