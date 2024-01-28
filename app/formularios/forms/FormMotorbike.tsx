@@ -12,7 +12,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { cylinder } from "@/constants/filterMotorbike";
+import {
+  brandMotorbike,
+  colorMotorbike,
+  cylinder,
+  fuelMotorbike,
+} from "@/constants/filterMotorbike";
 import { db, storage } from "@/firebase";
 import { motorbikeSchema } from "@/validation/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -195,11 +200,33 @@ export function FormMotorbike() {
               <FormItem>
                 <FormLabel>Marca da moto</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite a marca da moto"
-                    {...field}
-                  />
+                  <div className="relative">
+                    <select
+                      className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      {...form.register("motorbikeBrand")}
+                    >
+                      <option value="">Selecione</option>
+                      {brandMotorbike.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+
+                    <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                      <svg
+                        className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path d="m7 15 5 5 5-5" />
+                        <path d="m7 9 5-5 5 5" />
+                      </svg>
+                    </div>
+                  </div>
                 </FormControl>
 
                 <FormMessage />
@@ -328,11 +355,33 @@ export function FormMotorbike() {
               <FormItem>
                 <FormLabel>Cor</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite a cor da moto"
-                    {...field}
-                  />
+                  <div className="relative">
+                    <select
+                      className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      {...form.register("color")}
+                    >
+                      <option value="">Selecione</option>
+                      {colorMotorbike.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+
+                    <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                      <svg
+                        className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path d="m7 15 5 5 5-5" />
+                        <path d="m7 9 5-5 5 5" />
+                      </svg>
+                    </div>
+                  </div>
                 </FormControl>
 
                 <FormMessage />
@@ -347,11 +396,33 @@ export function FormMotorbike() {
               <FormItem>
                 <FormLabel>KM</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite a quilometragem da moto"
-                    {...field}
-                  />
+                  <div className="relative">
+                    <select
+                      className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      {...form.register("motorbikeBrand")}
+                    >
+                      <option value="">Selecione</option>
+                      {brandMotorbike.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+
+                    <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                      <svg
+                        className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path d="m7 15 5 5 5-5" />
+                        <path d="m7 9 5-5 5 5" />
+                      </svg>
+                    </div>
+                  </div>
                 </FormControl>
 
                 <FormMessage />
@@ -366,11 +437,33 @@ export function FormMotorbike() {
               <FormItem>
                 <FormLabel>Combustível</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite o tipo de combustível da moto"
-                    {...field}
-                  />
+                  <div className="relative">
+                    <select
+                      className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      {...form.register("fuel")}
+                    >
+                      <option value="">Selecione</option>
+                      {fuelMotorbike.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+
+                    <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                      <svg
+                        className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path d="m7 15 5 5 5-5" />
+                        <path d="m7 9 5-5 5 5" />
+                      </svg>
+                    </div>
+                  </div>
                 </FormControl>
 
                 <FormMessage />
@@ -389,21 +482,6 @@ export function FormMotorbike() {
                     placeholder="Digite o estado da carenagem. boa, media ou ruim"
                     {...field}
                   />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="cylinder"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cilindradas</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite a cilindrada da moto" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -454,9 +532,35 @@ export function FormMotorbike() {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Descrição</FormLabel>
+                <FormLabel>Cilindradas</FormLabel>
                 <FormControl>
-                  <Textarea className="h-[300px]" {...field} />
+                  <div className="relative">
+                    <select
+                      className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      {...form.register("cylinder")}
+                    >
+                      <option value="">Selecione</option>
+                      {cylinder.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+
+                    <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                      <svg
+                        className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path d="m7 15 5 5 5-5" />
+                        <path d="m7 9 5-5 5 5" />
+                      </svg>
+                    </div>
+                  </div>
                 </FormControl>
 
                 <FormMessage />
@@ -471,13 +575,7 @@ export function FormMotorbike() {
               <FormItem>
                 <FormLabel>Descrição</FormLabel>
                 <FormControl>
-                  <select>
-                    {cylinder.map((cylinder) => (
-                      <option key={cylinder.value} value={cylinder.value}>
-                        {cylinder.label}
-                      </option>
-                    ))}
-                  </select>
+                  <Textarea className="h-[300px]" {...field} />
                 </FormControl>
 
                 <FormMessage />

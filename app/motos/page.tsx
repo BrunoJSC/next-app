@@ -49,6 +49,7 @@ export default function Page() {
                   accessories: motorbike.accessories,
                   announce: motorbike.announce,
                   price: motorbike.price,
+                  plate: motorbike.plate,
                   images: motorbike.images,
                 },
               }}

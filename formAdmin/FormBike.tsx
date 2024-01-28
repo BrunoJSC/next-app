@@ -92,6 +92,7 @@ export function FormBike() {
         price: data.price,
         description: data.description,
         cylinder: data.cylinder,
+        announce: data.announce,
         accessories: data.accessories,
         images: await handleUpload(),
       });

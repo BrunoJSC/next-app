@@ -122,7 +122,13 @@ export default function Page({
             {searchParams.motorbikeBrand}{" "}
             <span className="text-black">{searchParams.motorbikeModel}</span>
             <p className="text-primary">
-              R$ <span className="text-black">{searchParams.price}</span>
+              R${" "}
+              <span className="text-black">
+                {Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(parseInt(searchParams.price))}
+              </span>
             </p>
           </CardTitle>
         </CardHeader>
