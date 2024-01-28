@@ -41,6 +41,12 @@ export interface ICar {
 
 export interface IMotorbike {
   id: string;
+  name: string;
+  email: string;
+  phone: string;
+  auction: string;
+
+
   motorbikeModel: string;
   motorbikeBrand: string;
   price: string;

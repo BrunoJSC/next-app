@@ -131,7 +131,7 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Fip: {item.fip}</p>
               <p className="text-gray-600 mb-2">Portas: {item.doors}</p>
               <p className="text-gray-600 mb-2">Cambio: {item.exchange}</p>
-              <p className="text-gray-600 mb-2">motor: {item.motors}</p>
+              <p className="text-gray-600 mb-2">Motor: {item.motors}</p>
               <p className="text-gray-600 mb-2">Documentos: {item.documents}</p>
               <p className="text-gray-600 mb-2">Lataria: {item.bodyWork}</p>
               <p className="text-gray-600 mb-2">
@@ -173,6 +173,11 @@ export default function Page() {
               <h2 className="text-xl font-semibold mb-2">
                 modelo: {item.motorbikeModel}
               </h2>
+
+              <p className="text-gray-600 mb-2">Nome: {item.name}</p>
+              <p className="text-gray-600 mb-2">Email: {item.email}</p>
+              <p className="text-gray-600 mb-2">Celular: {item.phone}</p>
+              <p className="text-gray-600 mb-2">Localização: {item.location}</p>
               <p className="text-gray-600 mb-2">
                 Ano de fabricação: {item.yearFabrication}
               </p>
@@ -184,12 +189,10 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Cor: {item.color}</p>
               <p className="text-gray-600 mb-2">Mecanico: {item.mechanic}</p>
               <p className="text-gray-600 mb-2">Placa: {item.plate}</p>
-              <p className="text-gray-600 mb-2">Cilindro: {item.cylinder}</p>
+              <p className="text-gray-600 mb-2">Cilindradas: {item.cylinder}</p>
               <p className="text-gray-600 mb-2">Localização: {item.location}</p>
               <p className="text-gray-600 mb-2">Preço: {item.price}</p>
-              <p className="text-gray-600 mb-2">
-                Tipo de carroceria: {item.typeBody}
-              </p>
+
               <p className="text-gray-600 mb-2">
                 Descrição: {item.description}
               </p>

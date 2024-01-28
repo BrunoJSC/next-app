@@ -420,13 +420,32 @@ export function FormMotorbike() {
               <FormItem>
                 <FormLabel>KM</FormLabel>
                 <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Digite a KM da moto"
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="fuel"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Combustível</FormLabel>
+                <FormControl>
                   <div className="relative">
                     <select
                       className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      {...form.register("motorbikeBrand")}
+                      {...form.register("fuel")}
                     >
                       <option value="">Selecione</option>
-                      {brandMotorbike.map((option) => (
+                      {fuelMotorbike.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
@@ -456,18 +475,18 @@ export function FormMotorbike() {
 
           <FormField
             control={form.control}
-            name="fuel"
+            name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Combustível</FormLabel>
+                <FormLabel>Cilindradas</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <select
                       className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      {...form.register("fuel")}
+                      {...form.register("cylinder")}
                     >
                       <option value="">Selecione</option>
-                      {fuelMotorbike.map((option) => (
+                      {cylinder.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
@@ -544,47 +563,6 @@ export function FormMotorbike() {
                     placeholder="Digite o preço da moto"
                     {...field}
                   />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cilindradas</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <select
-                      className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      {...form.register("cylinder")}
-                    >
-                      <option value="">Selecione</option>
-                      {cylinder.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-
-                    <div className="absolute top-1/2 end-3 -translate-y-1/2">
-                      <svg
-                        className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                      >
-                        <path d="m7 15 5 5 5-5" />
-                        <path d="m7 9 5-5 5 5" />
-                      </svg>
-                    </div>
-                  </div>
                 </FormControl>
 
                 <FormMessage />

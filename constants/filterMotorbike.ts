@@ -75,8 +75,7 @@ export const stores = [
 ]
 
 export const cylinder = [
-  {label: "250", value: "250"
- },
+  
  {label: "50", value: "50"
  },
  {label: "110", value: "110"
