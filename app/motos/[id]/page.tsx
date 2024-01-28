@@ -97,19 +97,22 @@ export default function Page({
           className="w-full max-w-screen-lg mx-auto mt-2"
         >
           <CarouselContent>
-            {searchParams.images.map((_, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:w-[400px]">
-                <div className="w-full h-[400px]">
-                  <Image
-                    src={searchParams.images[index]}
-                    alt="car"
-                    width={400}
-                    height={400}
-                    className="w-full h-full rounded-xl object-cover"
-                  />
-                </div>
-              </CarouselItem>
-            ))}
+            {searchParams.images &&
+              Array.isArray(searchParams.images) &&
+              searchParams.images.length > 0 &&
+              searchParams.images.map((_, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:w-[400px]">
+                  <div className="w-full h-[400px]">
+                    <Image
+                      src={searchParams.images[index]}
+                      alt="car"
+                      width={400}
+                      height={400}
+                      className="w-full h-full rounded-xl object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
           </CarouselContent>
           <CarouselPrevious className="hidden md:block" />
           <CarouselNext className="hidden md:block" />

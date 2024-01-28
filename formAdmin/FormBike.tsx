@@ -102,6 +102,7 @@ export function FormBike() {
       setLoading(false);
     }
 
+    console.log(data);
     form.reset();
   };
   return (
