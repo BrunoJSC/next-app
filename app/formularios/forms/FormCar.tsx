@@ -23,6 +23,7 @@ import {
   fuelCar,
   locations,
   stores,
+  transmissionType,
 } from "@/constants/filterCar";
 
 export function FormCar() {
@@ -112,7 +113,7 @@ export function FormCar() {
         price: data.price,
         description: data.description,
         condition: data.condition,
-        documents: data.documents,
+        exchange: data.exchange,
         images: await handleUpload(),
       });
     } catch (error) {
@@ -430,11 +431,33 @@ export function FormCar() {
           <div className="mt-3">
             <Label htmlFor="exchange">Câmbio</Label>
 
-            <Input
-              {...form.register("exchange")}
-              className="mt-2"
-              placeholder="Tipo de cambio do veiculo"
-            />
+            <div className="relative">
+              <select
+                className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                {...form.register("exchange")}
+              >
+                <option value="">Selecione</option>
+                {transmissionType.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+
+              <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                <svg
+                  className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="m7 15 5 5 5-5" />
+                  <path d="m7 9 5-5 5 5" />
+                </svg>
+              </div>
+            </div>
           </div>
 
           <div className="mt-3">

@@ -134,6 +134,7 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Fip: {item.fip}</p>
               <p className="text-gray-600 mb-2">Portas: {item.doors}</p>
               <p className="text-gray-600 mb-2">Cambio: {item.exchange}</p>
+              <p className="text-gray-600 mb-2">motor: {item.motors}</p>
               <p className="text-gray-600 mb-2">
                 Descrição: {item.description}
               </p>

@@ -1,5 +1,5 @@
 // components/Filters.tsx
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IMotorbike } from "@/types";
 import {
   CollectionReference,
@@ -20,6 +20,7 @@ import {
   announceType,
   brandMotorbike,
   colorMotorbike,
+  cylinder,
   fuelMotorbike,
   locations,
   stores,
@@ -34,9 +35,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterFuel, setFilterFuel] = useState<string>("");
   const [filterModelMotorbike, setFilterModelMotorbike] = useState<string>("");
   const [filterYear, setFilterYear] = useState<string>("");
-  const [color, setColor] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
-  const [cylinder, setCylinder] = useState<string>("");
+  const [filterCylinder, setFilterCylinder] = useState<string>("");
   const [startYear, setStartYear] = useState<string>("");
   const [endYear, setEndYear] = useState<string>("");
   const [data, setData] = useState<IMotorbike[]>([]);
@@ -81,8 +80,8 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("location", "==", filterLocation));
       }
 
-      if (cylinder) {
-        q = query(q, where("cylinder", "==", cylinder));
+      if (filterCylinder) {
+        q = query(q, where("cylinder", "==", filterCylinder));
       }
 
       if (accessory.length > 0) {
@@ -110,17 +109,19 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
     }
   };
 
-  const resetFilter = () => {
+  const resetFilter = useCallback(() => {
     setFilterBrand("");
     setFilterFuel("");
     setFilterModelMotorbike("");
     setFilterYear("");
-    setColor("");
-    setLocation("");
-    setCylinder("");
     setStartYear("");
     setEndYear("");
-  };
+    setFilterColor("");
+    setFilterLocation("");
+    setAccessory([]);
+
+    onFilterChange(data);
+  }, [data, onFilterChange]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
@@ -303,14 +304,33 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
       <div>
         <Label htmlFor="cylinders">Cilindradas</Label>
-        <Input
-          id="cylinders"
-          type="text"
-          className="w-full bg-white"
-          placeholder="Cilindradas"
-          value={cylinder}
-          onChange={(e) => setCylinder(e.target.value)}
-        />
+        <div className="relative">
+          <select
+            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            onChange={(e) => setFilterCylinder(e.target.value)}
+          >
+            <option value="">Selecione</option>
+            {cylinder.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+
+          <div className="absolute top-1/2 end-3 -translate-y-1/2">
+            <svg
+              className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="m7 15 5 5 5-5" />
+              <path d="m7 9 5-5 5 5" />
+            </svg>
+          </div>
+        </div>
       </div>
 
       <div>
