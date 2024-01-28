@@ -46,6 +46,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterPriceMin, setFilterPriceMin] = useState<string>("");
   const [filterPriceMax, setFilterPriceMax] = useState<string>("");
   const [filterStore, setFilterStore] = useState<string>("");
+  const [filterAnnounceType, setFilterAnnounceType] = useState<string>("");
 
   const fetchFilteredCars = async () => {
     try {
@@ -95,6 +96,10 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
       if (filterPriceMax) {
         q = query(q, where("price", "<=", filterPriceMax));
+      }
+
+      if (filterAnnounceType) {
+        q = query(q, where("announce", "==", filterAnnounceType));
       }
 
       if (accessory.length > 0) {
@@ -234,6 +239,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <Label htmlFor="fuelMotorbike">Combustível</Label>
         <div className="relative">
           <select
+            value={filterFuel}
             className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={(e) => setFilterFuel(e.target.value)}
           >
@@ -291,6 +297,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <Label htmlFor="fuelMotorbike">Cor</Label>
         <div className="relative">
           <select
+            value={filterColor}
             className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={(e) => setFilterColor(e.target.value)}
           >
@@ -322,6 +329,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <Label htmlFor="locations">Localização</Label>
         <div className="relative">
           <select
+            value={filterLocation}
             className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={(e) => setFilterLocation(e.target.value)}
           >
@@ -353,6 +361,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <Label htmlFor="cylinders">Cilindradas</Label>
         <div className="relative">
           <select
+            value={filterCylinder}
             className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={(e) => setFilterCylinder(e.target.value)}
           >
@@ -384,8 +393,9 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <Label htmlFor="typeAnnouncer">Tipo de anunciante</Label>
         <div className="relative">
           <select
+            value={filterAnnounceType}
             className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            onChange={(e) => setFilterFuel(e.target.value)}
+            onChange={(e) => setFilterAnnounceType(e.target.value)}
           >
             <option value="">Selecione</option>
             {announceType.map((option) => (
