@@ -141,6 +141,7 @@ export const stores = [
   { label: "Kairós", value: "Kairós" },
   { label: "GP Motors", value: "GP Motors" },
   { label: "Rhemar", value: "Rhemar" },
+  {label: "Sem loja", value: "Sem loja"}
 ]
 
 export const bodyType = [

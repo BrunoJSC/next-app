@@ -83,11 +83,7 @@ export default function Page() {
                     Localização: {motorbike.location}
                   </p>
                   <p className="font-bold text-2xl mt-2 text-primary">
-                    Valor:{" "}
-                    {Intl.NumberFormat("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    }).format(Number(motorbike.price))}
+                    Valor: {motorbike.price}
                   </p>
                 </div>
               </div>

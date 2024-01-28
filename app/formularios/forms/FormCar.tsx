@@ -239,7 +239,7 @@ export function FormCar() {
             <Input
               {...form.register("modelCar")}
               className="mt-2"
-              placeholder="Modelo do veículo"
+              placeholder="Modelo do veículo digite neste formato ex: X1 ou Nissan 370Z"
             />
           </div>
 
@@ -429,12 +429,25 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="km">KM</Label>
-
-            <Input
-              {...form.register("km")}
-              className="mt-2"
-              placeholder="Quantidade de KM rodados"
+            <FormField
+              control={form.control}
+              name="km"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>KM</FormLabel>
+                  <FormControl>
+                    <NumericFormat
+                      thousandSeparator="."
+                      decimalSeparator=","
+                      prefix=" "
+                      decimalScale={2}
+                      className="w-full bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
 
@@ -518,9 +531,9 @@ export function FormCar() {
                   <FormLabel>Preço</FormLabel>
                   <FormControl>
                     <NumericFormat
-                      thousandSeparator=","
-                      decimalSeparator="."
-                      prefix="$ "
+                      thousandSeparator="."
+                      decimalSeparator=","
+                      prefix="R$ "
                       decimalScale={2}
                       className="w-full bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       {...field}

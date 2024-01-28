@@ -118,7 +118,7 @@ export default function Page() {
               <p className="text-gray-600 mb-2">
                 Ano de modificação: {item.yearModification}
               </p>
-              <p className="text-gray-600 mb-2">KM: {item.km} km</p>
+              <p className="text-gray-600 mb-2">KM: {item.km}</p>
               <p className="text-gray-600 mb-2">Combustivel: {item.fuel}</p>
               <p className="text-gray-600 mb-2">Cor: {item.color}</p>
               <p className="text-gray-600 mb-2">Mecanico: {item.mechanic}</p>
@@ -135,7 +135,8 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Documentos: {item.documents}</p>
               <p className="text-gray-600 mb-2">Lataria: {item.bodyWork}</p>
               <p className="text-gray-600 mb-2">
-                Descrição: {item.description}
+                <span className="block">Descrição:</span>
+                <span className="block">{item.description}</span>
               </p>
               <div className="mt-4">
                 {item.images?.map((image, index) => (

@@ -25,6 +25,7 @@ import {
   locations,
   stores,
 } from "@/constants/filterMotorbike";
+import { NumericFormat } from "react-number-format";
 
 interface FiltersProps {
   onFilterChange: (filteredData: IMotorbike[]) => void;
@@ -90,8 +91,11 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("cylinder", "==", filterCylinder));
       }
 
-      if (filterPriceMin && filterPriceMax) {
+      if (filterPriceMin) {
         q = query(q, where("price", ">=", filterPriceMin));
+      }
+
+      if (filterPriceMax) {
         q = query(q, where("price", "<=", filterPriceMax));
       }
 
@@ -211,23 +215,29 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
       <div className="grid grid-cols-2 gap-2">
         <div>
           <Label className="text-sm font-medium mb-3">Preço inicial</Label>
-          <Input
-            type="text"
-            placeholder="Ex: R$ 10.000"
+          <NumericFormat
             value={filterPriceMin}
             onChange={(e) => setFilterPriceMin(e.target.value)}
-            className="w-full bg-white"
+            thousandSeparator="."
+            decimalSeparator=","
+            prefix="R$ "
+            placeholder="R$ 10.000"
+            className=" bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            allowNegative={false}
           />
         </div>
 
         <div>
           <Label className="text-sm font-medium mb-5">Preço final</Label>
-          <Input
-            type="text"
-            placeholder="Ex: R$ 50.000"
+          <NumericFormat
             value={filterPriceMax}
             onChange={(e) => setFilterPriceMax(e.target.value)}
-            className="w-full bg-white"
+            thousandSeparator="."
+            decimalSeparator=","
+            prefix="R$ "
+            placeholder="R$ 50.000"
+            className=" bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            allowNegative={false}
           />
         </div>
       </div>

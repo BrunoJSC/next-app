@@ -306,66 +306,55 @@ export default function Page({
         </div>
       </Card>
 
-      <div className="p-12 max-w-screen-xl mx-auto mt-44">
-        <Carousel
-          opts={{
-            align: "start",
-          }}
-          className="w-full mx-auto mt-2"
-        >
-          <CarouselContent className="flex flex-wrap">
-            {data.map((motorbike) => (
-              <Link
-                href={{
-                  pathname: `/motos/${motorbike.id}`,
-                  query: {
-                    motorbikeBrand: motorbike.motorbikeBrand,
-                    motorbikeModel: motorbike.motorbikeModel,
-                    yearFabrication: motorbike.yearFabrication,
-                    location: motorbike.location,
-                    km: motorbike.km,
-                    fuel: motorbike.fuel,
-                    cylinder: motorbike.cylinder,
-                    color: motorbike.color,
-                    description: motorbike.description,
-                    images: motorbike.images,
-                  },
-                }}
-                key={motorbike.id}
-                className="w-full md:w-1/6 lg:w-1/3 xl:w-1/4 px-2 mb-4"
-              >
-                <CarouselItem className="w-full">
-                  <div className="w-full h-[300px] md:h-[400px]">
-                    <Image
-                      src={motorbike.images[0]}
-                      alt="car"
-                      width={400}
-                      height={400}
-                      className="w-full h-full rounded-xl object-cover"
-                    />
-                  </div>
+      <div className="p-6 md:p-12 max-w-screen-xl mx-auto mt-10">
+        <div className="flex flex-wrap justify-center">
+          {data.map((motorbike) => (
+            <Link
+              key={motorbike.id}
+              href={{
+                pathname: `/motos/${motorbike.id}`,
+                query: {
+                  motorbikeBrand: motorbike.motorbikeBrand,
+                  motorbikeModel: motorbike.motorbikeModel,
+                  yearFabrication: motorbike.yearFabrication,
+                  location: motorbike.location,
+                  km: motorbike.km,
+                  fuel: motorbike.fuel,
+                  cylinder: motorbike.cylinder,
+                  color: motorbike.color,
+                  description: motorbike.description,
+                  images: motorbike.images,
+                },
+              }}
+              passHref // Adiciona passHref para garantir que os atributos href sejam passados para o componente Link
+            >
+              <div className="rounded-xl overflow-hidden shadow-md">
+                <div className="w-full aspect-w-16 aspect-h-9">
+                  <img
+                    src={motorbike.images[0]}
+                    alt="car"
+                    className="rounded-xl transition-transform hover:scale-105 object-cover w-full h-full"
+                  />
+                </div>
 
-                  <h2 className="text-black text-2xl font-bold mt-2">
-                    {motorbike.motorbikeBrand} - {motorbike.motorbikeModel}
-                  </h2>
+                <h2 className="text-black text-lg font-bold mt-2">
+                  {motorbike.motorbikeBrand} - {motorbike.motorbikeModel}
+                </h2>
 
-                  <div className="grid grid-cols-2 gap-2 mt-2">
-                    <p className="text-black font-black">
-                      {motorbike.location}
-                    </p>
-                    <p className="text-black font-black">
-                      {motorbike.yearFabrication}
-                    </p>
-                    <p className="text-black font-black">{motorbike.km}KM</p>
-                    <p className="text-black font-black">{motorbike.fuel}</p>
-                  </div>
-                </CarouselItem>
-              </Link>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="hidden md:block" />
-          <CarouselNext className="hidden md:block" />
-        </Carousel>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <p className="text-black font-semibold">
+                    {motorbike.location}
+                  </p>
+                  <p className="text-black font-semibold">
+                    {motorbike.yearFabrication}
+                  </p>
+                  <p className="text-black font-semibold">{motorbike.km}KM</p>
+                  <p className="text-black font-semibold">{motorbike.fuel}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

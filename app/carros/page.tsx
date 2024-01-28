@@ -113,11 +113,7 @@ export default function Cars() {
                     </p>
                     <p className="font-black">Localização: {car.location}</p>
                     <p className="font-bold text-2xl mt-2 text-primary">
-                      Valor:{" "}
-                      {Intl.NumberFormat("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                      }).format(Number(car.price))}
+                      Valor: {car.price}
                     </p>
                   </div>
                 </div>
