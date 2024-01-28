@@ -100,11 +100,11 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
       }
 
       if (filterPriceMin) {
-        q = query(q, where("price", ">=", parseFloat(filterPriceMin)));
+        q = query(q, where("price", ">=", filterPriceMin));
       }
 
       if (filterPriceMax) {
-        q = query(q, where("price", "<=", parseFloat(filterPriceMax)));
+        q = query(q, where("price", "<=", filterPriceMax));
       }
 
       if (filterStore) {

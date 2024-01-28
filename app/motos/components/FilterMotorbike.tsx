@@ -45,6 +45,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [accessory, setAccessory] = useState<string[]>([]);
   const [filterPriceMin, setFilterPriceMin] = useState<string>("");
   const [filterPriceMax, setFilterPriceMax] = useState<string>("");
+  const [filterStore, setFilterStore] = useState<string>("");
 
   const fetchFilteredCars = async () => {
     try {
@@ -89,15 +90,19 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
       }
 
       if (filterPriceMin) {
-        q = query(q, where("price", ">=", parseFloat(filterPriceMin)));
+        q = query(q, where("price", ">=", filterPriceMin));
       }
 
       if (filterPriceMax) {
-        q = query(q, where("price", "<=", parseFloat(filterPriceMax)));
+        q = query(q, where("price", "<=", filterPriceMax));
       }
 
       if (accessory.length > 0) {
         q = query(q, where("accessories", "array-contains-any", accessory));
+      }
+
+      if (filterStore) {
+        q = query(q, where("stores", "==", filterStore));
       }
 
       const querySnapshot = await getDocs(q);
@@ -413,9 +418,9 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <div className="relative">
           <select
             name="stores"
-            value={filterBrand}
+            value={filterStore}
             className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            onChange={(e) => setFilterBrand(e.target.value)}
+            onChange={(e) => setFilterStore(e.target.value)}
           >
             <option value="">Selecione</option>
             {stores.map((option) => (

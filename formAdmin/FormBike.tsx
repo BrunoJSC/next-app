@@ -93,6 +93,7 @@ export function FormBike() {
         description: data.description,
         cylinder: data.cylinder,
         announce: data.announce,
+        stores: data.stores,
         accessories: data.accessories,
         images: await handleUpload(),
       });

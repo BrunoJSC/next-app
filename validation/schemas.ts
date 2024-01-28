@@ -103,6 +103,7 @@ export const carSchema = z.object({
    description: z.string().min(1, { message: "Description is required" }),
    fairing: z.string().min(1, { message: "Fairing is required" }),
    cylinder: z.string().min(1, { message: "Cylinder is required" }),
+   stores: z.string().min(1, { message: "Stores is required" }),
    images: z
      .any()
      .refine((files) => {
@@ -160,8 +161,8 @@ export const motorbikeShowSchema = z.object({
   color: z.string().min(1, { message: "Color is required" }),
   description: z.string().min(1, { message: "Description is required" }),
   cylinder: z.string().min(1, { message: "Cylinder is required" }),
-  stores: z.string().min(1, { message: "Stores is required" }),
   announce: z.string().min(1, { message: "Announce is required" }),
+  stores: z.string().min(1, { message: "Stores is required" }),
   accessories: z.array(
     z.string().min(1, { message: "Accessories is required" })
   ),
