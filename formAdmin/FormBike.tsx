@@ -7,6 +7,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { v4 as uuidv4 } from "uuid";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -88,7 +89,7 @@ export function FormBike() {
     try {
       setLoading(true);
       await addDoc(collection(db, "motorbikes"), {
-        id: Math.random().toString(),
+        id: uuidv4(),
         location: data.location,
         motorbikeBrand: data.motorbikeBrand,
         motorbikeModel: data.motorbikeModel,

@@ -10,6 +10,9 @@ const inter = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 export const metadata: Metadata = {
   title: "AutoNegocie",
   description: "Site de anúncios de veículos",
+  icons: {
+    icon: ["/logo.svg"],
+  },
 };
 
 export default function RootLayout({

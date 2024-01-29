@@ -56,7 +56,7 @@ export const carSchema = z.object({
    motors: z.string().min(1, { message: "Motors is required" }),
    documents: z.string().min(1, { message: "Documents is required" }),
   accessories: z.array(
-     z.string().min(1, { message: "Accessories is required" })
+     z.string().min(1).optional()
    ),
 
    price: z.string().min(1, { message: "Price is required" }),
@@ -133,7 +133,7 @@ export const carShowSchema = z.object({
   doors: z.string().min(1, { message: "Doors is required" }),
   description: z.string().min(1, { message: "Description is required" }),
    accessories: z.array(
-     z.string().min(1, { message: "Accessories is required" })
+     z.string().min(1).optional()
    ),
   images: z
     .any()
@@ -164,7 +164,7 @@ export const motorbikeShowSchema = z.object({
   announce: z.string().min(1, { message: "Announce is required" }),
   stores: z.string().min(1, { message: "Stores is required" }),
   accessories: z.array(
-    z.string().min(1, { message: "Accessories is required" })
+    z.string().min(1).optional()
   ),
   images: z
     .any()

@@ -135,8 +135,9 @@ export default function Page() {
               <p className="text-gray-600 mb-2">Documentos: {item.documents}</p>
               <p className="text-gray-600 mb-2">Lataria: {item.bodyWork}</p>
               <p className="text-gray-600 mb-2">
-                <span className="block">Descrição:</span>
-                <span className="block">{item.description}</span>
+                <p className="break-words text-gray-600 mb-2">
+                  Descrição: {item.description}
+                </p>
               </p>
               <div className="mt-4">
                 {item.images?.map((image, index) => (

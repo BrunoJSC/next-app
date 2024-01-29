@@ -209,16 +209,19 @@ export default function Page({
 
             <div className="col-span-2">
               <p className="font-bold">Acessórios</p>
-              <div className="flex flex-wrap">
-                {searchParams.accessories.map((accessory, index) => (
+              {searchParams.accessories &&
+              searchParams.accessories.length > 0 ? (
+                searchParams.accessories.map((accessory, index) => (
                   <div key={index} className="mr-2 mb-2">
                     <p className="text-primary">
                       {accessory}
                       {","}
                     </p>
                   </div>
-                ))}
-              </div>
+                ))
+              ) : (
+                <p>Sem acessórios</p>
+              )}
             </div>
           </div>
 
@@ -339,6 +342,8 @@ export default function Page({
                       exchange: car.exchange,
                       color: car.color,
                       description: car.description,
+                      price: car.price,
+                      accessories: car.accessories,
                     },
                   }}
                 >
