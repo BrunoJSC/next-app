@@ -190,20 +190,14 @@ export default function Page({
             <div className="col-span-2">
               <p className="font-bold">Acessórios</p>
               <div className="flex flex-wrap">
-                {Array.isArray(searchParams.accessories) ? (
-                  searchParams.accessories.map((accessory, index) => (
-                    <p key={index} className="text-primary">
-                      {accessory.split(", ").map((item, i) => (
-                        <span key={i}>
-                          {item}
-                          {i !== accessory.split(", ").length - 1 && ", "}
-                        </span>
-                      ))}
+                {searchParams.accessories.map((accessory, index) => (
+                  <div key={index} className="mr-2 mb-2">
+                    <p className="text-primary">
+                      {accessory}
+                      {","}
                     </p>
-                  ))
-                ) : (
-                  <p className="text-primary">{searchParams.accessories}</p>
-                )}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -211,7 +205,7 @@ export default function Page({
           <div>
             <Form {...form}>
               <form
-                className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl md:mr-4"
+                className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl md:mr-4 -mt-0 md:-mt-32"
                 onSubmit={form.handleSubmit(handleSubmit)}
               >
                 <div>
@@ -306,55 +300,59 @@ export default function Page({
         </div>
       </Card>
 
-      <div className="p-6 md:p-12 max-w-screen-xl mx-auto mt-10">
-        <div className="flex flex-wrap justify-center">
-          {data.map((motorbike) => (
-            <Link
-              key={motorbike.id}
-              href={{
-                pathname: `/motos/${motorbike.id}`,
-                query: {
-                  motorbikeBrand: motorbike.motorbikeBrand,
-                  motorbikeModel: motorbike.motorbikeModel,
-                  yearFabrication: motorbike.yearFabrication,
-                  location: motorbike.location,
-                  km: motorbike.km,
-                  fuel: motorbike.fuel,
-                  cylinder: motorbike.cylinder,
-                  color: motorbike.color,
-                  description: motorbike.description,
-                  images: motorbike.images,
-                },
-              }}
-              passHref // Adiciona passHref para garantir que os atributos href sejam passados para o componente Link
-            >
-              <div className="rounded-xl overflow-hidden shadow-md">
-                <div className="w-full aspect-w-16 aspect-h-9">
-                  <img
-                    src={motorbike.images[0]}
-                    alt="car"
-                    className="rounded-xl transition-transform hover:scale-105 object-cover w-full h-full"
-                  />
-                </div>
-
-                <h2 className="text-black text-lg font-bold mt-2">
-                  {motorbike.motorbikeBrand} - {motorbike.motorbikeModel}
-                </h2>
-
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  <p className="text-black font-semibold">
-                    {motorbike.location}
-                  </p>
-                  <p className="text-black font-semibold">
-                    {motorbike.yearFabrication}
-                  </p>
-                  <p className="text-black font-semibold">{motorbike.km}KM</p>
-                  <p className="text-black font-semibold">{motorbike.fuel}</p>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+      <div className="p-12 max-w-screen-xl mx-auto mt-44">
+        <Carousel className="w-full max-w-screen-xl">
+          <CarouselContent className="flex gap-5">
+            {data.map((motorbike) => (
+              <>
+                <Link
+                  href={{
+                    pathname: `/motos/${motorbike.id}`,
+                    query: {
+                      motorbikeBrand: motorbike.motorbikeBrand,
+                      motorbikeModel: motorbike.motorbikeModel,
+                      yearFabrication: motorbike.yearFabrication,
+                      location: motorbike.location,
+                      km: motorbike.km,
+                      fuel: motorbike.fuel,
+                      cylinder: motorbike.cylinder,
+                      color: motorbike.color,
+                      description: motorbike.description,
+                      images: motorbike.images,
+                    },
+                  }}
+                >
+                  <div className="">
+                    <div className="w-[300px] md:w-[500px] h-[300px] md:h-[400px]">
+                      <Image
+                        src={motorbike.images[0]}
+                        alt="car"
+                        width={400}
+                        height={400}
+                        className="w-full h-full rounded-xl object-cover"
+                      />
+                    </div>
+                    <h2 className="text-black text-2xl font-bold mt-2">
+                      {motorbike.motorbikeBrand} - {motorbike.motorbikeModel}
+                    </h2>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      <p className="text-black font-black">
+                        {motorbike.location}
+                      </p>
+                      <p className="text-black font-black text-2xl">
+                        Preço:{" "}
+                        <span className="text-primary">{motorbike.price}</span>
+                      </p>
+                      <p className="text-black font-black">{motorbike.km}KM</p>
+                    </div>
+                  </div>
+                </Link>
+              </>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="hidden md:block" />
+          <CarouselNext className="hidden md:block" />
+        </Carousel>
       </div>
     </section>
   );

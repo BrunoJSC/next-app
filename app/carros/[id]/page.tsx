@@ -129,10 +129,7 @@ export default function Page({
             {searchParams.brandCar}{" "}
             <span className="text-black">{searchParams.modelCar}</span>
             <p className="text-primary">
-              R${" "}
-              <span className="text-black">
-                {Intl.NumberFormat("pt-BR").format(Number(searchParams.price))}
-              </span>
+              R$ <span className="text-black">{searchParams.price}</span>
             </p>
           </CardTitle>
         </CardHeader>
@@ -211,20 +208,14 @@ export default function Page({
             <div className="col-span-2">
               <p className="font-bold">Acessórios</p>
               <div className="flex flex-wrap">
-                {Array.isArray(searchParams.accessories) ? (
-                  searchParams.accessories.map((accessory, index) => (
-                    <p key={index} className="text-primary">
-                      {accessory.split(", ").map((item, i) => (
-                        <span key={i}>
-                          {item}
-                          {i !== accessory.split(", ").length - 1 && ", "}
-                        </span>
-                      ))}
+                {searchParams.accessories.map((accessory, index) => (
+                  <div key={index} className="mr-2 mb-2">
+                    <p className="text-primary">
+                      {accessory}
+                      {","}
                     </p>
-                  ))
-                ) : (
-                  <p className="text-primary">{searchParams.accessories}</p>
-                )}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -232,7 +223,7 @@ export default function Page({
           <div>
             <Form {...form}>
               <form
-                className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl md:mr-4"
+                className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl md:mr-4 -mt-0 md:-mt-32"
                 onSubmit={form.handleSubmit(handleSubmit)}
               >
                 <div>
@@ -327,65 +318,51 @@ export default function Page({
         </div>
       </Card>
 
-      <div className="p-4 md:p-12  max-w-screen-xl w-full mx-auto mt-8">
-        <Carousel
-          opts={{
-            align: "start",
-          }}
-          className="w-full max-w-screen-lg mx-auto mt-2"
-        >
-          <CarouselContent className="w-full">
+      <div className="p-12 max-w-screen-xl mx-auto mt-44">
+        <Carousel className="w-full max-w-screen-xl">
+          <CarouselContent className="flex gap-5">
             {data.map((car) => (
-              <Link
-                href={{
-                  pathname: `/carros/${car.id}`,
-                  query: {
-                    brandCar: car.brandCar,
-                    modelCar: car.modelCar,
-                    images: car.images,
-                    location: car.location,
-                    yearFabrication: car.yearFabrication,
-                    fuel: car.fuel,
-                    km: car.km,
-                    exchange: car.exchange,
-                    color: car.color,
-                    description: car.description,
-                  },
-                }}
-                key={car.id}
-                className="w-[500px] md:w-[400px] lg:w-[400px] md:basis-1/2 basis-1/3  bg-red-500"
-              >
-                <CarouselItem
-                  key={car.id}
-                  className="md:basis-1/2 basis-1/3 lg:w-[400px] md:mr-4  bg-red-500"
+              <>
+                <Link
+                  href={{
+                    pathname: `/carros/${car.id}`,
+                    query: {
+                      brandCar: car.brandCar,
+                      modelCar: car.modelCar,
+                      images: car.images,
+                      location: car.location,
+                      yearFabrication: car.yearFabrication,
+                      fuel: car.fuel,
+                      km: car.km,
+                      exchange: car.exchange,
+                      color: car.color,
+                      description: car.description,
+                    },
+                  }}
                 >
-                  <Card className="md:w-[950px] w-[600px]">
-                    <div className="w-full h-[500px]">
+                  <div className="">
+                    <div className="w-[300px] md:w-[500px] h-[300px] md:h-[400px]">
                       <Image
                         src={car.images[0]}
                         alt="car"
                         width={400}
                         height={400}
-                        className="w-full h-full rounded-xl object-cover object-center"
+                        className="w-full h-full rounded-xl object-cover"
                       />
                     </div>
-
-                    <h2 className="text-black text-2xl font-bold text-primary">
-                      {car.brandCar}{" "}
-                      <span className="text-black">{car.modelCar}</span>
+                    <h2 className="text-black text-2xl font-bold mt-2">
+                      {car.brandCar} - {car.modelCar}
                     </h2>
-
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-2 mt-2">
                       <p className="text-black font-black">{car.location}</p>
-                      <p className="text-black font-black">
-                        {car.yearFabrication}
+                      <p className="text-black font-black text-2xl">
+                        Preço: <span className="text-primary">{car.price}</span>
                       </p>
                       <p className="text-black font-black">{car.km}KM</p>
-                      <p className="text-black font-black">{car.fuel}</p>
                     </div>
-                  </Card>
-                </CarouselItem>
-              </Link>
+                  </div>
+                </Link>
+              </>
             ))}
           </CarouselContent>
           <CarouselPrevious className="hidden md:block" />

@@ -233,6 +233,7 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
             thousandSeparator="."
             decimalSeparator=","
             prefix="R$ "
+            placeholder="R$ 10.000"
             className="w-full bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             allowNegative={false}
           />
@@ -245,6 +246,7 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
             onChange={(e) => setFilterPriceMax(e.target.value)}
             thousandSeparator="."
             decimalSeparator=","
+            placeholder="R$ 50.000"
             prefix="R$ "
             className="w-full bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             allowNegative={false}
