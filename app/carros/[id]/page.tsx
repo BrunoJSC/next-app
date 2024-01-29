@@ -61,6 +61,7 @@ export default function Page({
       email: "",
       cpf: "",
       phone: "",
+      message: "",
     },
   });
 
@@ -73,6 +74,7 @@ export default function Page({
       email: data.email,
       cpf: data.cpf,
       phone: data.phone,
+      message: data.message,
     });
 
     form.reset();

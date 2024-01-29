@@ -151,13 +151,19 @@ export function FormContact() {
 
               <ul className="flex gap-5">
                 <li>
-                  <Link href="https://www.instagram.com/bmzsintonia?igsh=czc0c280MzFia2k5">
+                  <Link
+                    href="https://www.instagram.com/bmzsintonia?igsh=czc0c280MzFia2k5"
+                    target="_blank"
+                  >
                     <InstagramIcon className="text-black" />
                   </Link>
                 </li>
 
                 <li>
-                  <Link href="https://www.facebook.com/CarrosUsadosABCD?mibextid=ZbWKwL">
+                  <Link
+                    href="https://www.facebook.com/CarrosUsadosABCD?mibextid=ZbWKwL"
+                    target="_blank"
+                  >
                     <FacebookIcon className="text-black" />
                   </Link>
                 </li>

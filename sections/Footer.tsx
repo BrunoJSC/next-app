@@ -14,19 +14,21 @@ export function Footer() {
           <h2 className={`text-xl font-semibold text-white`}>SIGA A GENTE</h2>
           <ul className="flex gap-4">
             <li>
-              <a href="#">
+              <Link
+                href="https://www.facebook.com/CarrosUsadosABCD?mibextid=ZbWKwL"
+                target="_blank"
+              >
                 <FacebookIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-              </a>
+              </Link>
             </li>
+
             <li>
-              <a href="#">
-                <TwitterIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-              </a>
-            </li>
-            <li>
-              <a href="#">
+              <Link
+                href="https://www.instagram.com/bmzsintonia?igsh=czc0c280MzFia2k5"
+                target="_blank"
+              >
                 <InstagramIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
