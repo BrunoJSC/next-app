@@ -188,7 +188,7 @@ export default function Page({
             </div>
 
             <div className="col-span-2">
-              <p className="font-bold">Acessórios</p>
+              <p className="font-bold">Opcionais</p>
               <div className="flex flex-wrap">
                 {searchParams.accessories &&
                 searchParams.accessories.length > 0 ? (
