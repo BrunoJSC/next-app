@@ -12,16 +12,6 @@ import CarFilterForm from "./components/CarFilterForm";
 export default function Cars() {
   const [data, setData] = useState<ICar[]>([]);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-
-  const formatKilometers = (km: any) => {
-    if (km < 1000) {
-      return `${km} km`;
-    } else {
-      const formattedKm = (km / 1000).toFixed(1);
-      return `${formattedKm} mil km`;
-    }
-  };
-
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
@@ -108,7 +98,7 @@ export default function Cars() {
                     </h1>
 
                     <p className="font-black">Ano: {car.yearFabrication}</p>
-                    <p className="font-black">KM: {formatKilometers(car.km)}</p>
+                    <p className="font-black">KM: {car.km}</p>
                     <p className="font-black">
                       Tipo de combustível: {car.fuel}
                     </p>
