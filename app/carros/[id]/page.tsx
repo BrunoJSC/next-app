@@ -103,22 +103,30 @@ export default function Page({
           className="w-full max-w-screen-lg mx-auto mt-2"
         >
           <CarouselContent>
-            {searchParams.images.map((_, index) => (
-              <CarouselItem
-                key={index}
-                className="md:basis-1/2 lg:w-[400px] md:mr-4" // Adjusted for responsiveness
-              >
-                <div className="w-full h-[400px]">
-                  <Image
-                    src={searchParams.images[index]}
-                    alt="car"
-                    width={400}
-                    height={400}
-                    className="w-full h-full rounded-xl"
-                  />
-                </div>
-              </CarouselItem>
-            ))}
+            {Array.isArray(searchParams.images) &&
+              searchParams.images.length > 0 && (
+                <>
+                  {searchParams.images.map((_, index) => (
+                    <CarouselItem
+                      key={index}
+                      className="md:basis-1/2 lg:w-[400px] md:mr-4" // Ajustado para responsividade
+                    >
+                      <div className="w-full h-[400px]">
+                        <Image
+                          src={searchParams.images[index]}
+                          alt="car"
+                          width={400}
+                          height={400}
+                          className="w-full h-full rounded-xl"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                  <p className="text-center text-gray-600 mt-4">
+                    Adicione mais imagens para visualização
+                  </p>
+                </>
+              )}
           </CarouselContent>
           <CarouselPrevious className="hidden md:block" />
           <CarouselNext className="hidden md:block" />
@@ -209,7 +217,7 @@ export default function Page({
 
             <div className="col-span-2">
               <p className="font-bold">Acessórios</p>
-              {searchParams.accessories &&
+              {Array.isArray(searchParams.accessories) &&
               searchParams.accessories.length > 0 ? (
                 searchParams.accessories.map((accessory, index) => (
                   <div key={index} className="mr-2 mb-2">

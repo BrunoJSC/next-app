@@ -291,7 +291,7 @@ export function FormCar({ className }: { className?: string }) {
         </div>
 
         <div className="grid gap-2">
-          <Label>Tipo de combustível</Label>
+          <Label>Tipo de carroceria</Label>
           <div className="relative">
             <select
               className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
