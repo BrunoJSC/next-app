@@ -216,7 +216,7 @@ export default function Page({
             </div>
 
             <div className="col-span-2">
-              <p className="font-bold">Acessórios</p>
+              <p className="font-bold">Opcionais</p>
               {Array.isArray(searchParams.accessories) &&
               searchParams.accessories.length > 0 ? (
                 searchParams.accessories.map((accessory, index) => (
