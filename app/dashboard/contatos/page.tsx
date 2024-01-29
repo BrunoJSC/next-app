@@ -40,15 +40,22 @@ export default function ListContact() {
     <section className="w-full min-h-screen p-5">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
         {data?.map((item) => (
-          <Card key={item.id} className="w-full">
+          <Card
+            key={item.id}
+            className="w-full max-w-screen-lg mx-auto mt-2 p-4"
+          >
             <CardHeader>
               <CardTitle>Nome: {item.name}</CardTitle>
               <CardDescription>Email: {item.email}</CardDescription>
               <CardDescription>Celular: {item.phone}</CardDescription>
               <CardDescription>CPF: {item.cpf}</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p>Mensagem: {item.message}</p>
+            <CardContent className="w-full">
+              <div className="max-w-full">
+                <CardDescription className="break-words">
+                  Mensagem: {item.message}
+                </CardDescription>
+              </div>
             </CardContent>
           </Card>
         ))}

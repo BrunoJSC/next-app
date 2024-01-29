@@ -95,9 +95,9 @@ export default function Page() {
               <CardTitle className="text-xl font-bold text-gray-900">
                 {store.address}
               </CardTitle>
-              <CardDescription className="text-gray-700">
+              <CardTitle className="text-gray-700">
                 Fone: {store.phone}
-              </CardDescription>
+              </CardTitle>
             </CardHeader>
           </Card>
         ))}
