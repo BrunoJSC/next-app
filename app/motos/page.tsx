@@ -39,18 +39,18 @@ export default function Page() {
                 query: {
                   motorbikeBrand: motorbike.motorbikeBrand,
                   motorbikeModel: motorbike.motorbikeModel,
-                  yearFabrication: motorbike.yearFabrication,
                   location: motorbike.location,
+                  yearFabrication: motorbike.yearFabrication,
                   km: motorbike.km,
                   fuel: motorbike.fuel,
                   cylinder: motorbike.cylinder,
                   color: motorbike.color,
                   description: motorbike.description,
                   accessories: motorbike.accessories,
+                  images: motorbike.images,
                   announce: motorbike.announce,
                   price: motorbike.price,
                   plate: motorbike.plate,
-                  images: motorbike.images,
                 },
               }}
               key={motorbike.id}
