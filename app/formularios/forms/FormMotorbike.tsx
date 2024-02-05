@@ -16,6 +16,7 @@ import {
   brandMotorbike,
   colorMotorbike,
   cylinder,
+  exchange,
   fuelMotorbike,
   locations,
 } from "@/constants/filterMotorbike";
@@ -56,6 +57,7 @@ export function FormMotorbike() {
       description: "",
       fairing: "",
       cylinder: "",
+      exchange: "",
       images: "",
     },
   });
@@ -108,6 +110,7 @@ export function FormMotorbike() {
         price: data.price,
         description: data.description,
         fairing: data.fairing,
+        exchange: data.exchange,
         cylinder: data.cylinder,
 
         images: await handleUpload(),
@@ -582,6 +585,31 @@ export function FormMotorbike() {
                 <FormLabel>Descrição</FormLabel>
                 <FormControl>
                   <Textarea className="h-[300px]" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="exchange"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cambio</FormLabel>
+                <FormControl>
+                  <select
+                    className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    {...form.register("exchange")}
+                  >
+                    <option value="">Selecione</option>
+                    {exchange.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                 </FormControl>
 
                 <FormMessage />

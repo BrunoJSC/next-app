@@ -19,6 +19,7 @@ import {
   colorMotorbike,
   condition,
   cylinder,
+  exchange,
   fuelMotorbike,
   locations,
   stores,
@@ -55,6 +56,7 @@ export function FormBike() {
       cylinder: "",
       stores: "",
       announce: "",
+      exchange: "",
       accessories: [],
       images: "",
     },
@@ -103,6 +105,7 @@ export function FormBike() {
         cylinder: data.cylinder,
         announce: data.announce,
         stores: data.stores,
+        exchange: data.exchange,
         accessories: data.accessories,
         images: await handleUpload(),
       });
@@ -278,6 +281,31 @@ export function FormBike() {
               </div>
             </div>
           </div>
+
+          <FormField
+            control={form.control}
+            name="exchange"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cambio</FormLabel>
+                <FormControl>
+                  <select
+                    className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    {...form.register("exchange")}
+                  >
+                    <option value="">Selecione</option>
+                    {exchange.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <div className="grid gap-2">
             <Label htmlFor="km" className="text-sm font-medium mb-3">

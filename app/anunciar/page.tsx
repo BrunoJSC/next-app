@@ -33,7 +33,7 @@ export default function Announce() {
               <p>{an.paragraph}</p>
             </li>
           ))}
-          <Button className="mt-10 md:w-full w-full mx-auto" asChild>
+          <Button className="mt-10 md:w-full h-[50px] w-full mx-auto" asChild>
             <Link href="/formularios">Anuncie Agora</Link>
           </Button>
         </ul>

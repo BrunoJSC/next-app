@@ -49,7 +49,6 @@ export const brandCar = [
   { label: "Volvo", value: "Volvo" },
 ];
 
-
 export const fuelCar = [
   {
     label: "Flex",
@@ -74,8 +73,8 @@ export const fuelCar = [
   {
     label: "Eletrico",
     value: "Eletrico",
-  }
-]
+  },
+];
 
 export const doors = [
   {
@@ -91,8 +90,8 @@ export const doors = [
   {
     label: "4",
     value: "4",
-  }
-]
+  },
+];
 
 export const carColors = [
   { label: "Branco", value: "Branco" },
@@ -132,17 +131,17 @@ export const accessories = [
 ];
 
 export const announceType = [
-  {label: "Loja", value: "Loja"},
-  {label: "Particular", value: "Particular"}
-]
+  { label: "Loja", value: "Loja" },
+  { label: "Particular", value: "Particular" },
+];
 
 export const stores = [
   { label: "Edificar", value: "Edificar" },
   { label: "Kairós", value: "Kairós" },
   { label: "GP Motors", value: "GP Motors" },
   { label: "Rhemar", value: "Rhemar" },
-  {label: "Sem loja", value: "Sem loja"}
-]
+  { label: "Sem loja", value: "Sem loja" },
+];
 
 export const bodyType = [
   { label: "Hatch", value: "Hatch" },
@@ -152,10 +151,10 @@ export const bodyType = [
   { label: "Cupê", value: "Cupê" },
   { label: "Fastback", value: "Fastback" },
   { label: "Van", value: "Van" },
-  { label: "Minivan", value: "Minivan" }
+  { label: "Minivan", value: "Minivan" },
 ];
 
-export const condition = [ 
+export const condition = [
   {
     label: "Novo",
     value: "Novo",
@@ -167,8 +166,8 @@ export const condition = [
   {
     label: "Seminovo",
     value: "Seminovo",
-  }
-]
+  },
+];
 
 export const transmissionType = [
   { label: "Automático", value: "Automático" },
@@ -177,5 +176,25 @@ export const transmissionType = [
   { label: "Automático Sequencial", value: "Automático Sequencial" },
   { label: "Automatizado", value: "Automatizado" },
   { label: "Automatizado DCT", value: "Automatizado DCT" },
-  { label: "CVT", value: "CVT" }
+  { label: "CVT", value: "CVT" },
+];
+
+export const motors = [
+  { label: "1.0", value: "1.0" },
+  { label: "1.3", value: "1.3" },
+  { label: "1.4", value: "1.4" },
+  { label: "1.5", value: "1.5" },
+  { label: "1.6", value: "1.6" },
+  { label: "1.8", value: "1.8" },
+  { label: "2.0", value: "2.0" },
+  { label: "2.2", value: "2.2" },
+  { label: "2.4", value: "2.4" },
+  { label: "3.0", value: "3.0" },
+];
+
+export const body = [
+  { label: "Excelente", value: "Excelente" },
+  { label: "Média", value: "Média" },
+  { label: "Boa", value: "Boa" },
+  { label: "Ruim", value: "Ruim" },
 ];

@@ -146,7 +146,8 @@ export function Footer() {
           no site com matriz online.
         </p>
         <p className="mt-4 sm:mt-6">
-          Copyright © 2023 AutoNegocie. Todos os direitos reservados.
+          Copyright © 2024 AutoNegocie. Todos os direitos reservados. CNPJ
+          32.917.371/000129
         </p>
       </div>
     </footer>

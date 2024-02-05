@@ -24,12 +24,14 @@ import { z } from "zod";
 import { accessories } from "@/constants";
 import { Label } from "@/components/ui/label";
 import {
+  body,
   bodyType,
   brandCar,
   carColors,
   doors,
   fuelCar,
   locations,
+  motors,
   transmissionType,
 } from "@/constants/filterCar";
 import { NumericFormat } from "react-number-format";
@@ -454,21 +456,33 @@ export function FormCar() {
           <div className="mt-3">
             <Label htmlFor="motors">Motor</Label>
 
-            <Input
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               {...form.register("motors")}
-              className="mt-2"
-              placeholder="Potência do motor"
-            />
+            >
+              <option value="">Selecione</option>
+              {motors.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="mt-3">
             <Label htmlFor="bodywork">Lataria</Label>
 
-            <Input
+            <select
+              className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               {...form.register("bodyWork")}
-              className="mt-2"
-              placeholder="Se está boa, ou ruim"
-            />
+            >
+              <option value="">Selecione</option>
+              {body.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="mt-3">

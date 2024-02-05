@@ -31,6 +31,7 @@ import {
   doors,
   fuelCar,
   locations,
+  motors,
   stores,
   transmissionType,
 } from "@/constants/filterCar";
@@ -359,7 +360,17 @@ export function FormCar({ className }: { className?: string }) {
 
         <div className="grid gap-2">
           <Label htmlFor="motors">Potência do motor</Label>
-          <Input type="text" {...form.register("motors")} />
+          <select
+            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            {...form.register("motors")}
+          >
+            <option value="">Selecione</option>
+            {motors.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="grid gap-2">
