@@ -1,33 +1,46 @@
-import { Carousel } from "@/components/Carousel";
-import { FormSendUser } from "@/components/FormSendUser";
-import { getDataCars } from "@/components/searchBDCar";
+"use client";
+
+import { generateStaticParams } from "@/components/carStaticParams";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
-  Card,
-  CardDescription,
   CardHeader,
   CardTitle,
+  Card,
+  CardDescription,
 } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/firebase";
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { ICar } from "@/types";
+import { contactVehicleSchema } from "@/validation/schemas";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
+import { MessageSquare } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-export const dynamic = "force-static";
-
-export async function generateStaticParams() {
-  const carsCollection = collection(db, "cars");
-  const carsSnapshot = await getDocs(carsCollection);
-
-  const cars = carsSnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-
-  return cars;
-}
-
-export default async function Page({
+export default function Page({
   searchParams,
 }: {
-  searchParams: {
+  searchParams?: {
     id: string;
     brandCar: string;
     modelCar: string;
@@ -49,21 +62,91 @@ export default async function Page({
     plate: string;
   };
 }) {
-  // const cars = await getDataCars();
+  const form = useForm<z.infer<typeof contactVehicleSchema>>({
+    defaultValues: {
+      name: "",
+      email: "",
+      cpf: "",
+      phone: "",
+      message: "",
+    },
+  });
+
+  const [data, setData] = useState<ICar[]>([]);
+
+  const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
+    await addDoc(collection(db, "contact"), {
+      id: Date().toString(),
+      name: data.name,
+      email: data.email,
+      cpf: data.cpf,
+      phone: data.phone,
+      message: data.message,
+    });
+
+    form.reset();
+    console.log(data);
+  };
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as ICar[];
+      setData(data);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <section className="w-full min-h-screen p-2 mb-48">
       <div className="p-4 md:p-8 lg:p-12 max-w-screen-xl mx-auto">
-        <Carousel images={searchParams.images as string[]} />
+        <Carousel
+          opts={{
+            align: "start",
+          }}
+          className="w-full max-w-screen-lg mx-auto mt-2"
+        >
+          <CarouselContent>
+            {Array.isArray(searchParams?.images) &&
+              searchParams.images.length > 0 && (
+                <>
+                  {searchParams.images.map((_, index) => (
+                    <CarouselItem
+                      key={index}
+                      className="md:basis-1/2 lg:w-[400px] md:mr-4" // Ajustado para responsividade
+                    >
+                      <div className="w-full h-[400px]">
+                        <Image
+                          src={searchParams.images[index]}
+                          alt="car"
+                          width={400}
+                          height={400}
+                          className="w-full h-full rounded-xl"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                  <p className="text-center text-gray-600 mt-4">
+                    Adicione mais imagens para visualização
+                  </p>
+                </>
+              )}
+          </CarouselContent>
+          <CarouselPrevious className="hidden md:block" />
+          <CarouselNext className="hidden md:block" />
+        </Carousel>
       </div>
 
       <Card className="w-full max-w-screen-lg mx-auto mt-2 p-4">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-primary">
-            {searchParams.brandCar}{" "}
-            <span className="text-black">{searchParams.modelCar}</span>
+            {searchParams?.brandCar}{" "}
+            <span className="text-black">{searchParams?.modelCar}</span>
             <p className="text-primary">
-              <span className="text-black">{searchParams.price}</span>
+              R$ <span className="text-black">{searchParams?.price}</span>
             </p>
           </CardTitle>
         </CardHeader>
@@ -73,7 +156,7 @@ export default async function Page({
             Sobre o carro
           </CardTitle>
           <div>
-            <CardDescription>{searchParams.description}</CardDescription>
+            <CardDescription>{searchParams?.description}</CardDescription>
           </div>
         </div>
 
@@ -81,67 +164,67 @@ export default async function Page({
           <div className="md:w-[450px] grid grid-cols-2 gap-4 p-4">
             <div>
               <p className="font-bold">Cidade</p>
-              <p className="text-primary">{searchParams.location}</p>
+              <p className="text-primary">{searchParams?.location}</p>
             </div>
 
             <div>
               <p className="font-bold">Ano</p>
-              <p className="text-primary">{searchParams.yearFabrication}</p>
+              <p className="text-primary">{searchParams?.yearFabrication}</p>
             </div>
 
             <div>
               <p className="font-bold">Combustível</p>
-              <p className="text-primary">{searchParams.fuel}</p>
+              <p className="text-primary">{searchParams?.fuel}</p>
             </div>
 
             <div>
               <p className="font-bold">KM</p>
-              <p className="text-primary">{searchParams.km}</p>
+              <p className="text-primary">{searchParams?.km}</p>
             </div>
 
             <div>
               <p className="font-bold">Cambio</p>
-              <p className="text-primary">{searchParams.exchange}</p>
+              <p className="text-primary">{searchParams?.exchange}</p>
             </div>
 
             <div>
               <p className="font-bold">Cor</p>
-              <p className="text-primary">{searchParams.color}</p>
+              <p className="text-primary">{searchParams?.color}</p>
             </div>
 
             <div>
               <p className="font-bold">Pôtencia do motor</p>
-              <p className="text-primary">{searchParams.motors}</p>
+              <p className="text-primary">{searchParams?.motors}</p>
             </div>
 
             <div>
               <p className="font-bold">Condição</p>
-              <p className="text-primary">{searchParams.condition}</p>
+              <p className="text-primary">{searchParams?.condition}</p>
             </div>
 
             <div>
               <p className="font-bold">Tipo de anunciante</p>
-              <p className="text-primary">{searchParams.announce}</p>
+              <p className="text-primary">{searchParams?.announce}</p>
             </div>
 
             <div>
               <p className="font-bold">Placa</p>
-              <p className="text-primary">{searchParams.plate}</p>
+              <p className="text-primary">{searchParams?.plate}</p>
             </div>
 
             <div>
               <p className="font-bold">Carroceria</p>
-              <p className="text-primary">{searchParams.bodyType}</p>
+              <p className="text-primary">{searchParams?.bodyType}</p>
             </div>
 
             <div>
               <p className="font-bold">Portas</p>
-              <p className="text-primary">{searchParams.doors}</p>
+              <p className="text-primary">{searchParams?.doors}</p>
             </div>
 
             <div className="col-span-2">
               <p className="font-bold">Opcionais</p>
-              {Array.isArray(searchParams.accessories) &&
+              {Array.isArray(searchParams?.accessories) &&
               searchParams.accessories.length > 0 ? (
                 searchParams.accessories.map((accessory, index) => (
                   <div key={index} className="mr-2 mb-2">
@@ -158,12 +241,104 @@ export default async function Page({
           </div>
 
           <div>
-            <FormSendUser />
+            <Form {...form}>
+              <form
+                className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl md:mr-4 -mt-0 md:-mt-32"
+                onSubmit={form.handleSubmit(handleSubmit)}
+              >
+                <div>
+                  <h2 className="text-2xl font-bold text-primary">
+                    Entre em contato com o Vendedor!
+                  </h2>
+                  <p className="text-white">Veja condições de financiamento.</p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="name" className="text-white">
+                    Nome
+                  </Label>
+                  <Input
+                    id="name"
+                    placeholder="Nome Completo"
+                    className="bg-white"
+                    type="text"
+                    {...form.register("name")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="cpf" className="text-white">
+                    CPF
+                  </Label>
+                  <Input
+                    id="cpf"
+                    type="cpf"
+                    className="bg-white"
+                    placeholder="Adicionar neste formato 999.999.999-99"
+                    {...form.register("cpf")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="email" className="text-white">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    className="bg-white"
+                    placeholder="Adicionar neste formato 3xX9w@example.com"
+                    {...form.register("email")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="phone" className="text-white">
+                    Telefone
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    className="bg-white"
+                    {...form.register("phone")}
+                    placeholder="Adicionar neste formato (11) 99999-9999"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="phone" className="text-white">
+                    Mensagem
+                  </Label>
+                  <Textarea
+                    id="message"
+                    rows={4}
+                    className="bg-white"
+                    {...form.register("message")}
+                    placeholder="Escreva sua mensagem..."
+                  />
+                </div>
+
+                <Button type="submit" className="w-full mt-5">
+                  Enviar
+                </Button>
+
+                <Link
+                  className={buttonVariants({
+                    className: "w-full mt-4",
+                  })}
+                  type="submit"
+                  href="https://wa.me/5511940723891"
+                >
+                  <MessageSquare className="mr-5" />
+                  Chamar no WhatsApp
+                </Link>
+              </form>
+            </Form>
           </div>
         </div>
       </Card>
 
-      {/* <div className="p-12 max-w-screen-xl mx-auto mt-44">
+      <div className="p-12 max-w-screen-xl mx-auto mt-44">
         <Carousel className="w-full max-w-screen-xl">
           <CarouselContent className="flex gap-5">
             {data.map((car) => (
@@ -215,7 +390,7 @@ export default async function Page({
           <CarouselPrevious className="hidden md:block" />
           <CarouselNext className="hidden md:block" />
         </Carousel>
-      </div> */}
+      </div>
     </section>
   );
 }
