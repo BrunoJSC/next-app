@@ -116,7 +116,7 @@ export default function Page({
                   {searchParams.images.map((_, index) => (
                     <CarouselItem
                       key={index}
-                      className="md:basis-1/2 lg:w-[400px] md:mr-4" // Ajustado para responsividade
+                      className="md:basis-1/2 lg:w-[400px] md:mr-4"
                     >
                       <div className="w-full h-[400px]">
                         <Image

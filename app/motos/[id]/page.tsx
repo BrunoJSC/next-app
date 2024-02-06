@@ -1,6 +1,6 @@
-import { Carousel } from "@/components/Carousel";
-import { FormSendUser } from "@/components/FormSendUser";
-import { getDataMotorbikes } from "@/components/searchBDMotorbike";
+"use client";
+
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,24 +8,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/firebase";
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { IMotorbike } from "@/types";
+import { contactVehicleSchema } from "@/validation/schemas";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { MessageSquare } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-export const dynamic = "force-static";
-export async function generateStaticParams() {
-  const motorbikesCollection = collection(db, "motorbikes");
-  const motorbikesSnapshot = await getDocs(motorbikesCollection);
-
-  const motorbikes = motorbikesSnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-
-  return motorbikes;
-}
-
-export default async function Page({
+export default function Page({
   searchParams,
 }: {
   searchParams: {
@@ -45,12 +50,67 @@ export default async function Page({
     plate: string;
   };
 }) {
-  const motorbike = await getDataMotorbikes();
+  const form = useForm<z.infer<typeof contactVehicleSchema>>({
+    defaultValues: { name: "", email: "", cpf: "", phone: "", message: "" },
+  });
+  const [data, setData] = useState<IMotorbike[]>([]);
+
+  const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
+    await addDoc(collection(db, "contact"), {
+      id: Date().toString(),
+      name: data.name,
+      email: data.email,
+      cpf: data.cpf,
+      phone: data.phone,
+      message: data.message,
+    });
+
+    form.reset();
+    console.log(data);
+  };
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as IMotorbike[];
+      setData(data);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <section className="w-full min-h-screen p-2 mb-48">
       <div className="p-12 max-w-screen-xl mx-auto">
-        <Carousel images={searchParams.images as string[]} />
+        <Carousel
+          opts={{
+            align: "start",
+          }}
+          className="w-full max-w-screen-lg mx-auto mt-2"
+        >
+          <CarouselContent>
+            {searchParams.images &&
+              Array.isArray(searchParams.images) &&
+              searchParams.images.length > 0 &&
+              searchParams.images.map((_, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:w-[400px]">
+                  <div className="w-full h-[400px]">
+                    <Image
+                      src={searchParams.images[index]}
+                      alt="car"
+                      width={400}
+                      height={400}
+                      className="w-full h-full rounded-xl object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+          </CarouselContent>
+          <CarouselPrevious className="hidden md:block" />
+          <CarouselNext className="hidden md:block" />
+        </Carousel>
       </div>
 
       <Card className="w-full max-w-screen-lg mx-auto mt-2 p-4">
@@ -59,7 +119,13 @@ export default async function Page({
             {searchParams.motorbikeBrand}{" "}
             <span className="text-black">{searchParams.motorbikeModel}</span>
             <p className="text-primary">
-              R$ <span className="text-black">{searchParams.price}</span>
+              R${" "}
+              <span className="text-black">
+                {Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(parseInt(searchParams.price))}
+              </span>
             </p>
           </CardTitle>
         </CardHeader>
@@ -136,13 +202,106 @@ export default async function Page({
           </div>
 
           <div>
-            <FormSendUser />
+            <Form {...form}>
+              <form
+                className="grid grid-cols-1 gap-4 p-4 bg-black max-w-sm md:max-w-[600px] rounded-xl md:mr-4 -mt-0 md:-mt-32"
+                onSubmit={form.handleSubmit(handleSubmit)}
+              >
+                <div>
+                  <h2 className="text-2xl font-bold text-primary">
+                    Entre em contato com o Vendedor!
+                  </h2>
+                  <p className="text-white">Veja condições de financiamento.</p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="name" className="text-white">
+                    Nome
+                  </Label>
+                  <Input
+                    id="name"
+                    className="bg-white"
+                    type="text"
+                    placeholder="Nome Completo"
+                    {...form.register("name")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="cpf" className="text-white">
+                    CPF
+                  </Label>
+                  <Input
+                    id="cpf"
+                    className="bg-white"
+                    type="text"
+                    placeholder="Adicionar neste formato 999.999.999-99"
+                    {...form.register("cpf")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="email" className="text-white">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    placeholder="Adicionar neste formato 3xX9w@example.com"
+                    type="email"
+                    className="bg-white"
+                    {...form.register("email")}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="phone" className="text-white">
+                    Telefone
+                  </Label>
+
+                  <Input
+                    id="phone"
+                    type="tel"
+                    className="bg-white"
+                    {...form.register("phone")}
+                    placeholder="Adicionar neste formato (11) 99999-9999"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="phone" className="text-white">
+                    Mensagem
+                  </Label>
+                  <Textarea
+                    id="message"
+                    rows={4}
+                    placeholder="Escreva sua mensagem..."
+                    className="bg-white resize-none"
+                    {...form.register("message")}
+                  />
+                </div>
+
+                <Button type="submit" className="w-full mt-5">
+                  Enviar
+                </Button>
+
+                <Link
+                  className={buttonVariants({
+                    className: "w-full mt-4",
+                  })}
+                  type="submit"
+                  href="https://wa.me/5511940723891"
+                >
+                  <MessageSquare className="mr-5" />
+                  Chamar no WhatsApp
+                </Link>
+              </form>
+            </Form>
           </div>
         </div>
       </Card>
 
       <div className="p-12 max-w-screen-xl mx-auto mt-44">
-        {/* <Carousel className="w-full max-w-screen-xl">
+        <Carousel className="w-full max-w-screen-xl">
           <CarouselContent className="flex gap-5">
             {data.map((motorbike) => (
               <>
@@ -195,7 +354,7 @@ export default async function Page({
           </CarouselContent>
           <CarouselPrevious className="hidden md:block" />
           <CarouselNext className="hidden md:block" />
-        </Carousel> */}
+        </Carousel>
       </div>
     </section>
   );
