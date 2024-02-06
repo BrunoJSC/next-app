@@ -28,6 +28,7 @@ import {
   bodyType,
   brandCar,
   carColors,
+  condition,
   doors,
   fuelCar,
   locations,
@@ -283,12 +284,36 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="condition">Condição do veículo</Label>
-            <Input
-              {...form.register("condition")}
-              className="mt-2"
-              placeholder="Como está integridade do veículo ?"
-            />
+            <div className="grid gap-2">
+              <Label>Condição do veiculo</Label>
+              <div className="relative">
+                <select
+                  className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  {...form.register("condition")}
+                >
+                  <option value="">Selecione</option>
+                  {condition.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+
+                <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                  <svg
+                    className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path d="m7 15 5 5 5-5" />
+                    <path d="m7 9 5-5 5 5" />
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="mt-3">
@@ -322,14 +347,12 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="yearModification">
-              Ano de modificação do veículo
-            </Label>
+            <Label htmlFor="yearModification">Ano modelo</Label>
 
             <Input
               {...form.register("yearModification")}
               className="mt-2"
-              placeholder="Ano da modificação"
+              placeholder="Ano modelo"
             />
           </div>
 
@@ -342,6 +365,38 @@ export function FormCar() {
               >
                 <option value="">Cor do carro</option>
                 {carColors.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+
+              <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                <svg
+                  className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="m7 15 5 5 5-5" />
+                  <path d="m7 9 5-5 5 5" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-3">
+            <Label htmlFor="exchange">Câmbio</Label>
+
+            <div className="relative">
+              <select
+                className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                {...form.register("exchange")}
+              >
+                <option value="">Selecione</option>
+                {transmissionType.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -483,38 +538,6 @@ export function FormCar() {
                 </option>
               ))}
             </select>
-          </div>
-
-          <div className="mt-3">
-            <Label htmlFor="exchange">Câmbio</Label>
-
-            <div className="relative">
-              <select
-                className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                {...form.register("exchange")}
-              >
-                <option value="">Selecione</option>
-                {transmissionType.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-
-              <div className="absolute top-1/2 end-3 -translate-y-1/2">
-                <svg
-                  className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path d="m7 15 5 5 5-5" />
-                  <path d="m7 9 5-5 5 5" />
-                </svg>
-              </div>
-            </div>
           </div>
 
           <div className="mt-3">

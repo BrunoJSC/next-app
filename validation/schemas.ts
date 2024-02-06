@@ -155,6 +155,9 @@ export const motorbikeShowSchema = z.object({
   yearFabrication: z
     .string()
     .min(1, { message: "Year Fabrication is required" }),
+  yearModification: z
+    .string()
+    .min(1, { message: "Year Modification is required" }),
   color: z.string().min(1, { message: "Color is required" }),
   description: z.string().min(1, { message: "Description is required" }),
   cylinder: z.string().min(1, { message: "Cylinder is required" }),

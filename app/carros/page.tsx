@@ -34,7 +34,7 @@ export default function Cars() {
         <div className="flex flex-col md:flex-row gap-4">
           <div className="md:hidden">
             <button
-              className="bg-primary text-white px-4 py-2 rounded-md"
+              className="bg-primary text-white px-4 py-2 rounded-md w-full"
               onClick={toggleFilterVisibility}
             >
               {isFilterVisible ? "Fechar Filtros" : "Abrir Filtros"}

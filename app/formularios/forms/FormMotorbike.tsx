@@ -363,11 +363,11 @@ export function FormMotorbike() {
             name="yearModification"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Ano de modificação</FormLabel>
+                <FormLabel>Ano  modelo</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Digite a data de modificação"
+                    placeholder="Ano modelo"
                     {...field}
                   />
                 </FormControl>
@@ -411,6 +411,31 @@ export function FormMotorbike() {
                       </svg>
                     </div>
                   </div>
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="exchange"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cambio</FormLabel>
+                <FormControl>
+                  <select
+                    className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    {...form.register("exchange")}
+                  >
+                    <option value="">Selecione</option>
+                    {exchange.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                 </FormControl>
 
                 <FormMessage />
@@ -585,31 +610,6 @@ export function FormMotorbike() {
                 <FormLabel>Descrição</FormLabel>
                 <FormControl>
                   <Textarea className="h-[300px]" {...field} />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="exchange"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cambio</FormLabel>
-                <FormControl>
-                  <select
-                    className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    {...form.register("exchange")}
-                  >
-                    <option value="">Selecione</option>
-                    {exchange.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
                 </FormControl>
 
                 <FormMessage />

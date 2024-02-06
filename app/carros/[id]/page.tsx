@@ -40,8 +40,7 @@ import { z } from "zod";
 export default function Page({
   searchParams,
 }: {
-  searchParams?: {
-    id: string;
+  searchParams: {
     brandCar: string;
     modelCar: string;
     images: string[];
@@ -220,6 +219,44 @@ export default function Page({
             <div>
               <p className="font-bold">Portas</p>
               <p className="text-primary">{searchParams?.doors}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Cambio</p>
+              <p className="text-primary">{searchParams.exchange}</p>
+            </div>
+            <div>
+              <p className="font-bold">Cor</p>
+              <p className="text-primary">{searchParams.color}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Pôtencia do motor</p>
+              <p className="text-primary">{searchParams.motors}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Condição</p>
+              <p className="text-primary">{searchParams.condition}</p>
+            </div>
+            <div>
+              <p className="font-bold">Tipo de anunciante</p>
+              <p className="text-primary">{searchParams.announce}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Placa</p>
+              <p className="text-primary">{searchParams.plate}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Carroceria</p>
+              <p className="text-primary">{searchParams.bodyType}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Portas</p>
+              <p className="text-primary">{searchParams.doors}</p>
             </div>
 
             <div className="col-span-2">

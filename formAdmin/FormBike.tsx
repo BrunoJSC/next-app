@@ -47,6 +47,7 @@ export function FormBike() {
       motorbikeModel: "",
       plate: "",
       yearFabrication: "",
+      yearModification: "",
       color: "",
       fuel: "",
       km: "",
@@ -97,6 +98,7 @@ export function FormBike() {
         motorbikeModel: data.motorbikeModel,
         plate: data.plate,
         yearFabrication: data.yearFabrication,
+        yearModification: data.yearModification,
         color: data.color,
         fuel: data.fuel,
         km: data.km,
@@ -364,6 +366,21 @@ export function FormBike() {
               id="yearFabrication"
               placeholder="Ano de fabricação"
               {...form.register("yearFabrication")}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label
+              htmlFor="yearFabrication"
+              className="text-sm font-medium mb-3"
+            >
+              Ano modelo
+            </Label>
+            <Input
+              type="text"
+              id="yearFabrication"
+              placeholder="Ano modelo"
+              {...form.register("yearModification")}
             />
           </div>
 
