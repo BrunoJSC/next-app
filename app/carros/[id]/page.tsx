@@ -219,7 +219,7 @@ export default function Page({
             </div>
 
             <div>
-              <p className="font-bold">Cambio</p>
+              <p className="font-bold">Câmbio</p>
               <p className="text-primary">{searchParams.exchange}</p>
             </div>
             <div>
