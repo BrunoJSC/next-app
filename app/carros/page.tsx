@@ -80,8 +80,8 @@ export default function Cars() {
                 }}
                 key={car.id}
               >
-                <div className="w-ful md:h-64 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row">
-                  <div className="md:w-[370px] h-full w-full">
+                <div className="w-ful md:h-56 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row">
+                  <div className="md:w-[350px] h-full w-full">
                     <Image
                       src={car.images[0]}
                       width={200}
