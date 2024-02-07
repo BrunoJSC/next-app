@@ -72,6 +72,7 @@ export default function Page({
 
   const [data, setData] = useState<ICar[]>([]);
   const [loading, setLoading] = useState(false);
+  const [viewedMotorbikes, setViewedCars] = useState<string[]>([]);
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
     try {
@@ -104,6 +105,20 @@ export default function Page({
 
     return () => unsubscribe();
   }, []);
+
+  const getRandomCars = () => {
+    const availableMotorbikes = data.filter(
+      (motorbike) => !viewedMotorbikes.includes(motorbike.id)
+    );
+    const shuffledCars = [...availableMotorbikes].sort(
+      () => 0.5 - Math.random()
+    );
+    return shuffledCars.slice(0, 5);
+  };
+
+  const handleViewedCars = (carId: string) => {
+    setViewedCars((prevState) => [...prevState, carId]);
+  };
 
   return (
     <section className="w-full min-h-screen p-2 mb-48">
@@ -377,7 +392,7 @@ export default function Page({
       <div className="p-4 md:p-12 md:max-w-screen-xl mx-auto mt-44">
         <Carousel className="w-full max-w-screen-xl">
           <CarouselContent className="flex gap-5">
-            {data.map((car) => (
+            {getRandomCars().map((car) => (
               <>
                 <Link
                   href={{
@@ -401,6 +416,7 @@ export default function Page({
                       plate: car.plate,
                     },
                   }}
+                  onClick={() => handleViewedCars(car.id)}
                 >
                   <div className="">
                     <div className="w-[300px] md:w-[500px] h-[300px] md:h-[300px]">

@@ -57,6 +57,7 @@ export default function Page({
   });
   const [data, setData] = useState<IMotorbike[]>([]);
   const [loading, setLoading] = useState(false);
+  const [viewedMotorbikes, setViewedMotorbikes] = useState<string[]>([]);
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
     try {
@@ -89,6 +90,20 @@ export default function Page({
 
     return () => unsubscribe();
   }, []);
+
+  const getRandomMotorbikes = () => {
+    const availableMotorbikes = data.filter(
+      (motorbike) => !viewedMotorbikes.includes(motorbike.id)
+    );
+    const shuffledMotorbikes = [...availableMotorbikes].sort(
+      () => 0.5 - Math.random()
+    );
+    return shuffledMotorbikes.slice(0, 5);
+  };
+
+  const handleViewedMotorbike = (motorbikeId: string) => {
+    setViewedMotorbikes((prevState) => [...prevState, motorbikeId]);
+  };
 
   return (
     <section className="w-full min-h-screen p-2 mb-48">
@@ -325,7 +340,7 @@ export default function Page({
       <div className="p-12 max-w-screen-xl mx-auto mt-44">
         <Carousel className="w-full max-w-screen-xl">
           <CarouselContent className="flex gap-5">
-            {data.map((motorbike) => (
+            {getRandomMotorbikes().map((motorbike) => (
               <>
                 <Link
                   href={{
@@ -345,6 +360,7 @@ export default function Page({
                       price: motorbike.price,
                     },
                   }}
+                  onClick={() => handleViewedMotorbike(motorbike.id)}
                 >
                   <div className="">
                     <div className="w-[300px] md:w-[500px] h-[300px] md:h-[300px]">

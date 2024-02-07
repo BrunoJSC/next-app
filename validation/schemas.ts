@@ -7,7 +7,7 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
   "image/jpeg",
   "image/jpg",
   "image/png",
-  "image/webp",
+  // "image/webp",
 ];
 export const contactSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
