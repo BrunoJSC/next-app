@@ -72,7 +72,7 @@ export default function Page({
 
   const [data, setData] = useState<ICar[]>([]);
   const [loading, setLoading] = useState(false);
-  const [viewedMotorbikes, setViewedCars] = useState<string[]>([]);
+  const [viewedCars, setViewedCars] = useState<string[]>([]);
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
     try {
@@ -108,7 +108,7 @@ export default function Page({
 
   const getRandomCars = () => {
     const availableMotorbikes = data.filter(
-      (motorbike) => !viewedMotorbikes.includes(motorbike.id)
+      (car) => !viewedCars.includes(car.id)
     );
     const shuffledCars = [...availableMotorbikes].sort(
       () => 0.5 - Math.random()
@@ -152,8 +152,8 @@ export default function Page({
                 </>
               )}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:block" />
-          <CarouselNext className="hidden md:block" />
+          <CarouselPrevious className="hidden translate-x-0 translate-y-0  md:flex items-center justify-center" />
+          <CarouselNext className="hidden translate-x-0 translate-y-0  md:flex items-center justify-center" />
         </Carousel>
       </div>
 

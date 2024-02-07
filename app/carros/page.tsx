@@ -57,7 +57,6 @@ export default function Cars() {
                 href={{
                   pathname: `/carros/${car.id}`,
                   query: {
-                    id: car.id,
                     brandCar: car.brandCar,
                     modelCar: car.modelCar,
                     images: car.images,

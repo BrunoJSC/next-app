@@ -132,8 +132,8 @@ export default function Page({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:block" />
-          <CarouselNext className="hidden md:block" />
+          <CarouselPrevious className="hidden translate-x-0 translate-y-0  md:flex items-center justify-center" />
+          <CarouselNext className="hidden translate-x-0 translate-y-0  md:flex items-center justify-center" />
         </Carousel>
       </div>
 
