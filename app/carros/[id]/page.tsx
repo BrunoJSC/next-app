@@ -1,6 +1,4 @@
 "use client";
-
-import { generateStaticParams } from "@/components/carStaticParams";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   CardHeader,
@@ -19,6 +17,7 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { announce } from "@/constants";
 import { db } from "@/firebase";
 import { ICar } from "@/types";
 import { contactVehicleSchema } from "@/validation/schemas";
@@ -72,19 +71,26 @@ export default function Page({
   });
 
   const [data, setData] = useState<ICar[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
-    await addDoc(collection(db, "contact"), {
-      id: Date().toString(),
-      name: data.name,
-      email: data.email,
-      cpf: data.cpf,
-      phone: data.phone,
-      message: data.message,
-    });
+    try {
+      setLoading(true);
+      await addDoc(collection(db, "contact"), {
+        id: Date().toString(),
+        name: data.name,
+        email: data.email,
+        cpf: data.cpf,
+        phone: data.phone,
+        message: data.message,
+      });
 
-    form.reset();
-    console.log(data);
+      form.reset();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -115,7 +121,7 @@ export default function Page({
                   {searchParams.images.map((_, index) => (
                     <CarouselItem
                       key={index}
-                      className="md:basis-1/2 lg:w-[400px] md:mr-4"
+                      className="md:basis-2/4 lg:w-[400px] md:mr-4"
                     >
                       <div className="w-full h-[400px]">
                         <Image
@@ -344,8 +350,12 @@ export default function Page({
                   />
                 </div>
 
-                <Button type="submit" className="w-full mt-5">
-                  Enviar
+                <Button
+                  type="submit"
+                  className="w-full mt-5"
+                  disabled={loading}
+                >
+                  {loading ? "Enviando..." : "Enviar"}
                 </Button>
 
                 <Link
@@ -364,7 +374,7 @@ export default function Page({
         </div>
       </Card>
 
-      <div className="p-12 max-w-screen-xl mx-auto mt-44">
+      <div className="p-4 md:p-12 md:max-w-screen-xl mx-auto mt-44">
         <Carousel className="w-full max-w-screen-xl">
           <CarouselContent className="flex gap-5">
             {data.map((car) => (
@@ -385,11 +395,15 @@ export default function Page({
                       description: car.description,
                       price: car.price,
                       accessories: car.accessories,
+                      motors: car.motors,
+                      condition: car.condition,
+                      announce: car.announce,
+                      plate: car.plate,
                     },
                   }}
                 >
                   <div className="">
-                    <div className="w-[300px] md:w-[500px] h-[300px] md:h-[400px]">
+                    <div className="w-[300px] md:w-[500px] h-[300px] md:h-[300px]">
                       <Image
                         src={car.images[0]}
                         alt="car"
@@ -413,8 +427,8 @@ export default function Page({
               </>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:block" />
-          <CarouselNext className="hidden md:block" />
+          <CarouselPrevious className="hidden translate-x-0 translate-y-0  md:flex items-center justify-center" />
+          <CarouselNext className="hidden translate-x-0 translate-y-0  md:flex items-center justify-center" />
         </Carousel>
       </div>
     </section>

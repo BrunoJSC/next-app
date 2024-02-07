@@ -56,19 +56,26 @@ export default function Page({
     defaultValues: { name: "", email: "", cpf: "", phone: "", message: "" },
   });
   const [data, setData] = useState<IMotorbike[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
-    await addDoc(collection(db, "contact"), {
-      id: Date().toString(),
-      name: data.name,
-      email: data.email,
-      cpf: data.cpf,
-      phone: data.phone,
-      message: data.message,
-    });
+    try {
+      setLoading(true);
+      await addDoc(collection(db, "contact"), {
+        id: Date().toString(),
+        name: data.name,
+        email: data.email,
+        cpf: data.cpf,
+        phone: data.phone,
+        message: data.message,
+      });
 
-    form.reset();
-    console.log(data);
+      form.reset();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -291,8 +298,12 @@ export default function Page({
                   />
                 </div>
 
-                <Button type="submit" className="w-full mt-5">
-                  Enviar
+                <Button
+                  type="submit"
+                  className="w-full mt-5"
+                  disabled={loading}
+                >
+                  {loading ? "Enviando..." : "Enviar"}
                 </Button>
 
                 <Link
@@ -336,7 +347,7 @@ export default function Page({
                   }}
                 >
                   <div className="">
-                    <div className="w-[300px] md:w-[500px] h-[300px] md:h-[400px]">
+                    <div className="w-[300px] md:w-[500px] h-[300px] md:h-[300px]">
                       <Image
                         src={motorbike.images[0]}
                         alt="car"
@@ -363,8 +374,8 @@ export default function Page({
               </>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:block" />
-          <CarouselNext className="hidden md:block" />
+          <CarouselPrevious className="hidden translate-x-0 translate-y-0  md:flex items-center justify-center" />
+          <CarouselNext className="hidden translate-x-0 translate-y-0  md:flex items-center justify-center" />
         </Carousel>
       </div>
     </section>
