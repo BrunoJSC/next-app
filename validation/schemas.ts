@@ -101,8 +101,9 @@ export const motorbikeSchema = z.object({
   description: z.string().min(1, { message: "Description is required" }),
   fairing: z.string().min(1, { message: "Fairing is required" }),
   cylinder: z.string().min(1, { message: "Cylinder is required" }),
-  stores: z.string().min(1, { message: "Stores is required" }),
+  stores: z.string().optional(),
   exchange: z.string().min(1, { message: "Exchange is required" }),
+  condition: z.string().min(1, { message: "Condition is required" }),
   images: z
     .any()
     .refine((files) => {
@@ -140,7 +141,7 @@ export const carShowSchema = z.object({
     .refine((files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type)),
   announce: z.string().min(1, { message: "Announce is required" }),
   motors: z.string().min(1, { message: "Motors is required" }),
-  stores: z.string().min(1, { message: "Stores is required" }),
+  stores: z.string().optional(),
 });
 
 export const motorbikeShowSchema = z.object({
@@ -163,7 +164,7 @@ export const motorbikeShowSchema = z.object({
   cylinder: z.string().min(1, { message: "Cylinder is required" }),
   fairing: z.string().min(1, { message: "Fairing is required" }),
   announce: z.string().min(1, { message: "Announce is required" }),
-  stores: z.string().min(1, { message: "Stores is required" }),
+  stores: z.string().optional(),
   accessories: z.array(z.string().min(1).optional()),
   exchange: z.string().min(1, { message: "Exchange is required" }),
   images: z

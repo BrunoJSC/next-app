@@ -106,6 +106,7 @@ export function FormBike() {
         km: data.km,
         price: data.price,
         description: data.description,
+        condition: data.condition,
         cylinder: data.cylinder,
         announce: data.announce,
         stores: data.stores,
@@ -183,10 +184,6 @@ export function FormBike() {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="price" className="text-sm font-medium mb-3">
-              Preço
-            </Label>
-
             <FormField
               control={form.control}
               name="price"

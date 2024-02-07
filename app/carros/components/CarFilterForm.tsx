@@ -14,6 +14,7 @@ import {
   stores,
   announceType,
   motors,
+  condition,
 } from "@/constants/filterCar";
 
 import { db } from "@/firebase";
@@ -51,6 +52,7 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterPriceMin, setFilterPriceMin] = useState<string>("");
   const [filterPriceMax, setFilterPriceMax] = useState<string>("");
   const [filterMotors, setFilterMotors] = useState<string>("");
+  const [filterCondition, setFilterCondition] = useState<string>("");
 
   const fetchFilteredCars = async () => {
     try {
@@ -116,6 +118,10 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
       if (filterMotors) {
         q = query(q, where("motors", "==", filterMotors));
+      }
+
+      if (filterCondition) {
+        q = query(q, where("condition", "==", filterCondition));
       }
 
       if (accessory.length > 0) {
@@ -307,6 +313,41 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
           >
             <option value="">Selecione</option>
             {motors.map((option) => (
+              <option key={option.label} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+
+          <div className="absolute top-1/2 end-3 -translate-y-1/2">
+            <svg
+              className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="m7 15 5 5 5-5" />
+              <path d="m7 9 5-5 5 5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="brandCar" className="text-sm font-medium mb-3">
+          Condição do veiculo
+        </Label>
+        <div className="relative">
+          <select
+            name="condition"
+            value={filterCondition}
+            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            onChange={(e) => setFilterCondition(e.target.value)}
+          >
+            <option value="">Selecione</option>
+            {condition.map((option) => (
               <option key={option.label} value={option.value}>
                 {option.label}
               </option>

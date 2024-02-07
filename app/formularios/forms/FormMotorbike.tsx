@@ -114,7 +114,7 @@ export function FormMotorbike() {
         fairing: data.fairing,
         exchange: data.exchange,
         cylinder: data.cylinder,
-
+        condition: data.condition,
         images: await handleUpload(),
       });
 

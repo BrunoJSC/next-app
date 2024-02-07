@@ -48,6 +48,7 @@ export default function Page({
     announce: string;
     price: string;
     condition: string;
+    fairing: string;
     plate: string;
   };
 }) {
@@ -92,22 +93,22 @@ export default function Page({
           className="w-full max-w-screen-lg mx-auto mt-2"
         >
           <CarouselContent>
-            {searchParams.images &&
-              Array.isArray(searchParams.images) &&
-              searchParams.images.length > 0 &&
-              searchParams.images.map((_, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:w-[400px]">
-                  <div className="w-full h-[400px]">
-                    <Image
-                      src={searchParams.images[index]}
-                      alt="car"
-                      width={400}
-                      height={400}
-                      className="w-full h-full rounded-xl object-contain"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
+            {searchParams.images.map((_, index) => (
+              <CarouselItem
+                key={index}
+                className="md:basis-1/2 lg:w-[400px] md:mr-4"
+              >
+                <div className="w-full h-[400px]">
+                  <Image
+                    src={searchParams.images[index]}
+                    alt="car"
+                    width={400}
+                    height={400}
+                    className="w-full h-4/5 rounded-xl"
+                  />
+                </div>
+              </CarouselItem>
+            ))}
           </CarouselContent>
           <CarouselPrevious className="hidden md:block" />
           <CarouselNext className="hidden md:block" />
@@ -120,13 +121,7 @@ export default function Page({
             {searchParams.motorbikeBrand}{" "}
             <span className="text-black">{searchParams.motorbikeModel}</span>
             <p className="text-primary">
-              R${" "}
-              <span className="text-black">
-                {Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(parseInt(searchParams.price))}
-              </span>
+              <span className="text-black">{searchParams.price}</span>
             </p>
           </CardTitle>
         </CardHeader>
@@ -190,6 +185,11 @@ export default function Page({
             <div>
               <p className="font-bold">Condição</p>
               <p className="text-primary">{searchParams.condition}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Carenagem</p>
+              <p className="text-primary">{searchParams.fairing}</p>
             </div>
 
             <div className="col-span-2">
