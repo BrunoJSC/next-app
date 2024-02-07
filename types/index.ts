@@ -63,5 +63,6 @@ export interface IMotorbike {
   cylinder: string;
   fairing: string;
   announce: string;
+  condition: string;
   images: string[];
 }

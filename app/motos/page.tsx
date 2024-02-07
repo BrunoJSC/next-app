@@ -71,18 +71,19 @@ export default function Page() {
                   announce: motorbike.announce,
                   price: motorbike.price,
                   plate: motorbike.plate,
+                  condition: motorbike.condition,
                 },
               }}
               key={motorbike.id}
             >
-              <div className="w-ful md:h-56 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row">
-                <div className="md:w-[350px] h-full w-full">
+              <div className="w-ful md:h-64 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row">
+                <div className="md:w-[370px] h-full w-full">
                   <Image
                     src={motorbike.images[0]}
-                    width={200}
-                    height={200}
+                    width={400}
+                    height={400}
                     alt={motorbike.motorbikeBrand}
-                    className="object-cover w-full h-56 rounded-tl-lg rounded-bl-lg"
+                    className="object-cover w-full h-full rounded-tl-lg rounded-bl-lg"
                   />
                 </div>
 

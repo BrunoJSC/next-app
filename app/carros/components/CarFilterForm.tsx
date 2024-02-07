@@ -13,6 +13,7 @@ import {
   accessories,
   stores,
   announceType,
+  motors,
 } from "@/constants/filterCar";
 
 import { db } from "@/firebase";
@@ -49,6 +50,7 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterStore, setFilterStore] = useState<string>("");
   const [filterPriceMin, setFilterPriceMin] = useState<string>("");
   const [filterPriceMax, setFilterPriceMax] = useState<string>("");
+  const [filterMotors, setFilterMotors] = useState<string>("");
 
   const fetchFilteredCars = async () => {
     try {
@@ -112,6 +114,10 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("stores", "==", filterStore));
       }
 
+      if (filterMotors) {
+        q = query(q, where("motors", "==", filterMotors));
+      }
+
       if (accessory.length > 0) {
         q = query(q, where("accessories", "array-contains-any", accessory));
       }
@@ -156,6 +162,7 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
     setEndYear("");
     setFilterColor("");
     setFilterLocation("");
+    setFilterMotors("");
     setAccessory([]);
 
     onFilterChange(data);
@@ -266,6 +273,41 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
             <option value="selecione">Selecione</option>
             {fuelCar.map((option) => (
               <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+
+          <div className="absolute top-1/2 end-3 -translate-y-1/2">
+            <svg
+              className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="m7 15 5 5 5-5" />
+              <path d="m7 9 5-5 5 5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="brandCar" className="text-sm font-medium mb-3">
+          Motor
+        </Label>
+        <div className="relative">
+          <select
+            name="motors"
+            value={filterMotors}
+            className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            onChange={(e) => setFilterMotors(e.target.value)}
+          >
+            <option value="">Selecione</option>
+            {motors.map((option) => (
+              <option key={option.label} value={option.value}>
                 {option.label}
               </option>
             ))}

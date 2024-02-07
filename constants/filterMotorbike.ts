@@ -111,3 +111,9 @@ export const exchange = [
   { label: "Automático", value: "1.0" },
   { label: "Manual", value: "1.3" },
 ];
+
+export const fairing = [
+  { label: "Boa", value: "Boa" },
+  { label: "Média", value: "Média" },
+  { label: "Ruim", value: "Ruim" },
+];

@@ -47,6 +47,7 @@ export default function Page({
     images: string[];
     announce: string;
     price: string;
+    condition: string;
     plate: string;
   };
 }) {
@@ -102,7 +103,7 @@ export default function Page({
                       alt="car"
                       width={400}
                       height={400}
-                      className="w-full h-full rounded-xl object-cover"
+                      className="w-full h-full rounded-xl object-contain"
                     />
                   </div>
                 </CarouselItem>
@@ -179,6 +180,16 @@ export default function Page({
             <div>
               <p className="font-bold">Placa</p>
               <p className="text-primary">{searchParams.plate}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Placa</p>
+              <p className="text-primary">{searchParams.plate}</p>
+            </div>
+
+            <div>
+              <p className="font-bold">Condição</p>
+              <p className="text-primary">{searchParams.condition}</p>
             </div>
 
             <div className="col-span-2">

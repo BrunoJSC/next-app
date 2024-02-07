@@ -42,7 +42,7 @@ export default function Cars() {
           </div>
 
           <Card
-            className={`w-full md:w-[300px] h-auto md:h-[1056px] bg-primary rounded-md p-4 mb-4 md:mb-0 ${
+            className={`w-full md:w-[300px] h-auto md:h-[1096px] bg-primary rounded-md p-4 mb-4 md:mb-0 ${
               isFilterVisible ? "block" : "hidden md:block"
             }`}
           >
@@ -80,14 +80,14 @@ export default function Cars() {
                 }}
                 key={car.id}
               >
-                <div className="w-ful md:h-56 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row">
-                  <div className="md:w-[350px] h-full w-full">
+                <div className="w-ful md:h-64 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row">
+                  <div className="md:w-[370px] h-full w-full">
                     <Image
                       src={car.images[0]}
                       width={200}
                       height={200}
                       alt={car.brandCar}
-                      className="object-cover w-full h-56 rounded-tl-lg rounded-bl-lg"
+                      className="object-cover w-full h-full rounded-tl-lg rounded-bl-lg"
                     />
                   </div>
 

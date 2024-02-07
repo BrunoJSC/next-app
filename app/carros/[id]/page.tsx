@@ -123,14 +123,11 @@ export default function Page({
                           alt="car"
                           width={400}
                           height={400}
-                          className="w-full h-full rounded-xl"
+                          className="w-full h-4/5 rounded-xl"
                         />
                       </div>
                     </CarouselItem>
                   ))}
-                  <p className="text-center text-gray-600 mt-4">
-                    Adicione mais imagens para visualização
-                  </p>
                 </>
               )}
           </CarouselContent>
@@ -249,31 +246,23 @@ export default function Page({
               <p className="text-primary">{searchParams.plate}</p>
             </div>
 
-            <div>
-              <p className="font-bold">Carroceria</p>
-              <p className="text-primary">{searchParams.bodyType}</p>
-            </div>
-
-            <div>
-              <p className="font-bold">Portas</p>
-              <p className="text-primary">{searchParams.doors}</p>
-            </div>
-
             <div className="col-span-2">
               <p className="font-bold">Opcionais</p>
-              {Array.isArray(searchParams?.accessories) &&
-              searchParams.accessories.length > 0 ? (
-                searchParams.accessories.map((accessory, index) => (
-                  <div key={index} className="mr-2 mb-2">
-                    <p className="text-primary">
-                      {accessory}
-                      {","}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <p>Sem acessórios</p>
-              )}
+              <div className="flex flex-wrap">
+                {searchParams.accessories &&
+                searchParams.accessories.length > 0 ? (
+                  searchParams.accessories.map((accessory, index) => (
+                    <div key={index} className="mr-2 mb-2">
+                      <p className="text-primary">
+                        {accessory}
+                        {","}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p>Sem acessórios</p>
+                )}
+              </div>
             </div>
           </div>
 
