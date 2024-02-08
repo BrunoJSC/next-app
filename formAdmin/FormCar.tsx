@@ -39,8 +39,6 @@ import { NumericFormat } from "react-number-format";
 export function FormCar({ className }: { className?: string }) {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const [loading, setLoading] = useState(false);
-  const [draggedImageIndex, setDraggedImageIndex] = useState<number>(-1);
-  const [imageOrder, setImageOrder] = useState<number[]>([]);
 
   const form = useForm<z.infer<typeof carShowSchema>>({
     resolver: zodResolver(carShowSchema),
@@ -77,23 +75,20 @@ export function FormCar({ className }: { className?: string }) {
     }
   };
 
-  const handleImageReorder = (dragIndex: number, hoverIndex: number) => {
-    const newImageOrder = [...imageOrder];
-    const draggedImage = newImageOrder[dragIndex];
-    newImageOrder.splice(dragIndex, 1);
-    newImageOrder.splice(hoverIndex, 0, draggedImage);
-    setImageOrder(newImageOrder);
-  };
-
   const handleUpload = async () => {
     if (selectedFiles) {
-      for (const element of Array.from(selectedFiles)) {
+      for (const [index, element] of Array.from(selectedFiles).entries()) {
         const file = element;
         const storageRef = ref(storage, `images/${file.name}`);
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
         downloadURLs.push(downloadURL);
         console.log("Image uploaded successfully:", downloadURL);
+        // Armazena a ordem junto com a imagem no Firebase
+        await addDoc(collection(db, "images"), {
+          url: downloadURL,
+          order: index,
+        });
       }
     }
 
@@ -535,10 +530,6 @@ export function FormCar({ className }: { className?: string }) {
             multiple
             onChange={handleFileChange}
             accept="image/*"
-            onDragStart={(e) => {
-              const index = imageOrder.indexOf(parseInt(e.currentTarget.id));
-              setDraggedImageIndex(index);
-            }}
           />
         </div>
 
