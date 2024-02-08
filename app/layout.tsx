@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/sections/Footer";
 import Provider from "@/components/Provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
         <Provider>
           <Navbar />
           {children}
+          <Toaster />
           <Footer />
         </Provider>
       </body>

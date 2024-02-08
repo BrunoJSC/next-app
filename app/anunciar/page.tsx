@@ -27,10 +27,13 @@ export default function Announce() {
 
         <ul className="flex flex-col mx-auto items-center justify-center md:w-[900px] w-full gap-5">
           {announce.map((an) => (
-            <li key={an.title}>
-              <h2 className="text-lg font-bold">{an.title}</h2>
+            <li key={an.title} className="flex gap-5 ">
+              <p>{an.icon}</p>
+              <div>
+                <h2 className="text-lg font-bold">{an.title}</h2>
 
-              <p>{an.paragraph}</p>
+                <p>{an.paragraph}</p>
+              </div>
             </li>
           ))}
           <Button className="mt-10 md:w-full h-[50px] w-full mx-auto" asChild>

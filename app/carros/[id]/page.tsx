@@ -35,6 +35,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
 
 export default function Page({
   searchParams,
@@ -73,6 +74,9 @@ export default function Page({
   const [data, setData] = useState<ICar[]>([]);
   const [loading, setLoading] = useState(false);
   const [viewedCars, setViewedCars] = useState<string[]>([]);
+  const [message, setMessage] = useState(
+    `Tenho interesse neste veículo: ${searchParams.brandCar} ${searchParams.modelCar}`
+  );
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
     try {
@@ -83,10 +87,14 @@ export default function Page({
         email: data.email,
         cpf: data.cpf,
         phone: data.phone,
-        message: data.message,
+        message: message,
       });
 
+      toast.success("Formulário enviado com sucesso");
+
       form.reset();
+
+      console.log(data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -121,7 +129,7 @@ export default function Page({
   };
 
   return (
-    <section className="w-full min-h-screen p-2 mb-48">
+    <section className="w-full min-h-screen p-2">
       <div className="p-4 md:p-8 lg:p-12 max-w-screen-xl mx-auto">
         <Carousel
           opts={{
@@ -136,7 +144,7 @@ export default function Page({
                   {searchParams.images.map((_, index) => (
                     <CarouselItem
                       key={index}
-                      className="md:basis-2/4 lg:w-[400px] md:mr-4"
+                      className="md:basis-2/4 lg:w-[400px] md:mr-2"
                     >
                       <div className="w-full h-[400px]">
                         <Image
@@ -157,7 +165,7 @@ export default function Page({
         </Carousel>
       </div>
 
-      <Card className="w-full max-w-screen-lg mx-auto mt-2 p-4">
+      <Card className="w-full max-w-screen-lg mx-auto p-4 -mt-14">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-primary">
             {searchParams?.brandCar}{" "}
@@ -295,7 +303,7 @@ export default function Page({
               >
                 <div>
                   <h2 className="text-2xl font-bold text-primary">
-                    Entre em contato com o Vendedor!
+                    Entre em contato com nossa equipe!
                   </h2>
                   <p className="text-white">Veja condições de financiamento.</p>
                 </div>
@@ -361,7 +369,9 @@ export default function Page({
                     rows={4}
                     className="bg-white"
                     {...form.register("message")}
-                    placeholder="Escreva sua mensagem..."
+                    placeholder="Escreva uma mensagem..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                   />
                 </div>
 

@@ -29,6 +29,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
 
 export default function Page({
   searchParams,
@@ -71,6 +72,7 @@ export default function Page({
         message: data.message,
       });
 
+      toast.success("Formulário enviado com sucesso");
       form.reset();
     } catch (error) {
       console.log(error);
@@ -118,7 +120,7 @@ export default function Page({
             {searchParams.images.map((_, index) => (
               <CarouselItem
                 key={index}
-                className="md:basis-1/2 lg:w-[400px] md:mr-4"
+                className="md:basis-1/2 lg:w-[400px] md:mr-2"
               >
                 <div className="w-full h-[400px]">
                   <Image
@@ -137,7 +139,7 @@ export default function Page({
         </Carousel>
       </div>
 
-      <Card className="w-full max-w-screen-lg mx-auto mt-2 p-4">
+      <Card className="w-full max-w-screen-lg mx-auto -mt-14 p-4">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-primary">
             {searchParams.motorbikeBrand}{" "}
@@ -242,7 +244,7 @@ export default function Page({
               >
                 <div>
                   <h2 className="text-2xl font-bold text-primary">
-                    Entre em contato com o Vendedor!
+                    Entre em contato com o nossa equipe!
                   </h2>
                   <p className="text-white">Veja condições de financiamento.</p>
                 </div>
@@ -307,7 +309,7 @@ export default function Page({
                   <Textarea
                     id="message"
                     rows={4}
-                    placeholder="Escreva sua mensagem..."
+                    placeholder="Escreva uma mensagem..."
                     className="bg-white resize-none"
                     {...form.register("message")}
                   />
