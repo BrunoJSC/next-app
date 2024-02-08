@@ -42,7 +42,7 @@ export default function Page() {
         </div>
 
         <Card
-          className={`w-full md:w-[300px] h-auto md:h-[1156px] bg-primary rounded-md p-4 mb-4 md:mb-0 ${
+          className={`w-full md:w-[300px] h-auto md:h-[1186px] bg-primary rounded-md p-4 mb-4 md:mb-0 ${
             isFilterVisible ? "block" : "hidden md:block"
           }`}
         >
