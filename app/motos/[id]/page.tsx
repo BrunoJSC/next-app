@@ -126,9 +126,9 @@ export default function Page({
                   <Image
                     src={searchParams.images[index]}
                     alt="car"
-                    width={400}
+                    width={900}
                     height={400}
-                    className="w-full h-4/5 rounded-xl"
+                    className="w-full h-4/5 rounded-xl object-cover"
                   />
                 </div>
               </CarouselItem>

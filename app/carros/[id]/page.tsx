@@ -75,7 +75,7 @@ export default function Page({
   const [loading, setLoading] = useState(false);
   const [viewedCars, setViewedCars] = useState<string[]>([]);
   const [message, setMessage] = useState(
-    `Tenho interesse neste veículo: ${searchParams.brandCar} ${searchParams.modelCar}`
+    `Tenho interesse neste veículo ${searchParams.brandCar} ${searchParams.modelCar}`
   );
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
@@ -152,7 +152,7 @@ export default function Page({
                           alt="car"
                           width={400}
                           height={400}
-                          className="w-full h-4/5 rounded-xl"
+                          className="w-full h-4/5 rounded-xl object-cover"
                         />
                       </div>
                     </CarouselItem>
@@ -171,7 +171,7 @@ export default function Page({
             {searchParams?.brandCar}{" "}
             <span className="text-black">{searchParams?.modelCar}</span>
             <p className="text-primary">
-              R$ <span className="text-black">{searchParams?.price}</span>
+              <span className="text-black">{searchParams?.price}</span>
             </p>
           </CardTitle>
         </CardHeader>
@@ -208,7 +208,7 @@ export default function Page({
             </div>
 
             <div>
-              <p className="font-bold">Cambio</p>
+              <p className="font-bold">Cämbio</p>
               <p className="text-primary">{searchParams?.exchange}</p>
             </div>
 
@@ -247,24 +247,6 @@ export default function Page({
               <p className="text-primary">{searchParams?.doors}</p>
             </div>
 
-            <div>
-              <p className="font-bold">Câmbio</p>
-              <p className="text-primary">{searchParams.exchange}</p>
-            </div>
-            <div>
-              <p className="font-bold">Cor</p>
-              <p className="text-primary">{searchParams.color}</p>
-            </div>
-
-            <div>
-              <p className="font-bold">Pôtencia do motor</p>
-              <p className="text-primary">{searchParams.motors}</p>
-            </div>
-
-            <div>
-              <p className="font-bold">Condição</p>
-              <p className="text-primary">{searchParams.condition}</p>
-            </div>
             <div>
               <p className="font-bold">Tipo de anunciante</p>
               <p className="text-primary">{searchParams.announce}</p>
