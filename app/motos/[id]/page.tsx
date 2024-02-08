@@ -60,6 +60,9 @@ export default function Page({
   const [data, setData] = useState<IMotorbike[]>([]);
   const [loading, setLoading] = useState(false);
   const [viewedMotorbikes, setViewedMotorbikes] = useState<string[]>([]);
+  const [message, setMessage] = useState(
+    `Tenho interesse neste veículo ${searchParams.motorbikeBrand} ${searchParams.motorbikeModel}`
+  );
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
     try {
@@ -70,7 +73,7 @@ export default function Page({
         email: data.email,
         cpf: data.cpf,
         phone: data.phone,
-        message: data.message,
+        message: message,
       });
 
       toast.success("Formulário enviado com sucesso");
@@ -312,7 +315,8 @@ export default function Page({
                     rows={4}
                     placeholder="Escreva uma mensagem..."
                     className="bg-white resize-none"
-                    {...form.register("message")}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                   />
                 </div>
 
@@ -361,6 +365,11 @@ export default function Page({
                       images: motorbike.images,
                       accessories: motorbike.accessories,
                       price: motorbike.price,
+                      announce: motorbike.announce,
+                      exchange: motorbike.exchange,
+                      fairing: motorbike.fairing,
+                      plate: motorbike.plate,
+                      condition: motorbike.condition,
                     },
                   }}
                   onClick={() => handleViewedMotorbike(motorbike.id)}

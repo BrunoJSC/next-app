@@ -108,8 +108,8 @@ export const condition = [
 ];
 
 export const exchange = [
-  { label: "Automático", value: "1.0" },
-  { label: "Manual", value: "1.3" },
+  { label: "Automático", value: "Automático" },
+  { label: "Manual", value: "Manual" },
 ];
 
 export const fairing = [

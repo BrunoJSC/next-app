@@ -115,14 +115,14 @@ export function FormBike() {
         accessories: data.accessories,
         images: await handleUpload(),
       });
+
+      console.log(data);
+      form.reset();
     } catch (error) {
       console.error("Erro ao fazer upload:", error);
     } finally {
       setLoading(false);
     }
-
-    console.log(data);
-    form.reset();
   };
   return (
     <div className="w-full">
@@ -316,7 +316,7 @@ export function FormBike() {
             <Input
               type="text"
               id="km"
-              placeholder="KM"
+              placeholder="Digite neste formato 3.000"
               {...form.register("km")}
             />
           </div>
