@@ -73,6 +73,7 @@ export default function Page() {
                   plate: motorbike.plate,
                   condition: motorbike.condition,
                   fairing: motorbike.fairing,
+                  exchange: motorbike.exchange,
                 },
               }}
               key={motorbike.id}

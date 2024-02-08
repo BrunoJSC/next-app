@@ -600,7 +600,11 @@ export function FormCar() {
           <div className="mt-3">
             <Label htmlFor="description">Descriçao</Label>
 
-            <Textarea {...form.register("description")} className="mt-2 h-52" />
+            <Textarea
+              {...form.register("description")}
+              className="mt-2 h-52"
+              placeholder="Descreva quantos donos o veículo teve, quais revisões foram feitas recentemente, motivo da venda e observações sobre o veículo."
+            />
           </div>
           <div className="col-span-full">
             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">

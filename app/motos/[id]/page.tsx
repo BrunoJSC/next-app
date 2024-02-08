@@ -51,6 +51,7 @@ export default function Page({
     condition: string;
     fairing: string;
     plate: string;
+    exchange: string;
   };
 }) {
   const form = useForm<z.infer<typeof contactVehicleSchema>>({
@@ -202,8 +203,8 @@ export default function Page({
             </div>
 
             <div>
-              <p className="font-bold">Placa</p>
-              <p className="text-primary">{searchParams.plate}</p>
+              <p className="font-bold">Cambio</p>
+              <p className="text-primary">{searchParams.exchange}</p>
             </div>
 
             <div>

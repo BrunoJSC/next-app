@@ -293,7 +293,7 @@ export function FormBike() {
                 <FormControl>
                   <select
                     className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    {...form.register("exchange")}
+                    {...field}
                   >
                     <option value="">Selecione</option>
                     {exchange.map((option) => (

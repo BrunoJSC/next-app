@@ -671,7 +671,11 @@ export function FormMotorbike() {
               <FormItem>
                 <FormLabel>Descrição</FormLabel>
                 <FormControl>
-                  <Textarea className="h-[300px]" {...field} />
+                  <Textarea
+                    className="h-[300px]"
+                    placeholder="Descreva quantos donos o veículo teve, quais revisões foram feitas recentemente, motivo da venda e observações sobre o veículo."
+                    {...field}
+                  />
                 </FormControl>
 
                 <FormMessage />

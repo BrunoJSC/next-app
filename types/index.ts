@@ -65,4 +65,5 @@ export interface IMotorbike {
   announce: string;
   condition: string;
   images: string[];
+  exchange: string;
 }
