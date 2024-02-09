@@ -27,8 +27,11 @@ export default function Finance() {
                 <CardDescription>{finance.paragraph}</CardDescription>
               </li>
             ))}
-            <Button className="w-full h-[50px] mt-10 mb-10">
-              Solicitar Financiamento
+            <Button className="w-full h-[50px] mt-10 mb-10" asChild>
+              <Link href="https://wa.me/5511940723891">
+                {" "}
+                Solicitar Financiamento
+              </Link>
             </Button>
           </ul>
 

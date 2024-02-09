@@ -406,6 +406,8 @@ export default function Page({
                       condition: car.condition,
                       announce: car.announce,
                       plate: car.plate,
+                      doors: car.doors,
+                      bodyType: car.bodyType,
                     },
                   }}
                   onClick={() => handleViewedCars(car.id)}
