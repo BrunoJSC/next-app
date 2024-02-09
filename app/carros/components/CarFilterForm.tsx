@@ -234,6 +234,11 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
           type="text"
           placeholder="Ex: Corolla"
           value={searchTerm}
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              fetchFilteredCars();
+            }
+          }}
           onChange={handleSearchTermChange}
           className="w-full bg-white"
         />

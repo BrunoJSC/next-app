@@ -226,6 +226,11 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
           placeholder="Ex: Fan"
           value={searchTerm}
           onChange={handleSearchTermChange}
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              fetchFilteredCars();
+            }
+          }}
           className="w-full bg-white"
         />
       </div>
