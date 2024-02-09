@@ -147,10 +147,6 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
     }
   };
 
-  const filterSelectModelCar = data.filter(
-    (car) => car.modelCar === filterModelCar
-  );
-
   const handleAccessoryChange = (accessoryValue: string) => {
     if (accessory.includes(accessoryValue)) {
       setAccessory(accessory.filter((item) => item !== accessoryValue));
@@ -236,14 +232,9 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         </Label>
         <Input
           type="text"
-          placeholder="Pesquisar modelo"
+          placeholder="Ex: Corolla"
           value={searchTerm}
           onChange={handleSearchTermChange}
-          onKeyPress={(event) => {
-            if (event.key === "Enter") {
-              fetchFilteredCars();
-            }
-          }}
           className="w-full bg-white"
         />
       </div>

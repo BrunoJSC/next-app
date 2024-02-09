@@ -410,7 +410,7 @@ export default function Page({
                   }}
                   onClick={() => handleViewedCars(car.id)}
                 >
-                  <div className="">
+                  <div className="ml-10">
                     <div className="w-[300px] md:w-[500px] h-[300px] md:h-[300px]">
                       <Image
                         src={car.images[0]}

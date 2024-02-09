@@ -32,6 +32,7 @@ import {
   doors,
   fuelCar,
   locations,
+  mechanic,
   motors,
   transmissionType,
 } from "@/constants/filterCar";
@@ -317,13 +318,35 @@ export function FormCar() {
           </div>
 
           <div className="mt-3">
-            <Label htmlFor="mechanic">Mecânico</Label>
+            <Label htmlFor="mechanic">Mecânica</Label>
 
-            <Input
-              {...form.register("mechanic")}
-              className="mt-2"
-              placeholder="Se o carros já foi mexido sim ou não"
-            />
+            <div className="relative">
+              <select
+                className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                {...form.register("mechanic")}
+              >
+                <option value="">Selecione</option>
+                {mechanic.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+
+              <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                <svg
+                  className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="m7 15 5 5 5-5" />
+                  <path d="m7 9 5-5 5 5" />
+                </svg>
+              </div>
+            </div>
           </div>
 
           <div className="mt-3">

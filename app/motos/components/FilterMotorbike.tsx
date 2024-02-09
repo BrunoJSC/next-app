@@ -223,7 +223,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <Input
           id="model"
           type="text"
-          placeholder="Filtrar por modelo"
+          placeholder="Ex: Fan"
           value={searchTerm}
           onChange={handleSearchTermChange}
           className="w-full bg-white"

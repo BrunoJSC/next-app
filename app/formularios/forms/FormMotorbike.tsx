@@ -32,6 +32,8 @@ import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { NumericFormat } from "react-number-format";
+import { Label } from "@/components/ui/label";
+import { mechanic } from "@/constants/filterCar";
 
 export function FormMotorbike() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
@@ -284,24 +286,37 @@ export function FormMotorbike() {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="mechanic"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mecanico</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Digite se a moto já foi modificada sim ou não"
-                    {...field}
-                  />
-                </FormControl>
+          <div className="mt-3">
+            <Label htmlFor="mechanic">Mecânica</Label>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <div className="relative">
+              <select
+                className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                {...form.register("mechanic")}
+              >
+                <option value="">Selecione</option>
+                {mechanic.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+
+              <div className="absolute top-1/2 end-3 -translate-y-1/2">
+                <svg
+                  className="flex-shrink-0 w-3.5 h-3.5 text-gray-500 dark:text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="m7 15 5 5 5-5" />
+                  <path d="m7 9 5-5 5 5" />
+                </svg>
+              </div>
+            </div>
+          </div>
 
           <FormField
             control={form.control}

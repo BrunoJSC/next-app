@@ -113,7 +113,7 @@ export default function Page({
 
   return (
     <section className="w-full min-h-screen p-2 mb-48">
-      <div className="p-12 max-w-screen-xl mx-auto">
+      <div className="p-4 md:p-8 lg:p-12 max-w-screen-xl mx-auto">
         <Carousel
           opts={{
             align: "start",
@@ -124,7 +124,7 @@ export default function Page({
             {searchParams.images.map((_, index) => (
               <CarouselItem
                 key={index}
-                className="md:basis-1/2 lg:w-[400px] md:mr-2"
+                className="md:basis-2/4 lg:w-[400px] md:mr-2"
               >
                 <div className="w-full h-[400px]">
                   <Image
@@ -344,7 +344,7 @@ export default function Page({
         </div>
       </Card>
 
-      <div className="p-12 max-w-screen-xl mx-auto mt-44">
+      <div className="p-4 md:p-12 md:max-w-screen-xl mx-auto mt-44">
         <Carousel className="w-full max-w-screen-xl">
           <CarouselContent className="flex gap-5">
             {getRandomMotorbikes().map((motorbike) => (
@@ -374,7 +374,7 @@ export default function Page({
                   }}
                   onClick={() => handleViewedMotorbike(motorbike.id)}
                 >
-                  <div className="">
+                  <div className="ml-10">
                     <div className="w-[300px] md:w-[500px] h-[300px] md:h-[300px]">
                       <Image
                         src={motorbike.images[0]}

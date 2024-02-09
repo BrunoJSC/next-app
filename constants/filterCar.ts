@@ -136,8 +136,7 @@ export const announceType = [
 ];
 
 export const stores = [
-  { label: "Edificar", value: "Edificar" },
-  { label: "Kairós", value: "Kairós" },
+  { label: "Mavicar", value: "Mavicar" },
   { label: "GP Motors", value: "GP Motors" },
   { label: "Rhemar", value: "Rhemar" },
   { label: "Sem loja", value: "Sem loja" },
@@ -196,5 +195,12 @@ export const body = [
   { label: "Excelente", value: "Excelente" },
   { label: "Média", value: "Média" },
   { label: "Boa", value: "Boa" },
+  { label: "Ruim", value: "Ruim" },
+];
+
+export const mechanic = [
+  { label: "Excelente", value: "Excelente" },
+  { label: "Boa", value: "Boa" },
+  { label: "Média", value: "Média" },
   { label: "Ruim", value: "Ruim" },
 ];

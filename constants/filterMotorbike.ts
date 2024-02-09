@@ -113,6 +113,14 @@ export const exchange = [
 ];
 
 export const fairing = [
+  { label: "Excelente", value: "Excelente" },
+  { label: "Boa", value: "Boa" },
+  { label: "Média", value: "Média" },
+  { label: "Ruim", value: "Ruim" },
+];
+
+export const mechanic = [
+  { label: "Excelente", value: "Excelente" },
   { label: "Boa", value: "Boa" },
   { label: "Média", value: "Média" },
   { label: "Ruim", value: "Ruim" },

@@ -77,18 +77,13 @@ export function FormCar({ className }: { className?: string }) {
 
   const handleUpload = async () => {
     if (selectedFiles) {
-      for (const [index, element] of Array.from(selectedFiles).entries()) {
+      for (const element of Array.from(selectedFiles)) {
         const file = element;
         const storageRef = ref(storage, `images/${file.name}`);
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
         downloadURLs.push(downloadURL);
         console.log("Image uploaded successfully:", downloadURL);
-        // Armazena a ordem junto com a imagem no Firebase
-        await addDoc(collection(db, "images"), {
-          url: downloadURL,
-          order: index,
-        });
       }
     }
 
