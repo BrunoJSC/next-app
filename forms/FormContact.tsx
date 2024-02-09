@@ -18,6 +18,8 @@ import { FacebookIcon, InstagramIcon, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
+
 
 export function FormContact() {
   const form = useForm<z.infer<typeof contactSchema>>({
@@ -29,15 +31,21 @@ export function FormContact() {
   });
 
   const handleSubmit = async (data: z.infer<typeof contactSchema>) => {
-    await addDoc(collection(db, "contact"), {
-      id: Math.random().toString(),
-      name: data.name,
-      email: data.email,
-      message: data.message,
-    });
+    try {
+      await addDoc(collection(db, "contact"), {
+        id: Math.random().toString(),
+        name: data.name,
+        email: data.email,
+        message: data.message,
+      });
+  
 
-    form.reset();
-    console.log(data);
+      form.reset();
+      toast.success("Formulário enviado com sucesso");
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

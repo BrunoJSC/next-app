@@ -37,6 +37,7 @@ import {
   transmissionType,
 } from "@/constants/filterCar";
 import { NumericFormat } from "react-number-format";
+import { toast } from "sonner";
 
 export function FormCar() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
@@ -131,17 +132,14 @@ export function FormCar() {
         motors: data.motors,
         images: await handleUpload(),
       });
+
+      toast.success("Formulário de carro enviado com sucesso!");
+      form.reset();
     } catch (error) {
       console.error("Erro ao fazer upload:", error);
     } finally {
       setLoading(false);
     }
-
-    console.log(data);
-
-    console.log(data);
-    console.log("click");
-    form.reset();
   };
 
   return (

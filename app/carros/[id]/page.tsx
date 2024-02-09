@@ -247,16 +247,6 @@ export default function Page({
               <p className="text-primary">{searchParams?.doors}</p>
             </div>
 
-            <div>
-              <p className="font-bold">Tipo de anunciante</p>
-              <p className="text-primary">{searchParams.announce}</p>
-            </div>
-
-            <div>
-              <p className="font-bold">Placa</p>
-              <p className="text-primary">{searchParams.plate}</p>
-            </div>
-
             <div className="col-span-2">
               <p className="font-bold">Opcionais</p>
               <div className="flex flex-wrap">

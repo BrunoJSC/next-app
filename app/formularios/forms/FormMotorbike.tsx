@@ -34,6 +34,7 @@ import { z } from "zod";
 import { NumericFormat } from "react-number-format";
 import { Label } from "@/components/ui/label";
 import { mechanic } from "@/constants/filterCar";
+import { toast } from "sonner";
 
 export function FormMotorbike() {
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
@@ -121,6 +122,7 @@ export function FormMotorbike() {
       });
 
       form.reset();
+      toast.success("Formulário de moto enviado com sucesso");
     } catch (error) {
       console.error("Erro ao fazer upload:", error);
     } finally {
