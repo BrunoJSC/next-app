@@ -146,7 +146,7 @@ export function Footer() {
           no site com matriz online.
         </p>
         <p className="mt-4 sm:mt-6">
-          Copyright © 2024 AutoNegocie. Todos os direitos reservados. CNPJ
+          Copyright © 2024 AutoNegocie. Todos os direitos reservados. Gabiel
           32.917.371/000129
         </p>
       </div>
