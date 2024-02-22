@@ -323,7 +323,7 @@ export function FormCar({ className }: { className?: string }) {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="yearFabrication">Ano de fabricação</Label>
+          <Label htmlFor="yearFabrication">Ano modelo</Label>
           <Input type="text" {...form.register("yearFabrication")} />
         </div>
 

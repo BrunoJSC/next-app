@@ -224,6 +224,7 @@ export default function Page({
               <p className="font-bold">Opcionais</p>
               <div className="flex flex-wrap">
                 {searchParams.accessories &&
+                Array.isArray(searchParams.accessories) &&
                 searchParams.accessories.length > 0 ? (
                   searchParams.accessories.map((accessory, index) => (
                     <div key={index} className="mr-2 mb-2">
