@@ -30,6 +30,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import { ChatBoxCar } from "@/components/ChatBoxCar";
 
 export default function Page({
   searchParams,
@@ -113,6 +114,7 @@ export default function Page({
 
   return (
     <section className="w-full min-h-screen p-2 mb-48">
+      <ChatBoxCar messages={message} setMessages={setMessage} />
       <div className="p-4 md:p-8 lg:p-12 max-w-screen-xl mx-auto">
         <Carousel
           opts={{

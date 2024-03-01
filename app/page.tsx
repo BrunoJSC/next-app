@@ -1,6 +1,7 @@
 "use client";
 
 import { Banner } from "@/components/Banner";
+import { ChatBox } from "@/components/ChatBox";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context/auth";
 import { FAQ } from "@/sections/FAQ";
@@ -53,6 +54,7 @@ export default function Home() {
         <Feature />
 
         <FAQ />
+        <ChatBox />
       </main>
     </div>
   );
