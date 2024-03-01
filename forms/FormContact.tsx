@@ -20,7 +20,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 
-
 export function FormContact() {
   const form = useForm<z.infer<typeof contactSchema>>({
     defaultValues: {
@@ -38,7 +37,6 @@ export function FormContact() {
         email: data.email,
         message: data.message,
       });
-  
 
       form.reset();
       toast.success("Formulário enviado com sucesso");
@@ -139,7 +137,7 @@ export function FormContact() {
                   className: "w-full mt-4",
                 })}
                 type="submit"
-                href="https://wa.me/5511940723891"
+                href="https://wa.me/5511913674909"
               >
                 <MessageSquare className="mr-5" />
                 Chamar no WhatsApp
@@ -149,9 +147,9 @@ export function FormContact() {
             <div>
               <h2 className="text-black text-[32px] font-bold">Contato</h2>
 
-              <p>(11) 3456-3427</p>
+              <p>(11) 91367-4909</p>
               <p>(11) 94072-3891</p>
-              <p>autonegocie@gmail.com</p>
+              <p>contato@autonegocie.com.br</p>
             </div>
 
             <div>
