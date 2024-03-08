@@ -103,6 +103,22 @@ export default function Page({
     }
   };
 
+  function calcFinance(
+    valueCar: number,
+    valueEnter: number,
+    tax: number,
+    numberInstallment: number
+  ) {
+    const valueFinance = valueCar - valueEnter;
+
+    const monthlyInterestRate = tax / 100 / 12;
+
+    const monthlyPayment =
+      (valueFinance * monthlyInterestRate) /
+      (1 - Math.pow(1 + monthlyInterestRate, -numberInstallment));
+    return monthlyPayment;
+  }
+
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
@@ -369,6 +385,23 @@ export default function Page({
                 </Link>
               </form>
             </Form>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="w-full max-w-screen-lg mx-auto p-4 mt-14">
+        <CardTitle>Financiamento</CardTitle>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <p className="font-bold">Número de parcelamento</p>
+            <select>
+              <option value="">Selecione</option>
+              <option value="12x">12x</option>
+              <option value="24x">24x</option>
+              <option value="36x">36x</option>
+              <option value="48x">48x</option>
+            </select>
           </div>
         </div>
       </Card>

@@ -10,6 +10,7 @@ import {
   onSnapshot,
   query,
   where,
+  writeBatch,
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import { Input } from "@/components/ui/input";
@@ -33,6 +34,26 @@ import { NumericFormat } from "react-number-format";
 interface FiltersProps {
   onFilterChange: (filteredData: IMotorbike[]) => void;
 }
+
+const updateCarsToLowercase = async () => {
+  const motorbikeRef = collection(db, "motorbikes");
+  const querySnapshot = await getDocs(motorbikeRef);
+  const batch = writeBatch(db);
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    const update = {
+      motorbikeModel: data.motorbikeModel.toLowerCase(),
+    };
+
+    const docRef = doc.ref;
+    batch.update(docRef, update);
+  });
+
+  await batch.commit();
+};
+
+updateCarsToLowercase();
 
 const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterBrand, setFilterBrand] = useState<string>("");
@@ -68,9 +89,16 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("motorbikeBrand", "==", filterBrand));
       }
 
-      if (searchTerm) {
-        q = query(q, where("motorbikeModel", ">=", searchTerm));
-        q = query(q, where("motorbikeModel", "<=", searchTerm + "\uf8ff"));
+      if (searchTerm.toLowerCase() !== "") {
+        q = query(
+          q,
+          where("modelCarLowercase", ">=", searchTerm.toLowerCase())
+        );
+
+        q = query(
+          q,
+          where("modelCarLowercase", "<=", searchTerm.toLowerCase() + "\uf8ff")
+        );
       }
 
       if (filterFuel) {
@@ -156,6 +184,12 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
     }
   };
 
+  const handleInputChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setter(event.target.value.toLowerCase());
+    };
+
   const resetFilter = useCallback(() => {
     setFilterBrand("");
     setFilterFuel("");
@@ -225,7 +259,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
           type="text"
           placeholder="Ex: Fan"
           value={searchTerm}
-          onChange={handleSearchTermChange}
+          onChange={handleInputChange(setSearchTerm)}
           onKeyPress={(event) => {
             if (event.key === "Enter") {
               fetchFilteredCars();

@@ -24,14 +24,14 @@ export const ChatBox = () => {
   return (
     <>
       <button
-        className="fixed bottom-8 right-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 h-[80px] w-[100px] rounded-full shadow z-50 flex items-center justify-center"
+        className="fixed bottom-8 right-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 h-[50px] w-[50px] rounded-full shadow z-50 flex items-center justify-center"
         onClick={toggleChatBox}
       >
         <MessageCircle className="w-10 h-10" />
       </button>
 
       {show && (
-        <div className="fixed w-[400px] bottom-32 right-8 bg-white border border-gray-200 rounded-lg shadow-lg p-4">
+        <div className="fixed w-[400px] bottom-32 right-8 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50">
           <p>Aqui está a caixa de chat</p>
 
           {/* <button onClick={toggleChatBox} className="text-red-500 mt-2">

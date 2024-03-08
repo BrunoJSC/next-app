@@ -28,6 +28,7 @@ import {
   getDocs,
   query,
   where,
+  writeBatch,
 } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
@@ -35,6 +36,26 @@ import { NumericFormat } from "react-number-format";
 interface FiltersProps {
   onFilterChange: (filteredData: ICar[]) => void;
 }
+
+const updateCarsToLowercase = async () => {
+  const carsRef = collection(db, "cars");
+  const querySnapshot = await getDocs(carsRef);
+  const batch = writeBatch(db);
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    const update = {
+      modelCarLowercase: data.modelCar.toLowerCase(),
+    };
+
+    const docRef = doc.ref;
+    batch.update(docRef, update);
+  });
+
+  await batch.commit();
+};
+
+updateCarsToLowercase();
 
 const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterBrand, setFilterBrand] = useState<string>("");
@@ -70,8 +91,15 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
       }
 
       if (searchTerm.toLowerCase() !== "") {
-        q = query(q, where("modelCar", ">=", searchTerm));
-        q = query(q, where("modelCar", "<=", searchTerm + "\uf8ff"));
+        q = query(
+          q,
+          where("modelCarLowercase", ">=", searchTerm.toLowerCase())
+        );
+
+        q = query(
+          q,
+          where("modelCarLowercase", "<=", searchTerm.toLowerCase() + "\uf8ff")
+        );
       }
 
       if (filterFuel) {
@@ -106,12 +134,12 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("location", "==", filterLocation));
       }
 
-      if (filterPriceMin) {
-        q = query(q, where("price", ">=", filterPriceMin));
-      }
-
-      if (filterPriceMax) {
-        q = query(q, where("price", "<=", filterPriceMax));
+      if (filterPriceMin && filterPriceMax) {
+        q = query(
+          q,
+          where("price", ">=", filterPriceMin),
+          where("price", "<=", filterPriceMax)
+        );
       }
 
       if (filterStore) {
@@ -160,6 +188,12 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   ) => {
     setSearchTerm(event.target.value);
   };
+
+  const handleInputChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setter(event.target.value.toLowerCase());
+    };
 
   const resetFilter = useCallback(() => {
     setFilterBrand("");
@@ -239,14 +273,14 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
               fetchFilteredCars();
             }
           }}
-          onChange={handleSearchTermChange}
+          onChange={handleInputChange(setSearchTerm)}
           className="w-full bg-white"
         />
       </div>
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <Label className="text-sm font-medium mb-3">Preço min</Label>
+          <Label className="text-sm font-medium mb-3">Preço inicial</Label>
           <NumericFormat
             value={filterPriceMin}
             onChange={(e) => setFilterPriceMin(e.target.value)}
@@ -254,21 +288,21 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
             decimalSeparator=","
             prefix="R$ "
             placeholder="R$ 10.000"
-            className="w-full bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className=" bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             allowNegative={false}
           />
         </div>
 
         <div>
-          <Label className="text-sm font-medium mb-5">Preço max</Label>
+          <Label className="text-sm font-medium mb-5">Preço final</Label>
           <NumericFormat
             value={filterPriceMax}
             onChange={(e) => setFilterPriceMax(e.target.value)}
             thousandSeparator="."
             decimalSeparator=","
-            placeholder="R$ 50.000"
             prefix="R$ "
-            className="w-full bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="R$ 50.000"
+            className=" bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             allowNegative={false}
           />
         </div>

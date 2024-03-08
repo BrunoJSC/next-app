@@ -12,6 +12,7 @@ import CarFilterForm from "./components/CarFilterForm";
 export default function Cars() {
   const [data, setData] = useState<ICar[]>([]);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
