@@ -37,10 +37,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { ChatBoxCar } from "@/components/ChatBoxCar";
+import { NumericFormat } from "react-number-format";
 
 export default function Page({
   searchParams,
-}: {
+}: Readonly<{
   searchParams: {
     brandCar: string;
     modelCar: string;
@@ -61,7 +62,7 @@ export default function Page({
     doors: string;
     plate: string;
   };
-}) {
+}>) {
   const form = useForm<z.infer<typeof contactVehicleSchema>>({
     defaultValues: {
       name: "",
@@ -78,6 +79,8 @@ export default function Page({
   const [message, setMessage] = useState(
     `Tenho interesse neste veículo ${searchParams.brandCar} ${searchParams.modelCar}`
   );
+  const [installmentNumber, setInstallmentNumber] = useState("");
+  const [entryValue, setEntryValue] = useState("");
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
     try {
@@ -103,21 +106,44 @@ export default function Page({
     }
   };
 
-  function calcFinance(
-    valueCar: number,
-    valueEnter: number,
-    tax: number,
-    numberInstallment: number
-  ) {
-    const valueFinance = valueCar - valueEnter;
+  // function calcFinance(
+  //   valueCar: number,
+  //   valueEnter: number,
+  //   tax: number,
+  //   numberInstallment: number
+  // ) {
+  //   const valueFinance = valueCar - valueEnter;
 
-    const monthlyInterestRate = tax / 100 / 12;
+  //   const monthlyInterestRate = tax / 100 / 12;
 
+  //   const monthlyPayment =
+  //     (valueFinance * monthlyInterestRate) /
+  //     (1 - Math.pow(1 + monthlyInterestRate, -numberInstallment));
+  //   return monthlyPayment;
+  // }
+
+  const carPrice = parseFloat(
+    searchParams.price.replace(/[^0-9.]/g, "").replace(".", "")
+  );
+  const interestRate = 20.0; // Taxa de juros anual (5.99%)
+
+  const calculateInstallmentValue = (
+    carPrice: number,
+    interestRate: number,
+    installmentNumber: number,
+    entryValue: number
+  ) => {
+    if (isNaN(installmentNumber) || installmentNumber <= 0) {
+      return 0;
+    }
+    const carPriceAfterEntry = carPrice - entryValue;
+    const monthlyInterestRate = interestRate / 100 / 12;
+    const totalInstallments = installmentNumber;
     const monthlyPayment =
-      (valueFinance * monthlyInterestRate) /
-      (1 - Math.pow(1 + monthlyInterestRate, -numberInstallment));
-    return monthlyPayment;
-  }
+      (carPriceAfterEntry * monthlyInterestRate) /
+      (1 - Math.pow(1 + monthlyInterestRate, -totalInstallments));
+    return monthlyPayment.toFixed(2);
+  };
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
@@ -144,6 +170,11 @@ export default function Page({
   const handleViewedCars = (carId: string) => {
     setViewedCars((prevState) => [...prevState, carId]);
   };
+
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
 
   return (
     <section className="w-full min-h-screen p-2">
@@ -392,16 +423,65 @@ export default function Page({
       <Card className="w-full max-w-screen-lg mx-auto p-4 mt-14">
         <CardTitle>Financiamento</CardTitle>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
+          <div>
+            <p className="font-bold">Valor de entrada</p>
+            <NumericFormat
+              value={entryValue}
+              displayType={"input"}
+              thousandSeparator="."
+              decimalSeparator=","
+              prefix={"R$ "}
+              onValueChange={(values) => {
+                const { value } = values;
+                setEntryValue(value);
+              }}
+              className="w-[300px] inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
+          </div>
           <div>
             <p className="font-bold">Número de parcelamento</p>
-            <select>
+            <select
+              value={installmentNumber}
+              onChange={(e) => setInstallmentNumber(e.target.value)}
+              className="w-full p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            >
               <option value="">Selecione</option>
-              <option value="12x">12x</option>
-              <option value="24x">24x</option>
-              <option value="36x">36x</option>
-              <option value="48x">48x</option>
+              <option value="12">12x</option>
+              <option value="24">24x</option>
+              <option value="36">36x</option>
+              <option value="48">48x</option>
             </select>
+          </div>
+
+          <div>
+            <p className="font-bold">Valor da Parcela</p>
+            {/* <Input
+              id="installmentValue"
+              type="text"
+              value={
+                calculateInstallmentValue(
+                  carPrice,
+                  interestRate,
+                  parseInt(installmentNumber),
+                  parseFloat(entryValue)
+                ) || ""
+              }
+              readOnly
+            /> */}
+
+            <NumericFormat
+              value={calculateInstallmentValue(
+                carPrice,
+                interestRate,
+                parseInt(installmentNumber),
+                parseFloat(entryValue)
+              )}
+              displayType={"text"}
+              thousandSeparator={true}
+              prefix={"R$ "}
+              className="w-[300px] inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
           </div>
         </div>
       </Card>
@@ -409,7 +489,7 @@ export default function Page({
       <div className="p-4 md:p-12 md:max-w-screen-xl mx-auto mt-44">
         <Carousel className="w-full max-w-screen-xl">
           <CarouselContent className="flex gap-5">
-            {getRandomCars().map((car) => (
+            {data.map((car) => (
               <>
                 <Link
                   href={{

@@ -184,7 +184,7 @@ export function FormCar({ className }: { className?: string }) {
                     decimalSeparator=","
                     prefix="R$ "
                     decimalScale={2}
-                    className="w-full bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     {...field}
                   />
                 </FormControl>
