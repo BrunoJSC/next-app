@@ -436,7 +436,7 @@ export default function Page({
                 const { value } = values;
                 setEntryValue(value);
               }}
-              className="w-[300px] inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="md:w-[300px] w-full inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
           </div>
           <div>
@@ -444,7 +444,7 @@ export default function Page({
             <select
               value={installmentNumber}
               onChange={(e) => setInstallmentNumber(e.target.value)}
-              className="w-full p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="md:w-[300px] w-full p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="">Selecione</option>
               <option value="12">12x</option>
@@ -480,7 +480,7 @@ export default function Page({
               displayType={"text"}
               thousandSeparator={true}
               prefix={"R$ "}
-              className="w-[300px] inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="md:w-[300px] w-full inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
           </div>
         </div>
