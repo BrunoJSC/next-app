@@ -125,6 +125,9 @@ export default function Page({
   const carPrice = parseFloat(
     searchParams.price.replace(/[^0-9.]/g, "").replace(".", "")
   );
+
+  const entryPrice = parseFloat(entryValue);
+
   const interestRate = 20.0; // Taxa de juros anual (5.99%)
 
   const calculateInstallmentValue = (
@@ -170,11 +173,6 @@ export default function Page({
   const handleViewedCars = (carId: string) => {
     setViewedCars((prevState) => [...prevState, carId]);
   };
-
-  const formatter = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
 
   return (
     <section className="w-full min-h-screen p-2">
@@ -429,8 +427,8 @@ export default function Page({
             <NumericFormat
               value={entryValue}
               displayType={"input"}
-              thousandSeparator="."
-              decimalSeparator=","
+              thousandSeparator=","
+              decimalSeparator="."
               prefix={"R$ "}
               onValueChange={(values) => {
                 const { value } = values;
@@ -475,10 +473,11 @@ export default function Page({
                 carPrice,
                 interestRate,
                 parseInt(installmentNumber),
-                parseFloat(entryValue)
+                entryPrice
               )}
               displayType={"text"}
-              thousandSeparator={true}
+              thousandSeparator="."
+              decimalSeparator=","
               prefix={"R$ "}
               className="md:w-[300px] w-full inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />

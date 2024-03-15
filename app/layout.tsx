@@ -5,8 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/sections/Footer";
 import Provider from "@/components/Provider";
 import { Toaster } from "@/components/ui/sonner";
-import { MessageCircle } from "lucide-react";
-import { ChatBox } from "@/components/ChatBox";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -40,6 +39,7 @@ export default function RootLayout({
           <MessageCircle />
         </button> */}
       </body>
+      <GoogleAnalytics gaId="G-XYZ" />
     </html>
   );
 }
