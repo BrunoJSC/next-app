@@ -39,6 +39,8 @@ import { toast } from "sonner";
 import { ChatBoxCar } from "@/components/ChatBoxCar";
 import { NumericFormat } from "react-number-format";
 
+const PHONE_NUMBER = "5511913674909";
+
 export default function Page({
   searchParams,
 }: Readonly<{
@@ -79,6 +81,7 @@ export default function Page({
   const [message, setMessage] = useState(
     `Tenho interesse neste veículo ${searchParams.brandCar} ${searchParams.modelCar}`
   );
+
   const [installmentNumber, setInstallmentNumber] = useState("");
   const [entryValue, setEntryValue] = useState("");
 
@@ -106,29 +109,13 @@ export default function Page({
     }
   };
 
-  // function calcFinance(
-  //   valueCar: number,
-  //   valueEnter: number,
-  //   tax: number,
-  //   numberInstallment: number
-  // ) {
-  //   const valueFinance = valueCar - valueEnter;
-
-  //   const monthlyInterestRate = tax / 100 / 12;
-
-  //   const monthlyPayment =
-  //     (valueFinance * monthlyInterestRate) /
-  //     (1 - Math.pow(1 + monthlyInterestRate, -numberInstallment));
-  //   return monthlyPayment;
-  // }
-
   const carPrice = parseFloat(
     searchParams.price.replace(/[^0-9.]/g, "").replace(".", "")
   );
 
   const entryPrice = parseFloat(entryValue);
 
-  const interestRate = 20.0; // Taxa de juros anual (5.99%)
+  const interestRate = 3.0; // Taxa de juros ao mês é de 3%
 
   const calculateInstallmentValue = (
     carPrice: number,
@@ -140,12 +127,39 @@ export default function Page({
       return 0;
     }
     const carPriceAfterEntry = carPrice - entryValue;
-    const monthlyInterestRate = interestRate / 100 / 12;
+    const monthlyInterestRate = interestRate / 100;
     const totalInstallments = installmentNumber;
     const monthlyPayment =
       (carPriceAfterEntry * monthlyInterestRate) /
       (1 - Math.pow(1 + monthlyInterestRate, -totalInstallments));
     return monthlyPayment.toFixed(2);
+  };
+
+  const sendMessage = () => {
+    // Calcular o valor da parcela com base nos valores inseridos
+    const installmentValue = calculateInstallmentValue(
+      carPrice,
+      interestRate,
+      parseInt(installmentNumber),
+      entryPrice
+    );
+
+    // Montar a mensagem com os dados do financiamento
+    const financeMessage = `Olá! Estou interessado no carro ${
+      searchParams.brandCar
+    } ${searchParams.modelCar}.
+    Valor de entrada: R$ ${new Intl.NumberFormat("pt-BR").format(entryPrice)}
+    Número de parcelas: ${installmentNumber}
+    Valor da parcela: R$ ${installmentValue}`;
+
+    // Codificar a mensagem para URL
+    const encodedMessage = encodeURIComponent(financeMessage);
+
+    // Montar o link para o WhatsApp com a mensagem
+    const whatsappURL = `http://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${encodedMessage}`;
+
+    // Abrir o link em uma nova aba
+    window.open(whatsappURL, "_blank");
   };
 
   useEffect(() => {
@@ -432,7 +446,16 @@ export default function Page({
               prefix={"R$ "}
               onValueChange={(values) => {
                 const { value } = values;
-                setEntryValue(value);
+                const minEntryValue = carPrice * 0.2;
+                if (parseFloat(value) >= minEntryValue) {
+                  setEntryValue(value);
+                } else {
+                  {
+                    toast.warning(
+                      "Valor de entrada deve ser maior que 20% do valor do carro!"
+                    );
+                  }
+                }
               }}
               className="md:w-[300px] w-full inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
@@ -483,6 +506,10 @@ export default function Page({
             />
           </div>
         </div>
+
+        <Button className="w-full mt-5" onClick={sendMessage}>
+          Solicitar financiamento
+        </Button>
       </Card>
 
       <div className="p-4 md:p-12 md:max-w-screen-xl mx-auto mt-44">

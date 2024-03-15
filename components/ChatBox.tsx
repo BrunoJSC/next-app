@@ -1,13 +1,15 @@
 "use client";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { useMediaQuery } from "usehooks-ts";
 
 export const ChatBox = () => {
   const [show, setShow] = useState(false);
   const [messages, setMessages] = useState("");
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const PHONE_NUMBER = "5511913674909";
 
@@ -31,12 +33,21 @@ export const ChatBox = () => {
       </button>
 
       {show && (
-        <div className="fixed w-[400px] bottom-32 right-8 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50">
-          <p>Aqui está a caixa de chat</p>
+        <div
+          className={`fixed md:w-[400px] md:bottom-32 md:right-8  bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50 ${
+            isMobile ? " bottom-0 right-0 w-full" : ""
+          }`}
+        >
+          <div className="flex items-center justify-between mb-5">
+            <p>Aqui está a caixa de chat</p>
 
-          {/* <button onClick={toggleChatBox} className="text-red-500 mt-2">
-            Fechar
-          </button> */}
+            <button
+              onClick={toggleChatBox}
+              className="text-red-500 mt-2 inline-block"
+            >
+              <X />
+            </button>
+          </div>
 
           <div className="mb-auto space-y-4 flex flex-col">
             <Textarea
