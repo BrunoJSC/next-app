@@ -26,8 +26,6 @@ export function FormAdmin() {
 
   const handleSubmit = async (data: z.infer<typeof adminSchema>) => {
     signInWithEmailAndPassword(auth, data.email, data.password);
-
-    console.log(data);
   };
 
   if (user) {

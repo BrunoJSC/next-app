@@ -39,6 +39,11 @@ import { toast } from "sonner";
 import { ChatBoxCar } from "@/components/ChatBoxCar";
 import { NumericFormat } from "react-number-format";
 
+interface InstallmentValues {
+  monthlyPayment: string;
+  additionalInterest: string;
+}
+
 const PHONE_NUMBER = "5511913674909";
 
 export default function Page({
@@ -117,22 +122,36 @@ export default function Page({
 
   const interestRate = 3.0; // Taxa de juros ao mês é de 3%
 
+  // Altere a função calculateInstallmentValue para incluir o cálculo do valor da parcela
   const calculateInstallmentValue = (
     carPrice: number,
     interestRate: number,
     installmentNumber: number,
     entryValue: number
-  ) => {
+  ): InstallmentValues => {
     if (isNaN(installmentNumber) || installmentNumber <= 0) {
-      return 0;
+      return {
+        monthlyPayment: "0",
+        additionalInterest: "0",
+      };
     }
     const carPriceAfterEntry = carPrice - entryValue;
     const monthlyInterestRate = interestRate / 100;
     const totalInstallments = installmentNumber;
+
+    // Calcular o valor da parcela mensal com juros
     const monthlyPayment =
       (carPriceAfterEntry * monthlyInterestRate) /
       (1 - Math.pow(1 + monthlyInterestRate, -totalInstallments));
-    return monthlyPayment.toFixed(2);
+
+    // Calcular o adicional de juros
+    const additionalInterest =
+      monthlyPayment * totalInstallments - carPriceAfterEntry;
+
+    return {
+      monthlyPayment: monthlyPayment.toFixed(2),
+      additionalInterest: additionalInterest.toFixed(2),
+    };
   };
 
   const sendMessage = () => {
@@ -446,16 +465,7 @@ export default function Page({
               prefix={"R$ "}
               onValueChange={(values) => {
                 const { value } = values;
-                const minEntryValue = carPrice * 0.2;
-                if (parseFloat(value) >= minEntryValue) {
-                  setEntryValue(value);
-                } else {
-                  {
-                    toast.warning(
-                      "Valor de entrada deve ser maior que 20% do valor do carro!"
-                    );
-                  }
-                }
+                setEntryValue(value);
               }}
               className="md:w-[300px] w-full inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
