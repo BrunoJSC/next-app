@@ -502,12 +502,13 @@ export default function Page({
             /> */}
 
             <NumericFormat
-              value={calculateInstallmentValue(
-                carPrice,
-                interestRate,
-                parseInt(installmentNumber),
-                entryPrice
-              )}
+              // value={calculateInstallmentValue(
+              //   carPrice,
+              //   interestRate,
+              //   parseInt(installmentNumber),
+              //   entryPrice
+
+              // )}
               displayType={"text"}
               thousandSeparator="."
               decimalSeparator=","
