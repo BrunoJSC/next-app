@@ -84,11 +84,9 @@ export function FormMotorbike() {
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
         downloadURLs.push(downloadURL);
-        console.log("Image uploaded successfully:", downloadURL);
       }
     }
 
-    console.log(downloadURLs);
     return downloadURLs;
   };
 

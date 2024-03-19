@@ -23,7 +23,6 @@ export default function Page() {
           id: doc.id,
           ...doc.data(),
         };
-        console.log("Car data:", carData);
         return carData;
       }) as ICar[];
       setCarData(data);
@@ -34,11 +33,7 @@ export default function Page() {
 
   const deleteCar = async (id: string) => {
     try {
-      console.log(`Trying to delete car with ID: ${id}`);
-
-      console.log(`${id} ID 1`);
       await deleteDoc(doc(db, "cars", id));
-      console.log(`Car with ID ${id} deleted successfully!`);
     } catch (error) {
       console.error(`Error deleting car with ID ${id}:`, error);
     }

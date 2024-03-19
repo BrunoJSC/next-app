@@ -62,10 +62,8 @@ export default function Page() {
   }
 
   async function deleteAnnounce(id: string) {
-    console.log(id);
     try {
       await deleteDoc(doc(db, "formCar", id));
-      console.log("Document successfully deleted!");
     } catch (error) {
       console.error("Error removing document: ", error);
     }

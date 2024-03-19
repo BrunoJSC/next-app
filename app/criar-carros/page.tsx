@@ -70,7 +70,6 @@ export default function CreateCars() {
                 variant="destructive"
                 onClick={() => {
                   removeCar(car.id);
-                  console.log(car.id);
                 }}
               >
                 Excluir

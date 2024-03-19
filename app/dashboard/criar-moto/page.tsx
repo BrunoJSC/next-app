@@ -17,7 +17,6 @@ export default function Page() {
   const { user } = useContext(AuthContext);
 
   function deleteMotorbike(id: string) {
-    console.log(id);
     deleteDoc(doc(db, "motorbikes", id))
       .then(() => {
         console.log("Document successfully deleted!");

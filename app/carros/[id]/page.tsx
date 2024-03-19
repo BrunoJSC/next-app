@@ -105,8 +105,6 @@ export default function Page({
       toast.success("Formulário enviado com sucesso");
 
       form.reset();
-
-      console.log(data);
     } catch (error) {
       console.log(error);
     } finally {

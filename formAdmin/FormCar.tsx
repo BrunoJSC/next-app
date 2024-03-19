@@ -83,11 +83,9 @@ export function FormCar({ className }: { className?: string }) {
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
         downloadURLs.push(downloadURL);
-        console.log("Image uploaded successfully:", downloadURL);
       }
     }
 
-    console.log(downloadURLs);
     return downloadURLs;
   };
 
@@ -121,8 +119,6 @@ export function FormCar({ className }: { className?: string }) {
     } finally {
       setLoading(false);
     }
-
-    console.log(data);
 
     form.reset();
   };

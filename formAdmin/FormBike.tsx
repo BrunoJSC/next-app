@@ -82,11 +82,9 @@ export function FormBike() {
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
         downloadURLs.push(downloadURL);
-        console.log("Image uploaded successfully:", downloadURL);
       }
     }
 
-    console.log(downloadURLs);
     return downloadURLs;
   };
 
@@ -116,7 +114,6 @@ export function FormBike() {
         images: await handleUpload(),
       });
 
-      console.log(data);
       form.reset();
     } catch (error) {
       console.error("Erro ao fazer upload:", error);

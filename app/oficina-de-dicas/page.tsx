@@ -45,8 +45,6 @@ const articles = [
   },
 ];
 
-console.log(articles);
-
 export default function Page() {
   return (
     <main className="min-h-screen">

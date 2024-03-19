@@ -40,7 +40,6 @@ export function FormContact() {
 
       form.reset();
       toast.success("Formulário enviado com sucesso");
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

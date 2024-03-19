@@ -35,7 +35,6 @@ export function FormSendUser() {
     });
 
     form.reset();
-    console.log(data);
   };
   return (
     <div>
