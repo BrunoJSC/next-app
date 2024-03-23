@@ -46,6 +46,11 @@ interface InstallmentValues {
 
 const PHONE_NUMBER = "5511913674909";
 
+interface InstallmentValues {
+  monthlyPayment: string;
+  additionalInterest: string;
+}
+
 export default function Page({
   searchParams,
 }: Readonly<{
@@ -88,7 +93,10 @@ export default function Page({
   );
 
   const [installmentNumber, setInstallmentNumber] = useState("");
-  const [entryValue, setEntryValue] = useState("");
+  const [installmentValues, setInstallmentValues] = useState<InstallmentValues>(
+    { monthlyPayment: "0", additionalInterest: "0" }
+  );
+  const [entryPrice, setEntryPrice] = useState("");
 
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
     try {
@@ -116,8 +124,6 @@ export default function Page({
     searchParams.price.replace(/[^0-9.]/g, "").replace(".", "")
   );
 
-  const entryPrice = parseFloat(entryValue);
-
   const interestRate = 3.0; // Taxa de juros ao mês é de 3%
 
   // Altere a função calculateInstallmentValue para incluir o cálculo do valor da parcela
@@ -125,26 +131,31 @@ export default function Page({
     carPrice: number,
     interestRate: number,
     installmentNumber: number,
-    entryValue: number
+    entryPercentage: number // Porcentagem de entrada em relação ao valor do carro
   ): InstallmentValues => {
-    if (isNaN(installmentNumber) || installmentNumber <= 0) {
+    // Garantir que o número de parcelas é um dos valores permitidos (12, 24, 36, 48)
+    if (![12, 24, 36, 48].includes(installmentNumber)) {
       return {
         monthlyPayment: "0",
         additionalInterest: "0",
       };
     }
+
+    // Calcular o valor de entrada com base no percentual fornecido
+    const entryValue = carPrice * (entryPercentage / 100);
+
     const carPriceAfterEntry = carPrice - entryValue;
     const monthlyInterestRate = interestRate / 100;
-    const totalInstallments = installmentNumber;
 
     // Calcular o valor da parcela mensal com juros
     const monthlyPayment =
-      (carPriceAfterEntry * monthlyInterestRate) /
-      (1 - Math.pow(1 + monthlyInterestRate, -totalInstallments));
+      carPriceAfterEntry *
+      (monthlyInterestRate /
+        (1 - Math.pow(1 + monthlyInterestRate, -installmentNumber)));
 
     // Calcular o adicional de juros
     const additionalInterest =
-      monthlyPayment * totalInstallments - carPriceAfterEntry;
+      monthlyPayment * installmentNumber - carPriceAfterEntry;
 
     return {
       monthlyPayment: monthlyPayment.toFixed(2),
@@ -158,14 +169,16 @@ export default function Page({
       carPrice,
       interestRate,
       parseInt(installmentNumber),
-      entryPrice
+      20
     );
 
     // Montar a mensagem com os dados do financiamento
     const financeMessage = `Olá! Estou interessado no carro ${
       searchParams.brandCar
     } ${searchParams.modelCar}.
-    Valor de entrada: R$ ${new Intl.NumberFormat("pt-BR").format(entryPrice)}
+    Valor de entrada: R$ ${new Intl.NumberFormat("pt-BR").format(
+      Number(entryPrice)
+    )}
     Número de parcelas: ${installmentNumber}
     Valor da parcela: R$ ${installmentValue}`;
 
@@ -204,6 +217,23 @@ export default function Page({
   const handleViewedCars = (carId: string) => {
     setViewedCars((prevState) => [...prevState, carId]);
   };
+
+  useEffect(() => {
+    // Convertendo string para número onde necessário
+    const numInstallmentNumber = parseInt(installmentNumber);
+    const numEntryPrice = parseFloat(entryPrice.replace(/[^0-9.]/g, "")) || 0; // Fallback para 0 se não for um número
+
+    // Chamando a função de cálculo
+    const calculatedValues = calculateInstallmentValue(
+      carPrice,
+      interestRate,
+      numInstallmentNumber,
+      20 // Supondo que 20 seja a porcentagem de entrada desejada
+    );
+
+    // Atualizando o estado com os novos valores calculados
+    setInstallmentValues(calculatedValues);
+  }, [carPrice, interestRate, installmentNumber, entryPrice]); // Dependências do useEffect
 
   return (
     <section className="w-full min-h-screen p-2">
@@ -456,14 +486,14 @@ export default function Page({
           <div>
             <p className="font-bold">Valor de entrada</p>
             <NumericFormat
-              value={entryValue}
+              value={entryPrice}
               displayType={"input"}
               thousandSeparator=","
               decimalSeparator="."
               prefix={"R$ "}
               onValueChange={(values) => {
                 const { value } = values;
-                setEntryValue(value);
+                setEntryPrice(value);
               }}
               className="md:w-[300px] w-full inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
@@ -485,28 +515,9 @@ export default function Page({
 
           <div>
             <p className="font-bold">Valor da Parcela</p>
-            {/* <Input
-              id="installmentValue"
-              type="text"
-              value={
-                calculateInstallmentValue(
-                  carPrice,
-                  interestRate,
-                  parseInt(installmentNumber),
-                  parseFloat(entryValue)
-                ) || ""
-              }
-              readOnly
-            /> */}
 
             <NumericFormat
-              // value={calculateInstallmentValue(
-              //   carPrice,
-              //   interestRate,
-              //   parseInt(installmentNumber),
-              //   entryPrice
-
-              // )}
+              value={installmentValues.monthlyPayment}
               displayType={"text"}
               thousandSeparator="."
               decimalSeparator=","
