@@ -28,9 +28,8 @@ export default function Cars() {
 
   useEffect(() => {
     if (analytics) {
-      logEvent(analytics, "screen_view", {
-        firebase_screen: "List of Cars",
-        firebase_screen_class: "Cars.tsx",
+      logEvent(analytics, "Testt ", {
+        parameter: "Teste",
       });
     }
   }, []);
