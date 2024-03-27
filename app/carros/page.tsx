@@ -6,8 +6,9 @@ import { ICar } from "@/types";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
-import { db } from "@/firebase";
+import { analytics, db } from "@/firebase";
 import CarFilterForm from "./components/CarFilterForm";
+import { logEvent } from "firebase/analytics";
 
 export default function Cars() {
   const [data, setData] = useState<ICar[]>([]);
@@ -23,6 +24,15 @@ export default function Cars() {
     });
 
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (analytics) {
+      logEvent(analytics, "screen_view", {
+        firebase_screen: "List of Cars",
+        firebase_screen_class: "Cars.tsx",
+      });
+    }
   }, []);
 
   const toggleFilterVisibility = () => {

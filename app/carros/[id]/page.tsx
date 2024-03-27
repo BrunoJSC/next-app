@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { announce } from "@/constants";
-import { db } from "@/firebase";
+import { analytics, db } from "@/firebase";
 import { ICar } from "@/types";
 import { contactVehicleSchema } from "@/validation/schemas";
 import {
@@ -38,6 +38,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { ChatBoxCar } from "@/components/ChatBoxCar";
 import { NumericFormat } from "react-number-format";
+import { logEvent } from "firebase/analytics";
 
 interface InstallmentValues {
   monthlyPayment: string;
@@ -89,12 +90,12 @@ export default function Page({
   const [loading, setLoading] = useState(false);
   const [viewedCars, setViewedCars] = useState<string[]>([]);
   const [message, setMessage] = useState(
-    `Tenho interesse neste veículo ${searchParams.brandCar} ${searchParams.modelCar}`
+    `Tenho interesse neste veículo ${searchParams.brandCar} ${searchParams.modelCar}`,
   );
 
   const [installmentNumber, setInstallmentNumber] = useState("");
   const [installmentValues, setInstallmentValues] = useState<InstallmentValues>(
-    { monthlyPayment: "0", additionalInterest: "0" }
+    { monthlyPayment: "0", additionalInterest: "0" },
   );
   const [entryPrice, setEntryPrice] = useState("");
 
@@ -121,7 +122,7 @@ export default function Page({
   };
 
   const carPrice = parseFloat(
-    searchParams.price.replace(/[^0-9.]/g, "").replace(".", "")
+    searchParams.price.replace(/[^0-9.]/g, "").replace(".", ""),
   );
 
   const interestRate = 3.0; // Taxa de juros ao mês é de 3%
@@ -131,7 +132,7 @@ export default function Page({
     carPrice: number,
     interestRate: number,
     installmentNumber: number,
-    entryPercentage: number // Porcentagem de entrada em relação ao valor do carro
+    entryPercentage: number, // Porcentagem de entrada em relação ao valor do carro
   ): InstallmentValues => {
     // Garantir que o número de parcelas é um dos valores permitidos (12, 24, 36, 48)
     if (![12, 24, 36, 48].includes(installmentNumber)) {
@@ -164,31 +165,26 @@ export default function Page({
   };
 
   const sendMessage = () => {
-    // Calcular o valor da parcela com base nos valores inseridos
     const installmentValue = calculateInstallmentValue(
       carPrice,
       interestRate,
       parseInt(installmentNumber),
-      20
+      20,
     );
 
-    // Montar a mensagem com os dados do financiamento
     const financeMessage = `Olá! Estou interessado no carro ${
       searchParams.brandCar
     } ${searchParams.modelCar}.
     Valor de entrada: R$ ${new Intl.NumberFormat("pt-BR").format(
-      Number(entryPrice)
+      Number(entryPrice),
     )}
     Número de parcelas: ${installmentNumber}
     Valor da parcela: R$ ${installmentValue}`;
 
-    // Codificar a mensagem para URL
     const encodedMessage = encodeURIComponent(financeMessage);
 
-    // Montar o link para o WhatsApp com a mensagem
     const whatsappURL = `http://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${encodedMessage}`;
 
-    // Abrir o link em uma nova aba
     window.open(whatsappURL, "_blank");
   };
 
@@ -206,10 +202,10 @@ export default function Page({
 
   const getRandomCars = () => {
     const availableMotorbikes = data.filter(
-      (car) => !viewedCars.includes(car.id)
+      (car) => !viewedCars.includes(car.id),
     );
     const shuffledCars = [...availableMotorbikes].sort(
-      () => 0.5 - Math.random()
+      () => 0.5 - Math.random(),
     );
     return shuffledCars.slice(0, 5);
   };
@@ -228,12 +224,21 @@ export default function Page({
       carPrice,
       interestRate,
       numInstallmentNumber,
-      20 // Supondo que 20 seja a porcentagem de entrada desejada
+      20, // Supondo que 20 seja a porcentagem de entrada desejada
     );
 
     // Atualizando o estado com os novos valores calculados
     setInstallmentValues(calculatedValues);
   }, [carPrice, interestRate, installmentNumber, entryPrice]); // Dependências do useEffect
+
+  useEffect(() => {
+    if (analytics) {
+      logEvent(analytics, "screen_view", {
+        firebase_screen: "Car Details",
+        firebase_screen_class: "CarDetails.tsx",
+      });
+    }
+  }, []);
 
   return (
     <section className="w-full min-h-screen p-2">
