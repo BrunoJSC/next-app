@@ -55,36 +55,6 @@ const updateCarsToLowercase = async () => {
 
 updateCarsToLowercase();
 
-const updatePricesToNumeric = async () => {
-  const carsRef = collection(db, "cars");
-  const querySnapshot = await getDocs(carsRef);
-  const batch = writeBatch(db);
-
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-
-    // Assumindo que o campo de preço a ser convertido é `priceDisplay`
-    // e você está armazenando os preços como strings no formato "R$ 10.000".
-    // Vamos remover os caracteres não numéricos e converter para número.
-    // Importante: ajuste a lógica de conversão conforme necessário para combinar com o seu formato exato de preço.
-    const priceNumeric = parseFloat(data.priceDisplay.replace(/\D/g, ""));
-
-    // Verifica se a conversão é válida e não é NaN. Se for NaN, não faz a atualização para evitar dados corrompidos.
-    if (!isNaN(priceNumeric)) {
-      batch.update(doc.ref, { priceNumeric: priceNumeric });
-    } else {
-      console.log(
-        `Preço inválido encontrado no documento ${doc.id}, não atualizado.`,
-      );
-    }
-  });
-
-  await batch.commit();
-  console.log("Todos os preços foram atualizados para valores numéricos.");
-};
-
-updatePricesToNumeric().catch(console.error);
-
 const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterBrand, setFilterBrand] = useState<string>("");
   const [filterFuel, setFilterFuel] = useState<string>("");
