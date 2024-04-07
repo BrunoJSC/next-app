@@ -29,7 +29,7 @@ export default function MotorbikesPage() {
       setLoading(false);
       if (!snapshot.empty) {
         const lastDoc = snapshot.docs[snapshot.docs.length - 1];
-        setLastVisible(lastDoc);
+        setLastVisible(lastDoc as any);
         const loadedMotorbikes = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -57,7 +57,7 @@ export default function MotorbikesPage() {
       setLoading(false);
       if (!snapshot.empty) {
         const newLastVisible = snapshot.docs[snapshot.docs.length - 1];
-        setLastVisible(newLastVisible);
+        setLastVisible(newLastVisible as any);
         const newMotorbikes = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
