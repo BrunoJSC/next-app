@@ -98,7 +98,7 @@ export default function Cars() {
               <Link
                 href={{
                   pathname: `/carros/${car.id}`,
-                  query: car, // Simplificado para passar o carro inteiro como query
+                  query: car as any, // Simplificado para passar o carro inteiro como query
                 }}
                 key={car.id}
               >
