@@ -1,5 +1,3 @@
-// ... (importações e definição de interface)
-
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -57,6 +55,36 @@ const updateCarsToLowercase = async () => {
 
 updateCarsToLowercase();
 
+const updatePricesToNumeric = async () => {
+  const carsRef = collection(db, "cars");
+  const querySnapshot = await getDocs(carsRef);
+  const batch = writeBatch(db);
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+
+    // Assumindo que o campo de preço a ser convertido é `priceDisplay`
+    // e você está armazenando os preços como strings no formato "R$ 10.000".
+    // Vamos remover os caracteres não numéricos e converter para número.
+    // Importante: ajuste a lógica de conversão conforme necessário para combinar com o seu formato exato de preço.
+    const priceNumeric = parseFloat(data.priceDisplay.replace(/\D/g, ""));
+
+    // Verifica se a conversão é válida e não é NaN. Se for NaN, não faz a atualização para evitar dados corrompidos.
+    if (!isNaN(priceNumeric)) {
+      batch.update(doc.ref, { priceNumeric: priceNumeric });
+    } else {
+      console.log(
+        `Preço inválido encontrado no documento ${doc.id}, não atualizado.`,
+      );
+    }
+  });
+
+  await batch.commit();
+  console.log("Todos os preços foram atualizados para valores numéricos.");
+};
+
+updatePricesToNumeric().catch(console.error);
+
 const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterBrand, setFilterBrand] = useState<string>("");
   const [filterFuel, setFilterFuel] = useState<string>("");
@@ -76,12 +104,16 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterMotors, setFilterMotors] = useState<string>("");
   const [filterCondition, setFilterCondition] = useState<string>("");
   const [filterTransmission, setFilterTransmission] = useState<string>("");
-
+  const [filterAnnounceType, setFilterAnnounceType] = useState<string>("");
+  const normalizePrice = (price: string) => {
+    // Remove caracteres não numéricos e preenche com zeros à esquerda
+    return price.replace(/\D/g, "").padStart(6, "0");
+  };
   const fetchFilteredCars = async () => {
     try {
       let carCollection: CollectionReference<DocumentData> = collection(
         db,
-        "cars"
+        "cars",
       );
 
       let q: Query<DocumentData> = query(carCollection);
@@ -93,12 +125,12 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
       if (searchTerm.toLowerCase() !== "") {
         q = query(
           q,
-          where("modelCarLowercase", ">=", searchTerm.toLowerCase())
+          where("modelCarLowercase", ">=", searchTerm.toLowerCase()),
         );
 
         q = query(
           q,
-          where("modelCarLowercase", "<=", searchTerm.toLowerCase() + "\uf8ff")
+          where("modelCarLowercase", "<=", searchTerm.toLowerCase() + "\uf8ff"),
         );
       }
 
@@ -135,11 +167,19 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
       }
 
       if (filterPriceMin && filterPriceMax) {
+        const minPrice = filterPriceMin.padStart(6, "0");
+        const maxPrice = filterPriceMax.padStart(6, "0");
+
+        // Adiciona filtro de preço à query
         q = query(
           q,
-          where("price", ">=", filterPriceMin),
-          where("price", "<=", filterPriceMax)
+          where("price", ">=", minPrice),
+          where("price", "<=", maxPrice),
         );
+      }
+
+      if (filterAnnounceType) {
+        q = query(q, where("announce", "==", filterAnnounceType));
       }
 
       if (filterStore) {
@@ -184,7 +224,7 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   };
 
   const handleSearchTermChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSearchTerm(event.target.value);
   };
@@ -278,31 +318,31 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 gap-2">
         <div>
-          <Label className="text-sm font-medium mb-3">Preço inicial</Label>
+          <Label className="text-sm font-medium mb-2">Preço inicial</Label>
           <NumericFormat
             value={filterPriceMin}
             onChange={(e) => setFilterPriceMin(e.target.value)}
             thousandSeparator="."
             decimalSeparator=","
             prefix="R$ "
-            placeholder="R$ 10.000"
-            className=" bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="R$ 11.000"
+            className=" bg-white appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             allowNegative={false}
           />
         </div>
 
         <div>
-          <Label className="text-sm font-medium mb-5">Preço final</Label>
+          <Label className="text-sm font-medium mb-4">Preço final</Label>
           <NumericFormat
             value={filterPriceMax}
             onChange={(e) => setFilterPriceMax(e.target.value)}
             thousandSeparator="."
             decimalSeparator=","
             prefix="R$ "
-            placeholder="R$ 50.000"
-            className=" bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="R$ 51.000"
+            className=" bg-white appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             allowNegative={false}
           />
         </div>
@@ -573,7 +613,8 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         <select
           name="announceType"
           className="bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          onChange={(e) => setFilterLocation(e.target.value)}
+          value={filterAnnounceType}
+          onChange={(e) => setFilterAnnounceType(e.target.value)}
         >
           <option value="">Selecione</option>
           {announceType.map((option) => (

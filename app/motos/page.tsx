@@ -1,32 +1,76 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
-import { onSnapshot, collection } from "firebase/firestore";
-import Image from "next/image";
-import Link from "next/link";
+import {
+  onSnapshot,
+  collection,
+  query,
+  limit,
+  startAfter,
+} from "firebase/firestore";
 import { db } from "@/firebase";
 import { IMotorbike } from "@/types";
+import { Card } from "@/components/ui/card";
+import Link from "next/link";
+import Image from "next/image";
 import FilterMotorbike from "./components/FilterMotorbike";
 
-export default function Page() {
-  const [data, setData] = useState<IMotorbike[]>([]);
+export default function MotorbikesPage() {
+  const [motorbikes, setMotorbikes] = useState<IMotorbike[]>([]);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [lastVisible, setLastVisible] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as IMotorbike[];
-      setData(data);
+    setLoading(true);
+    const q = query(collection(db, "motorbikes"), limit(10));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setLoading(false);
+      if (!snapshot.empty) {
+        const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+        setLastVisible(lastDoc);
+        const loadedMotorbikes = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as IMotorbike[];
+        setMotorbikes(loadedMotorbikes);
+        setHasMore(true);
+      } else {
+        setHasMore(false);
+      }
     });
 
     return () => unsubscribe();
   }, []);
 
-  const toggleFilterVisibility = () => {
-    setIsFilterVisible((prev) => !prev);
+  const loadMoreMotorbikes = () => {
+    if (!lastVisible || loading) return;
+    setLoading(true);
+    const nextQuery = query(
+      collection(db, "motorbikes"),
+      startAfter(lastVisible),
+      limit(10),
+    );
+
+    onSnapshot(nextQuery, (snapshot) => {
+      setLoading(false);
+      if (!snapshot.empty) {
+        const newLastVisible = snapshot.docs[snapshot.docs.length - 1];
+        setLastVisible(newLastVisible);
+        const newMotorbikes = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as IMotorbike[];
+        setMotorbikes((prevMotorbikes) => [
+          ...prevMotorbikes,
+          ...newMotorbikes,
+        ]);
+        setHasMore(true);
+      } else {
+        setHasMore(false);
+      }
+    });
   };
 
   return (
@@ -35,83 +79,56 @@ export default function Page() {
         <div className="md:hidden">
           <button
             className="bg-primary text-white px-4 py-2 rounded-md w-full"
-            onClick={toggleFilterVisibility}
+            onClick={() => setIsFilterVisible(!isFilterVisible)}
           >
             {isFilterVisible ? "Fechar Filtros" : "Abrir Filtros"}
           </button>
         </div>
 
         <Card
-          className={`w-full md:w-[300px] h-auto md:h-[1186px] bg-primary rounded-md p-4 mb-4 md:mb-0 ${
+          className={`w-full md:w-[300px] md:h-[1190px]  h-auto bg-primary rounded-md p-4 mb-4 md:mb-0 ${
             isFilterVisible ? "block" : "hidden md:block"
           }`}
         >
           <h1 className="text-3xl font-bold text-white mb-4">Filtros</h1>
-
-          <FilterMotorbike onFilterChange={setData} />
+          <FilterMotorbike onFilterChange={setMotorbikes} />
         </Card>
 
         <div className="w-full p-4 flex-1 flex flex-col space-y-7">
-          {data.map((motorbike) => (
-            <Link
-              href={{
-                pathname: `/motos/${motorbike.id}`,
-                query: {
-                  motorbikeBrand: motorbike.motorbikeBrand,
-                  motorbikeModel: motorbike.motorbikeModel,
-                  location: motorbike.location,
-                  yearFabrication: motorbike.yearFabrication,
-                  km: motorbike.km,
-                  fuel: motorbike.fuel,
-                  cylinder: motorbike.cylinder,
-                  color: motorbike.color,
-                  description: motorbike.description,
-                  accessories: motorbike.accessories,
-                  images: motorbike.images,
-                  announce: motorbike.announce,
-                  price: motorbike.price,
-                  plate: motorbike.plate,
-                  condition: motorbike.condition,
-                  fairing: motorbike.fairing,
-                  exchange: motorbike.exchange,
-                },
-              }}
+          {motorbikes.map((motorbike) => (
+            <div
+              className="w-full md:h-56 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row"
               key={motorbike.id}
             >
-              <div className="w-ful md:h-56 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row">
-                <div className="md:w-[350px] h-full w-full">
+              <div className="md:w-[350px] w-full h-56 relative">
+                <Link href={`/motos/${motorbike.id}`} passHref>
                   <Image
-                    src={motorbike.images[0]}
-                    width={400}
-                    height={400}
-                    alt={motorbike.motorbikeBrand}
-                    className="object-cover w-full h-full rounded-tl-lg rounded-bl-lg"
+                    src={motorbike.images[0] || "/default-motorbike.jpg"}
+                    layout="fill"
+                    alt={`${motorbike.motorbikeBrand} ${motorbike.motorbikeModel}`}
+                    className="object-cover rounded-lg cursor-pointer"
                   />
-                </div>
-
-                <div className="p-4 flex flex-col">
-                  <h1 className="text-2xl font-bold text-primary mb-4">
-                    {motorbike.motorbikeBrand}{" "}
-                    <span className="text-black">
-                      {motorbike.motorbikeModel}{" "}
-                    </span>
-                  </h1>
-
-                  <p className="font-black">Ano: {motorbike.yearFabrication}</p>
-                  <p className="font-black">KM: {motorbike.km}</p>
-                  <p className="font-black">
-                    Tipo de combustível: {motorbike.fuel}
-                  </p>
-                  <p className="font-black">
-                    Localização: {motorbike.location}
-                  </p>
-                  <p className="font-bold text-2xl mt-2 text-primary">
-                    Valor: {motorbike.price}
-                  </p>
-                </div>
+                </Link>
               </div>
-            </Link>
+
+              <div className="p-4 flex flex-col justify-between">
+                <h1 className="text-2xl font-bold text-primary">
+                  {motorbike.motorbikeBrand}{" "}
+                  <span className="text-black">{motorbike.motorbikeModel}</span>
+                </h1>
+                {/* Outras informações da motocicleta */}
+              </div>
+            </div>
           ))}
+          {loading && <div>Carregando...</div>}
+          {hasMore && !loading && (
+            <button
+              className="mx-auto bg-primary text-white px-4 py-2 rounded-md"
+              onClick={loadMoreMotorbikes}
+            >
+              Carregar mais
+            </button>
+          )}
         </div>
       </div>
     </main>

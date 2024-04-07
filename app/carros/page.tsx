@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { onSnapshot, collection } from "firebase/firestore";
+import {
+  onSnapshot,
+  collection,
+  query,
+  limit,
+  startAfter,
+} from "firebase/firestore";
 import { ICar } from "@/types";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
@@ -13,29 +19,56 @@ import { logEvent } from "firebase/analytics";
 export default function Cars() {
   const [data, setData] = useState<ICar[]>([]);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [lastVisible, setLastVisible] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "cars"), (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as ICar[];
-      setData(data);
+    setLoading(true);
+    const q = query(collection(db, "cars"), limit(10));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setLoading(false);
+      if (!snapshot.empty) {
+        const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+        setLastVisible(lastDoc);
+        const newData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as ICar[];
+        setData(newData);
+        setHasMore(true);
+      } else {
+        setHasMore(false);
+      }
     });
 
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (analytics) {
-      logEvent(analytics, "Testt ", {
-        parameter: "Teste",
-      });
-    }
-  }, []);
+  const loadMoreCars = () => {
+    if (!lastVisible) return;
+    setLoading(true);
+    const next = query(
+      collection(db, "cars"),
+      startAfter(lastVisible),
+      limit(10),
+    );
 
-  const toggleFilterVisibility = () => {
-    setIsFilterVisible((prev) => !prev);
+    onSnapshot(next, (snapshot) => {
+      setLoading(false);
+      if (!snapshot.empty) {
+        const newLastVisible = snapshot.docs[snapshot.docs.length - 1];
+        setLastVisible(newLastVisible);
+        const newData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as ICar[];
+        setData((prevData) => [...prevData, ...newData]);
+        setHasMore(true);
+      } else {
+        setHasMore(false);
+      }
+    });
   };
 
   return (
@@ -45,7 +78,7 @@ export default function Cars() {
           <div className="md:hidden">
             <button
               className="bg-primary text-white px-4 py-2 rounded-md w-full"
-              onClick={toggleFilterVisibility}
+              onClick={() => setIsFilterVisible(!isFilterVisible)}
             >
               {isFilterVisible ? "Fechar Filtros" : "Abrir Filtros"}
             </button>
@@ -57,7 +90,6 @@ export default function Cars() {
             }`}
           >
             <h1 className="text-3xl font-bold text-white mb-4">Filtros</h1>
-
             <CarFilterForm onFilterChange={setData} />
           </Card>
 
@@ -66,53 +98,34 @@ export default function Cars() {
               <Link
                 href={{
                   pathname: `/carros/${car.id}`,
-                  query: {
-                    brandCar: car.brandCar,
-                    modelCar: car.modelCar,
-                    images: car.images,
-                    location: car.location,
-                    yearFabrication: car.yearFabrication,
-                    fuel: car.fuel,
-                    km: car.km,
-                    exchange: car.exchange,
-                    color: car.color,
-                    description: car.description,
-                    accessories: car.accessories,
-                    price: car.price,
-                    bodyType: car.bodyType,
-                    motors: car.motors,
-                    condition: car.condition,
-                    announce: car.announce,
-                    doors: car.doors,
-                    plate: car.plate,
-                  },
+                  query: car, // Simplificado para passar o carro inteiro como query
                 }}
                 key={car.id}
               >
-                <div className="w-ful md:h-56 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row">
-                  <div className="md:w-[350px] h-full w-full">
+                <div className="w-full md:h-56 h-auto bg-white flex shadow-md rounded-lg flex-col md:flex-row overflow-hidden cursor-pointer">
+                  <div className="md:w-1/3 w-full relative h-48 md:h-full">
                     <Image
                       src={car.images[0]}
-                      width={200}
-                      height={200}
+                      layout="fill"
                       alt={car.brandCar}
-                      className="object-cover w-full h-full rounded-tl-lg rounded-bl-lg"
+                      className="object-cover"
                     />
                   </div>
 
-                  <div className="p-4 flex flex-col">
+                  <div className="p-4 flex flex-col justify-between flex-1">
                     <h1 className="text-2xl font-bold text-primary mb-4">
                       {car.brandCar}{" "}
                       <span className="text-black">{car.modelCar}</span>
                     </h1>
-
-                    <p className="font-black">Ano: {car.yearFabrication}</p>
-                    <p className="font-black">KM: {car.km}</p>
-                    <p className="font-black">
-                      Tipo de combustível: {car.fuel}
-                    </p>
-                    <p className="font-black">Localização: {car.location}</p>
-                    <p className="font-bold text-2xl mt-2 text-primary">
+                    <div>
+                      <p className="font-bold">Ano: {car.yearFabrication}</p>
+                      <p className="font-bold">KM: {car.km}</p>
+                      <p className="font-bold">
+                        Tipo de combustível: {car.fuel}
+                      </p>
+                      <p className="font-bold">Localização: {car.location}</p>
+                    </div>
+                    <p className="font-bold text-2xl text-primary">
                       Valor: {car.price}
                     </p>
                   </div>
@@ -120,6 +133,17 @@ export default function Cars() {
               </Link>
             ))}
           </div>
+        </div>
+        <div className="flex justify-center mt-4">
+          {loading && <div>Loading...</div>}
+          {hasMore && !loading && (
+            <button
+              className="bg-primary text-white px-4 py-2 rounded-md"
+              onClick={loadMoreCars}
+            >
+              Carregar mais
+            </button>
+          )}
         </div>
       </main>
     </div>
