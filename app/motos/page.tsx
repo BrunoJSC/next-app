@@ -87,7 +87,7 @@ export default function MotorbikesPage() {
           </div>
 
           <Card
-            className={`w-full md:w-[300px] md:h-[1250px] h-auto bg-primary rounded-md p-4 mb-4 md:mb-0 ${
+            className={`w-full md:w-[300px] md:h-[1250px]  bg-primary rounded-md p-4 mb-4 md:mb-0 md:sticky top-0 left-0 overflow-y-auto max-h-screen ${
               isFilterVisible ? "block" : "hidden md:block"
             }`}
           >

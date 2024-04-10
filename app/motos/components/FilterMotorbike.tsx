@@ -55,6 +55,29 @@ const updateCarsToLowercase = async () => {
 
 updateCarsToLowercase();
 
+const updatePriceToNumber = async () => {
+  const motorsCollectionRef = collection(db, "motorbikes");
+  const batch = writeBatch(db);
+  const snapshot = await getDocs(motorsCollectionRef);
+
+  snapshot.docs.forEach((doc) => {
+    const priceAsString = doc.data().price;
+
+    let priceAsNumber = parseFloat(priceAsString.replace(/[^0-9.]/g, ""));
+
+    priceAsNumber = priceAsNumber * 1000; // Ajusta a magnitude do preço
+
+    if (!isNaN(priceAsNumber)) {
+      // Atualiza o documento com o valor correto
+      batch.update(doc.ref, { priceNumber: priceAsNumber });
+    }
+  });
+
+  await batch.commit();
+  console.log("Atualização concluída");
+};
+updatePriceToNumber();
+
 const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterBrand, setFilterBrand] = useState<string>("");
   const [filterFuel, setFilterFuel] = useState<string>("");
@@ -68,8 +91,8 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterLocation, setFilterLocation] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [accessory, setAccessory] = useState<string[]>([]);
-  const [filterPriceMin, setFilterPriceMin] = useState<string>("");
-  const [filterPriceMax, setFilterPriceMax] = useState<string>("");
+  const [filterPriceMin, setFilterPriceMin] = useState<number>();
+  const [filterPriceMax, setFilterPriceMax] = useState<number>();
   const [filterStore, setFilterStore] = useState<string>("");
   const [filterAnnounceType, setFilterAnnounceType] = useState<string>("");
   const [filterCondition, setFilterCondition] = useState<string>("");
@@ -80,7 +103,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
     try {
       let carCollection: CollectionReference<DocumentData> = collection(
         db,
-        "motorbikes"
+        "motorbikes",
       );
 
       let q: Query<DocumentData> = query(carCollection);
@@ -92,12 +115,12 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
       if (searchTerm.toLowerCase() !== "") {
         q = query(
           q,
-          where("modelCarLowercase", ">=", searchTerm.toLowerCase())
+          where("modelCarLowercase", ">=", searchTerm.toLowerCase()),
         );
 
         q = query(
           q,
-          where("modelCarLowercase", "<=", searchTerm.toLowerCase() + "\uf8ff")
+          where("modelCarLowercase", "<=", searchTerm.toLowerCase() + "\uf8ff"),
         );
       }
 
@@ -134,11 +157,11 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
       }
 
       if (filterPriceMin) {
-        q = query(q, where("price", ">=", filterPriceMin));
+        q = query(q, where("priceNumber", ">=", filterPriceMin));
       }
 
       if (filterPriceMax) {
-        q = query(q, where("price", "<=", filterPriceMax));
+        q = query(q, where("priceNumber", "<=", filterPriceMax));
       }
 
       if (filterAnnounceType) {
@@ -171,7 +194,7 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
   };
 
   const handleSearchTermChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSearchTerm(event.target.value);
   };
@@ -216,6 +239,35 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
     return () => unsubscribe();
   }, []);
 
+  const updatePriceToNumber = async () => {
+    const carsCollectionRef = collection(db, "cars");
+    const batch = writeBatch(db);
+    const snapshot = await getDocs(carsCollectionRef);
+
+    snapshot.docs.forEach((doc) => {
+      // Assume que o campo de preço atual é 'price' e é uma string
+      const priceAsString = doc.data().price;
+      // Primeiro remove caracteres não numéricos, depois converte para float
+      let priceAsNumber = parseFloat(priceAsString.replace(/[^0-9.]/g, ""));
+
+      // Ajusta o preço para o formato correto, se necessário
+      // Exemplo: se o preço é 55.9 (representando 55.900) e precisa ser 55900
+      priceAsNumber = priceAsNumber * 1000; // Ajusta a magnitude do preço
+
+      // Verifica se a conversão é válida
+      if (!isNaN(priceAsNumber)) {
+        // Atualiza o documento com o valor correto
+        batch.update(doc.ref, { priceNumber: priceAsNumber });
+      }
+    });
+
+    await batch.commit();
+    console.log("Atualização concluída");
+  };
+  updatePriceToNumber();
+  const normalizePrice = (price: string) => {
+    return Number(price.replace(/\D/g, ""));
+  };
   return (
     <div className="flex flex-col space-y-2">
       <div>
@@ -270,31 +322,29 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        <div>
-          <Label className="text-sm font-medium mb-3">Preço inicial</Label>
-          <NumericFormat
+        <div className="col-span-1">
+          <Label className="text-sm font-medium mb-2">Preço inicial</Label>
+
+          <Input
             value={filterPriceMin}
-            onChange={(e) => setFilterPriceMin(e.target.value)}
-            thousandSeparator="."
-            decimalSeparator=","
-            prefix="R$ "
-            placeholder="R$ 10.000"
-            className=" bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            allowNegative={false}
+            onChange={(e) =>
+              setFilterPriceMin(Number(normalizePrice(e.target.value)))
+            }
+            className="w-full bg-white border rounded py-2 px-3"
+            placeholder="Preço máximo"
           />
         </div>
 
-        <div>
-          <Label className="text-sm font-medium mb-5">Preço final</Label>
-          <NumericFormat
+        <div className="cols-span-1">
+          <Label className="text-sm font-medium mb-4">Preço final</Label>
+
+          <Input
             value={filterPriceMax}
-            onChange={(e) => setFilterPriceMax(e.target.value)}
-            thousandSeparator="."
-            decimalSeparator=","
-            prefix="R$ "
-            placeholder="R$ 50.000"
-            className=" bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            allowNegative={false}
+            onChange={(e) =>
+              setFilterPriceMax(Number(normalizePrice(e.target.value)))
+            }
+            className="w-full bg-white border rounded py-2 px-3"
+            placeholder="Preço máximo"
           />
         </div>
       </div>

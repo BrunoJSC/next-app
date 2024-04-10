@@ -22,7 +22,7 @@ export default function Cars() {
   const [loading, setLoading] = useState(false);
   const [lastVisible, setLastVisible] = useState(null);
   const [hasMore, setHasMore] = useState(true);
-
+  const [showLoadMore, setShowLoadMore] = useState(true);
   useEffect(() => {
     setLoading(true);
     const q = query(collection(db, "cars"), limit(10));
@@ -45,9 +45,19 @@ export default function Cars() {
     return () => unsubscribe();
   }, []);
 
-  const loadMoreCars = () => {
-    if (!lastVisible) return;
+  useEffect(() => {}, []);
+
+  const fetchInitialCars = () => {
     setLoading(true);
+    const q = query(collection(db, "cars"), limit(10));
+    // Implementação da sua lógica de fetch inicial
+    // Não esqueça de ajustar setShowLoadMore e setHasMore com base nos resultados
+  };
+
+  const loadMoreCars = () => {
+    if (!lastVisible || loading) return; // Adiciona verificação de loading para evitar múltiplas chamadas
+    setLoading(true);
+
     const next = query(
       collection(db, "cars"),
       startAfter(lastVisible),
@@ -55,25 +65,47 @@ export default function Cars() {
     );
 
     onSnapshot(next, (snapshot) => {
-      setLoading(false);
-      if (!snapshot.empty) {
-        const newLastVisible = snapshot.docs[snapshot.docs.length - 1];
-        setLastVisible(newLastVisible as any);
-        const newData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as ICar[];
-        setData((prevData) => [...prevData, ...newData]);
-        setHasMore(true);
-      } else {
-        setHasMore(false);
+      if (snapshot.empty) {
+        setHasMore(false); // Não há mais itens para carregar
+        setShowLoadMore(false);
+        setLoading(false);
+        return;
       }
+
+      const newLastVisible = snapshot.docs[snapshot.docs.length - 1];
+      setLastVisible(newLastVisible as any);
+
+      const newData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as ICar[];
+
+      // Filtra os novos dados para incluir apenas itens únicos
+      const uniqueNewData = newData.filter(
+        (newCar) => !data.some((existingCar) => existingCar.id === newCar.id),
+      );
+
+      if (uniqueNewData.length > 0) {
+        setData((prevData) => [...prevData, ...uniqueNewData]);
+        setHasMore(true); // Assume que pode haver mais itens para carregar
+        setShowLoadMore(true);
+      } else {
+        setHasMore(false); // Não encontrou novos itens únicos, possivelmente não há mais itens para carregar
+        setShowLoadMore(false);
+      }
+
+      setLoading(false);
     });
   };
-
+  const handleFilterChange = (filteredData: ICar[]) => {
+    setData(filteredData);
+    // Supondo que você pode determinar se ainda há mais dados com base nos filtros aplicados
+    setHasMore(false); // Ajuste baseado na sua lógica de filtro
+    setShowLoadMore(false); // Esconde a barra após a filtragem
+  };
   return (
     <div>
-      <main className="max-w-7xl mx-auto min-h-screen p-4 mb-72">
+      <main className="max-w-7xl mx-auto min-h-screen p-4 mb-72 relative">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="md:hidden">
             <button
@@ -85,11 +117,11 @@ export default function Cars() {
           </div>
 
           <Card
-            className={`w-full md:w-[300px] h-auto md:h-[1250px] bg-primary rounded-md p-4 mb-4 md:mb-0 ${
+            className={`w-full md:w-[300px] h-auto md:h-[1250px] bg-primary rounded-md p-4 mb-4 md:mb-0 md:sticky top-0  left-4 z-10 overflow-y-auto max-h-screen ${
               isFilterVisible ? "block" : "hidden md:block"
             }`}
           >
-            <h1 className="text-3xl font-bold text-white mb-4">Filtros</h1>
+            <h1 className="text-3xl font-bold text-white mb-4 ">Filtros</h1>
             <CarFilterForm onFilterChange={setData} />
           </Card>
 

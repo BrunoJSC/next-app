@@ -55,6 +55,28 @@ const updateCarsToLowercase = async () => {
 
 updateCarsToLowercase();
 
+const updatePriceToNumber = async () => {
+  const carsCollectionRef = collection(db, "cars");
+  const batch = writeBatch(db);
+  const snapshot = await getDocs(carsCollectionRef);
+
+  snapshot.docs.forEach((doc) => {
+    const priceAsString = doc.data().price;
+
+    let priceAsNumber = parseFloat(priceAsString.replace(/[^0-9.]/g, ""));
+
+    priceAsNumber = priceAsNumber * 1000; // Ajusta a magnitude do preço
+
+    if (!isNaN(priceAsNumber)) {
+      // Atualiza o documento com o valor correto
+      batch.update(doc.ref, { priceNumber: priceAsNumber });
+    }
+  });
+
+  await batch.commit();
+  console.log("Atualização concluída");
+};
+updatePriceToNumber();
 const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [filterBrand, setFilterBrand] = useState<string>("");
   const [filterFuel, setFilterFuel] = useState<string>("");
@@ -69,8 +91,8 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [accessory, setAccessory] = useState<string[]>([]);
   const [filterStore, setFilterStore] = useState<string>("");
-  const [filterPriceMin, setFilterPriceMin] = useState<string>("");
-  const [filterPriceMax, setFilterPriceMax] = useState<string>("");
+  const [filterPriceMin, setFilterPriceMin] = useState<number>(0);
+  const [filterPriceMax, setFilterPriceMax] = useState<number>(0);
   const [filterMotors, setFilterMotors] = useState<string>("");
   const [filterCondition, setFilterCondition] = useState<string>("");
   const [filterTransmission, setFilterTransmission] = useState<string>("");
@@ -132,24 +154,12 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         q = query(q, where("color", "==", filterColor));
       }
 
-      if (filterLocation) {
-        q = query(q, where("location", "==", filterLocation));
+      if (filterPriceMin) {
+        q = query(q, where("priceNumber", ">=", filterPriceMin));
       }
 
-      if (filterPriceMin && filterPriceMax) {
-        const minPrice = filterPriceMin.padStart(6, "0");
-        const maxPrice = filterPriceMax.padStart(6, "0");
-
-        // Adiciona filtro de preço à query
-        q = query(
-          q,
-          where("price", ">=", minPrice),
-          where("price", "<=", maxPrice),
-        );
-      }
-
-      if (filterAnnounceType) {
-        q = query(q, where("announce", "==", filterAnnounceType));
+      if (filterPriceMax) {
+        q = query(q, where("priceNumber", "<=", filterPriceMax));
       }
 
       if (filterStore) {
@@ -288,32 +298,30 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-2">
-        <div>
+      <div className="grid grid-cols-2 gap-2">
+        <div className="col-span-1">
           <Label className="text-sm font-medium mb-2">Preço inicial</Label>
-          <NumericFormat
+
+          <Input
             value={filterPriceMin}
-            onChange={(e) => setFilterPriceMin(e.target.value)}
-            thousandSeparator="."
-            decimalSeparator=","
-            prefix="R$ "
-            placeholder="R$ 11.000"
-            className=" bg-white appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            allowNegative={false}
+            onChange={(e) =>
+              setFilterPriceMin(Number(normalizePrice(e.target.value)))
+            }
+            className="w-full bg-white border rounded py-2 px-3"
+            placeholder="Preço máximo"
           />
         </div>
 
-        <div>
+        <div className="cols-span-1">
           <Label className="text-sm font-medium mb-4">Preço final</Label>
-          <NumericFormat
+
+          <Input
             value={filterPriceMax}
-            onChange={(e) => setFilterPriceMax(e.target.value)}
-            thousandSeparator="."
-            decimalSeparator=","
-            prefix="R$ "
-            placeholder="R$ 51.000"
-            className=" bg-white appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            allowNegative={false}
+            onChange={(e) =>
+              setFilterPriceMax(Number(normalizePrice(e.target.value)))
+            }
+            className="w-full bg-white border rounded py-2 px-3"
+            placeholder="Preço máximo"
           />
         </div>
       </div>
