@@ -31,6 +31,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { ChatBoxCar } from "@/components/ChatBoxCar";
+import { NumericFormat } from "react-number-format";
+
+interface InstallmentValues {
+  monthlyPayment: string;
+  additionalInterest: string;
+}
 
 export default function Page({
   searchParams,
@@ -62,9 +68,14 @@ export default function Page({
   const [loading, setLoading] = useState(false);
   const [viewedMotorbikes, setViewedMotorbikes] = useState<string[]>([]);
   const [message, setMessage] = useState(
-    `Tenho interesse neste veículo ${searchParams.motorbikeBrand} ${searchParams.motorbikeModel}`
+    `Tenho interesse neste veículo ${searchParams.motorbikeBrand} ${searchParams.motorbikeModel}`,
   );
 
+  const [installmentNumber, setInstallmentNumber] = useState("");
+  const [installmentValues, setInstallmentValues] = useState<InstallmentValues>(
+    { monthlyPayment: "0", additionalInterest: "0" },
+  );
+  const [entryPrice, setEntryPrice] = useState("");
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
     try {
       setLoading(true);
@@ -86,6 +97,47 @@ export default function Page({
     }
   };
 
+  const carPrice = parseFloat(
+    searchParams.price.replace(/[^0-9.]/g, "").replace(".", ""),
+  );
+
+  const interestRate = 2.0; // Taxa de juros ao mês é de 3%
+
+  const calculateInstallmentValue = (
+    carPrice: number,
+    interestRate: number,
+    installmentNumber: number,
+    entryPercentage: number, // Porcentagem de entrada em relação ao valor do carro
+  ): InstallmentValues => {
+    if (![12, 24, 36, 48].includes(installmentNumber)) {
+      return {
+        monthlyPayment: "0",
+        additionalInterest: "0",
+      };
+    }
+
+    // Calcular o valor de entrada com base no percentual fornecido
+    const entryValue = carPrice * (entryPercentage / 100);
+
+    const carPriceAfterEntry = carPrice - entryValue;
+    const monthlyInterestRate = interestRate / 100;
+
+    // Calcular o valor da parcela mensal com juros
+    const monthlyPayment =
+      carPriceAfterEntry *
+      (monthlyInterestRate /
+        (1 - Math.pow(1 + monthlyInterestRate, -installmentNumber)));
+
+    // Calcular o adicional de juros
+    const additionalInterest =
+      monthlyPayment * installmentNumber - carPriceAfterEntry;
+
+    return {
+      monthlyPayment: monthlyPayment.toFixed(2),
+      additionalInterest: additionalInterest.toFixed(2),
+    };
+  };
+
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "motorbikes"), (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
@@ -98,12 +150,26 @@ export default function Page({
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const numInstallmentNumber = parseInt(installmentNumber);
+    const numEntryPrice = parseFloat(entryPrice.replace(/[^0-9.]/g, "")) || 0; // Fallback para 0 se não for um número
+
+    const calculatedValues = calculateInstallmentValue(
+      carPrice,
+      interestRate,
+      numInstallmentNumber,
+      20, // Supondo que 20 seja a porcentagem de entrada desejada
+    );
+
+    setInstallmentValues(calculatedValues);
+  }, [carPrice, interestRate, installmentNumber, entryPrice]); // Dependências do useEffect
+
   const getRandomMotorbikes = () => {
     const availableMotorbikes = data.filter(
-      (motorbike) => !viewedMotorbikes.includes(motorbike.id)
+      (motorbike) => !viewedMotorbikes.includes(motorbike.id),
     );
     const shuffledMotorbikes = [...availableMotorbikes].sort(
-      () => 0.5 - Math.random()
+      () => 0.5 - Math.random(),
     );
     return shuffledMotorbikes.slice(0, 5);
   };
@@ -345,6 +411,65 @@ export default function Page({
             </Form>
           </div>
         </div>
+      </Card>
+
+      <Card className="w-full max-w-screen-lg mx-auto p-4 mt-14">
+        <CardTitle>Simule seu financiamento agora</CardTitle>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
+          <div>
+            <p className="font-bold">Valor de entrada</p>
+
+            <NumericFormat
+              value={entryPrice}
+              displayType={"input"}
+              thousandSeparator=","
+              decimalSeparator="."
+              prefix={"R$ "}
+              onValueChange={(values) => {
+                const { value } = values;
+                setEntryPrice(value);
+              }}
+              className="md:w-[300px] w-full inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
+          </div>
+          <div>
+            <p className="font-bold">Número de parcelamento</p>
+            <select
+              value={installmentNumber}
+              onChange={(e) => setInstallmentNumber(e.target.value)}
+              className="md:w-[300px] w-full inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            >
+              <option value="">Selecione</option>
+              <option value="12">12x</option>
+              <option value="24">24x</option>
+              <option value="36">36x</option>
+              <option value="48">48x</option>
+            </select>
+          </div>
+          <div>
+            <p className="font-bold">Valor da Parcela</p>
+            <NumericFormat
+              value={installmentValues.monthlyPayment}
+              displayType={"text"}
+              thousandSeparator="."
+              decimalSeparator=","
+              prefix={"R$ "}
+              className="w-full md:w-[300px] inline-block  p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-primary focus:border-transparent"
+              readOnly
+            />
+          </div>
+        </div>
+
+        <Button
+          className="w-full mt-5"
+          onClick={() => console.log("Solicitação de financiamento")}
+        >
+          Solicitar financiamento
+        </Button>
+
+        <CardDescription className="mt-8">
+          *Sujeito a análise de crédito
+        </CardDescription>
       </Card>
 
       <div className="p-4 md:p-12 md:max-w-screen-xl mx-auto mt-44">

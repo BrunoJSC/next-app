@@ -125,16 +125,14 @@ export default function Page({
     searchParams.price.replace(/[^0-9.]/g, "").replace(".", ""),
   );
 
-  const interestRate = 3.0; // Taxa de juros ao mês é de 3%
+  const interestRate = 2.0; // Taxa de juros ao mês é de 3%
 
-  // Altere a função calculateInstallmentValue para incluir o cálculo do valor da parcela
   const calculateInstallmentValue = (
     carPrice: number,
     interestRate: number,
     installmentNumber: number,
     entryPercentage: number, // Porcentagem de entrada em relação ao valor do carro
   ): InstallmentValues => {
-    // Garantir que o número de parcelas é um dos valores permitidos (12, 24, 36, 48)
     if (![12, 24, 36, 48].includes(installmentNumber)) {
       return {
         monthlyPayment: "0",
@@ -153,7 +151,6 @@ export default function Page({
       carPriceAfterEntry *
       (monthlyInterestRate /
         (1 - Math.pow(1 + monthlyInterestRate, -installmentNumber)));
-
     // Calcular o adicional de juros
     const additionalInterest =
       monthlyPayment * installmentNumber - carPriceAfterEntry;
@@ -215,11 +212,9 @@ export default function Page({
   };
 
   useEffect(() => {
-    // Convertendo string para número onde necessário
     const numInstallmentNumber = parseInt(installmentNumber);
     const numEntryPrice = parseFloat(entryPrice.replace(/[^0-9.]/g, "")) || 0; // Fallback para 0 se não for um número
 
-    // Chamando a função de cálculo
     const calculatedValues = calculateInstallmentValue(
       carPrice,
       interestRate,
@@ -227,7 +222,6 @@ export default function Page({
       20, // Supondo que 20 seja a porcentagem de entrada desejada
     );
 
-    // Atualizando o estado com os novos valores calculados
     setInstallmentValues(calculatedValues);
   }, [carPrice, interestRate, installmentNumber, entryPrice]); // Dependências do useEffect
 
@@ -485,7 +479,7 @@ export default function Page({
       </Card>
 
       <Card className="w-full max-w-screen-lg mx-auto p-4 mt-14">
-        <CardTitle>Financiamento</CardTitle>
+        <CardTitle>Simule seu financiamento agora</CardTitle>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
           <div>
@@ -508,7 +502,7 @@ export default function Page({
             <select
               value={installmentNumber}
               onChange={(e) => setInstallmentNumber(e.target.value)}
-              className="md:w-[300px] w-full p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="md:w-[300px] w-full inline-block p-2 bg-white rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="">Selecione</option>
               <option value="12">12x</option>
@@ -535,6 +529,10 @@ export default function Page({
         <Button className="w-full mt-5" onClick={sendMessage}>
           Solicitar financiamento
         </Button>
+
+        <CardDescription className="mt-8">
+          *Sujeito a analise de crédito
+        </CardDescription>
       </Card>
 
       <div className="p-4 md:p-12 md:max-w-screen-xl mx-auto mt-44">

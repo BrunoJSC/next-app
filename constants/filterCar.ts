@@ -151,7 +151,7 @@ export const bodyType = [
   { label: "Fastback", value: "Fastback" },
   { label: "Van", value: "Van" },
   { label: "Minivan", value: "Minivan" },
-  { label: "Picape", value: "Picape" },
+  { label: "Pick-up", value: "Pick-up" },
 ];
 
 export const condition = [
