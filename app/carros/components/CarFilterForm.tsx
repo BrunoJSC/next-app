@@ -91,8 +91,8 @@ const CarFilterForm: React.FC<FiltersProps> = ({ onFilterChange }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [accessory, setAccessory] = useState<string[]>([]);
   const [filterStore, setFilterStore] = useState<string>("");
-  const [filterPriceMin, setFilterPriceMin] = useState<number>(0);
-  const [filterPriceMax, setFilterPriceMax] = useState<number>(0);
+  const [filterPriceMin, setFilterPriceMin] = useState<number>();
+  const [filterPriceMax, setFilterPriceMax] = useState<number>();
   const [filterMotors, setFilterMotors] = useState<string>("");
   const [filterCondition, setFilterCondition] = useState<string>("");
   const [filterTransmission, setFilterTransmission] = useState<string>("");

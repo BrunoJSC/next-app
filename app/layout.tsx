@@ -6,7 +6,7 @@ import { Footer } from "@/sections/Footer";
 import Provider from "@/components/Provider";
 import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
-
+import { ArticleJsonLd } from "next-seo";
 const inter = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
@@ -25,7 +25,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+        <meta charSet="utf-8" />,
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <ArticleJsonLd
+          title="AutoNegocie"
+          authorName="AutoNegocie"
+          useAppDir={true}
+          url="https://autonegocie.com.br"
+          images={["https://autonegocie.com.br/logo.svg"]}
+          datePublished="2021-09-01T00:00:00Z"
+          description="Site de anúncios de veículos"
+        />
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <Provider>
@@ -34,10 +44,6 @@ export default function RootLayout({
           <Toaster />
           <Footer />
         </Provider>
-
-        {/* <button className="fixed bottom-8 right-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full shadow">
-          <MessageCircle />
-        </button> */}
       </body>
       <GoogleAnalytics gaId="G-XYZ" />
     </html>

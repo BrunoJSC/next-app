@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context/auth";
 import { FAQ } from "@/sections/FAQ";
 import { Feature } from "@/sections/Feature";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";

@@ -117,7 +117,7 @@ export default function Cars() {
           </div>
 
           <Card
-            className={`w-full md:w-[300px] h-auto md:h-[1250px] bg-primary rounded-md p-4 mb-4 md:mb-0 md:sticky top-0  left-4 z-10 overflow-y-auto max-h-screen ${
+            className={`w-full md:w-[300px] h-auto md:h-[1250px] bg-primary rounded-md p-4 mb-4 md:mb-0 md:sticky top-5  left-4 z-10 overflow-y-auto max-h-screen ${
               isFilterVisible ? "block" : "hidden md:block"
             }`}
           >
