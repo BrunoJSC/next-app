@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ArticleJsonLd } from "next-seo";
 import Head from "next/head";
+import GoogleAdsense from "./google-adsense";
 const inter = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
   icons: {
     icon: {
       url: "/logo.svg",
+      href: "/logo.svg",
       type: "image/svg+xml",
     },
   },
@@ -58,6 +60,7 @@ export default function RootLayout({
           </Provider>
         </body>
         <GoogleAnalytics gaId="G-XYZ" />
+        <GoogleAdsense pId={process.env.NEXT_GOOGLE_ADS!} />
       </html>
     </>
   );
