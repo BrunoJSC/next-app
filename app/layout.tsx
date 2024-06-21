@@ -48,6 +48,10 @@ export default function RootLayout({
           datePublished="2021-09-01T00:00:00Z"
           description="Site de anúncios de veículos"
         />
+        <meta
+          name="facebook-domain-verification"
+          content="eca4hpikk17nstym5cd7hep5q0weew"
+        />
       </Head>
       <html lang="en">
         <body className={inter.className} suppressHydrationWarning>
