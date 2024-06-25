@@ -33,6 +33,7 @@ import { NumericFormat } from "react-number-format";
 
 interface FiltersProps {
   onFilterChange: (filteredData: IMotorbike[]) => void;
+  closeFilter: () => void;
 }
 
 const updateCarsToLowercase = async () => {
@@ -78,7 +79,10 @@ const updatePriceToNumber = async () => {
 };
 updatePriceToNumber();
 
-const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
+const FilterMotorbike: React.FC<FiltersProps> = ({
+  onFilterChange,
+  closeFilter,
+}) => {
   const [filterBrand, setFilterBrand] = useState<string>("");
   const [filterFuel, setFilterFuel] = useState<string>("");
   const [filterModelMotorbike, setFilterModelMotorbike] = useState<string>("");
@@ -694,7 +698,10 @@ const FilterMotorbike: React.FC<FiltersProps> = ({ onFilterChange }) => {
 
       <Button
         type="button"
-        onClick={fetchFilteredCars}
+        onClick={() => {
+          fetchFilteredCars();
+          closeFilter();
+        }}
         className="w-full"
         variant={"secondary"}
       >

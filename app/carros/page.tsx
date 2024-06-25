@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   onSnapshot,
   collection,
@@ -23,6 +23,22 @@ export default function Cars() {
   const [lastVisible, setLastVisible] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [showLoadMore, setShowLoadMore] = useState(true);
+
+  const [isFilterSticky, setIsFilterSticky] = useState(false);
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (filterRef.current) {
+        const filterTop = filterRef.current.getBoundingClientRect().top;
+        setIsFilterSticky(filterTop <= 0);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     setLoading(true);
     const q = query(collection(db, "cars"), limit(10));
@@ -122,7 +138,10 @@ export default function Cars() {
             }`}
           >
             <h1 className="text-3xl font-bold text-white mb-4 ">Filtros</h1>
-            <CarFilterForm onFilterChange={setData} />
+            <CarFilterForm
+              onFilterChange={setData}
+              closeFilter={() => setIsFilterVisible(false)}
+            />
           </Card>
 
           <div className="w-full p-4 flex-1 flex flex-col space-y-7">

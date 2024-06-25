@@ -92,7 +92,10 @@ export default function MotorbikesPage() {
             }`}
           >
             <h1 className="text-3xl font-bold text-white mb-4">Filtros</h1>
-            <FilterMotorbike onFilterChange={setMotorbikes} />
+            <FilterMotorbike
+              onFilterChange={setMotorbikes}
+              closeFilter={() => setIsFilterVisible(false)}
+            />
           </Card>
 
           <div className="w-full p-4 flex-1 flex flex-col space-y-7">
