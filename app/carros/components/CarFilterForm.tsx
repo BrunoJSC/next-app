@@ -78,6 +78,7 @@ const updatePriceToNumber = async () => {
   console.log("Atualização concluída");
 };
 updatePriceToNumber();
+
 const CarFilterForm: React.FC<FiltersProps> = ({
   onFilterChange,
   closeFilter,
@@ -116,6 +117,7 @@ const CarFilterForm: React.FC<FiltersProps> = ({
 
       if (filterBrand) {
         q = query(q, where("brandCar", "==", filterBrand));
+        q = query(q, where("priceNumber", "<=", filterPriceMax));
       }
 
       if (searchTerm.toLowerCase() !== "") {

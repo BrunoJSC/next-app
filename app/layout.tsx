@@ -26,6 +26,9 @@ export const metadata: Metadata = {
       type: "image/svg+xml",
     },
   },
+  other: {
+    "facebook-domain-verification": "eca4hpikk17nstym5cd7hep5q0weew",
+  },
 };
 
 export default function RootLayout({
