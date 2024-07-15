@@ -45,7 +45,7 @@ interface InstallmentValues {
   additionalInterest: string;
 }
 
-const PHONE_NUMBER = "5511913674909";
+const PHONE_NUMBER = "5511940723891";
 
 interface InstallmentValues {
   monthlyPayment: string;
