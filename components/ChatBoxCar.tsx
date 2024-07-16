@@ -9,7 +9,7 @@ interface ChatBoxProps {
   setMessages: (value: string) => void;
 }
 
-const PHONE_NUMBER = "5511913674909";
+const PHONE_NUMBER = "5511940723891";
 
 export const ChatBoxCar = ({ messages, setMessages }: ChatBoxProps) => {
   const [show, setShow] = useState(false);

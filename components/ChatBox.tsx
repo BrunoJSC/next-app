@@ -11,7 +11,7 @@ export const ChatBox = () => {
   const [messages, setMessages] = useState("");
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const PHONE_NUMBER = "5511913674909";
+  const PHONE_NUMBER = "5511940723891";
 
   const toggleChatBox = () => {
     setShow(!show);
