@@ -68,12 +68,12 @@ export default function Page({
   const [loading, setLoading] = useState(false);
   const [viewedMotorbikes, setViewedMotorbikes] = useState<string[]>([]);
   const [message, setMessage] = useState(
-    `Tenho interesse neste veículo ${searchParams.motorbikeBrand} ${searchParams.motorbikeModel}`,
+    `Tenho interesse neste veículo ${searchParams.motorbikeBrand} ${searchParams.motorbikeModel}`
   );
 
   const [installmentNumber, setInstallmentNumber] = useState("");
   const [installmentValues, setInstallmentValues] = useState<InstallmentValues>(
-    { monthlyPayment: "0", additionalInterest: "0" },
+    { monthlyPayment: "0", additionalInterest: "0" }
   );
   const [entryPrice, setEntryPrice] = useState("");
   const handleSubmit = async (data: z.infer<typeof contactVehicleSchema>) => {
@@ -98,7 +98,7 @@ export default function Page({
   };
 
   const carPrice = parseFloat(
-    searchParams.price.replace(/[^0-9.]/g, "").replace(".", ""),
+    searchParams.price?.replace(/[^0-9.]/g, "").replace(".", "")
   );
 
   const interestRate = 2.0; // Taxa de juros ao mês é de 3%
@@ -107,7 +107,7 @@ export default function Page({
     carPrice: number,
     interestRate: number,
     installmentNumber: number,
-    entryPercentage: number, // Porcentagem de entrada em relação ao valor do carro
+    entryPercentage: number // Porcentagem de entrada em relação ao valor do carro
   ): InstallmentValues => {
     if (![12, 24, 36, 48].includes(installmentNumber)) {
       return {
@@ -158,7 +158,7 @@ export default function Page({
       carPrice,
       interestRate,
       numInstallmentNumber,
-      20, // Supondo que 20 seja a porcentagem de entrada desejada
+      20 // Supondo que 20 seja a porcentagem de entrada desejada
     );
 
     setInstallmentValues(calculatedValues);
@@ -166,10 +166,10 @@ export default function Page({
 
   const getRandomMotorbikes = () => {
     const availableMotorbikes = data.filter(
-      (motorbike) => !viewedMotorbikes.includes(motorbike.id),
+      (motorbike) => !viewedMotorbikes.includes(motorbike.id)
     );
     const shuffledMotorbikes = [...availableMotorbikes].sort(
-      () => 0.5 - Math.random(),
+      () => 0.5 - Math.random()
     );
     return shuffledMotorbikes.slice(0, 5);
   };
